@@ -63,9 +63,8 @@ class Match {
             switch (this.pile.getTopElement().effect) {
                 case EFFECT_ADD_FORCE_LEADER:
                     console.log("Effect: " + this.pile.getTopElement().effect);
-                    console.log("preStr: " + this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force);
-                    this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force++;
-                    console.log("postStr: " + this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force);
+                    let tmpPlayerId = this.pile.getTopElement().player;
+                    this.getLeaderCard(tmpPlayerId).body.force++;
 
                     break;
                 default:
@@ -187,6 +186,10 @@ class Match {
 
     getLeaderPosBatt(playerId) {
         return this["batt" + playerId + "PosLeader"];
+    }
+
+    getLeaderCard(playerId){
+        return this.getPlayerBatt(playerId)[this.getLeaderPosBatt(playerId)];
     }
 
 }
