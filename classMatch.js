@@ -61,7 +61,7 @@ class Match {
         while (this.pile.length > 0) {
             //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
             switch (this.pile.getTopElement().effect) {
-                case EFFECT_ADD_STRENGTH_LEADER:
+                case EFFECT_ADD_FORCE_LEADER:
                     console.log("Effect: " + this.pile.getTopElement().effect);
                     console.log("preStr: " + this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force);
                     this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force++;

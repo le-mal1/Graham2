@@ -1,10 +1,10 @@
 
 function newTest1() {
     let deck1 = new Deck();
-    deck1.addCard(3, 2, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_STRENGTH_LEADER }]);
-    deck1.addCard(3, 2, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_STRENGTH_LEADER }]);
+    deck1.addCard(3, 2, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER }]);
+    deck1.addCard(3, 2, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER }]);
     let deck2 = new Deck();
-    deck2.addCard(0, 6, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_STRENGTH_LEADER }, { trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_STRENGTH_LEADER }, { trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_STRENGTH_LEADER }]);
+    deck2.addCard(0, 6, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER }, { trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER }, { trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER }]);
     deck2.addCard(0, 8);
     let match = new Match(deck1, deck2);
 

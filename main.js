@@ -4,7 +4,7 @@ let deck1 = new Deck();
 let deck2 = new Deck();
 
 for (let i = 0; i < 5; i++) {
-    deck1.addCard(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, [{trigger:TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_STRENGTH_LEADER}]);
+    deck1.addCard(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, [{trigger:TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER}]);
     deck2.addCard(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, []);
 }
 /*for (let i = 0; i < 10; i++){
