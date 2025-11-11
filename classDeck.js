@@ -4,8 +4,8 @@ class Deck {
         this.idLastCard = this.cards.length - 1;
     }
 
-    addCard(force, pv) {
-        this.cards.push(new Card(force, pv));
+    addCard(force, pv, capacities) {
+        this.cards.push(new Card(force, pv, capacities));
         this.updateIdLastCard();
     }
 

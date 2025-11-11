@@ -10,6 +10,7 @@ class Match {
         this.batt2PosLeader = null;
         this.currentPlayerId = 0;
         this.nbTurn = 0;
+        this.pile = new Pile();
     }
 
     playNextTurn() {
@@ -36,8 +37,39 @@ class Match {
             return END_GAME;
         }
 
-        console.log(this.batt1PosLeader + 1, this.batt2PosLeader + 1);
+        console.log("Pos leader 1: " + parseInt(this.batt1PosLeader + 1), "Pos leader 2: " + parseInt(this.batt2PosLeader + 1));
         this.displayBattlefields();
+        
+        // Triggers START TURN
+        for( let i = 0; i < this["batt" + parseInt(this.currentPlayerId + 1)].length; i++){
+            this["batt" + parseInt(this.currentPlayerId + 1)][i].body.capacities.forEach((capa) => {
+                if(capa.trigger == TRIGGER_START_YOUR_TURN){
+                    this.pile.push({effect: capa.effect, player: this.currentPlayerId, id: i});
+                }                
+            });
+        }
+
+        // DEPILAGE
+        while(this.pile.length > 0){
+            //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
+            switch (this.pile.getTopElement().effect) {
+                case EFFECT_ADD_STRENGTH_LEADER:
+                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    console.log("preStr: " + this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force);
+                    this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force++;
+                    console.log("postStr: " + this.getPlayerBatt(this.pile.getTopElement().player)[this.getLeaderPosBatt(this.pile.getTopElement().player)].body.force);
+
+                    break;
+                default:
+                    break;
+            }
+            this.pile.pop();
+        }
+
+        /*for(let i = 0; i < this.pile.length; i++){
+            console.log("Triggers de debut de tour: " + this.pile.getLastElement().effect);
+            this.pile.pop();
+        }*/
 
         console.log("COMBAT PHASE");
         // Combats des leaders
@@ -117,7 +149,13 @@ class Match {
                 else
                     displayBatt += "{";
                 displayBatt += tmpBatt[i].body.force + ", ";
-                displayBatt += tmpBatt[i].body.pv;
+                displayBatt += tmpBatt[i].body.pv + ", ";
+                for (let j = 0; j < tmpBatt[i].body.capacities.length; j++) {
+                    displayBatt += "[";
+                    displayBatt += tmpBatt[i].body.capacities[j].trigger + ", ";
+                    displayBatt += tmpBatt[i].body.capacities[j].effect;
+                    displayBatt += "]";
+                }
                 if (tmpBattPosLeader == i)
                     displayBatt += "]|";
                 else
@@ -129,6 +167,18 @@ class Match {
 
 
         console.log(displayBatt);
+    }
+
+    getCurrentPlayerBatt(){
+        return this.getPlayerBatt(this.currentPlayerId);
+    }
+
+    getPlayerBatt(playerId){
+        return this["batt" + parseInt(playerId + 1)];
+    }
+
+    getLeaderPosBatt(playerId){
+        return this["batt" + parseInt(playerId + 1) + "PosLeader"];
     }
 
 }
