@@ -13,6 +13,14 @@ class Match {
         this.pile = new Pile();
     }
 
+    play() {
+        for (let i = 0; i < 100; i++) {
+            if (this.playNextTurn() == END_GAME) {
+                break;
+            }
+        }
+    }
+
     playNextTurn() {
 
         this.nbTurn++;
@@ -39,18 +47,18 @@ class Match {
 
         console.log("Pos leader 1: " + parseInt(this.batt1PosLeader + 1), "Pos leader 2: " + parseInt(this.batt2PosLeader + 1));
         this.displayBattlefields();
-        
+
         // Triggers START TURN
-        for( let i = 0; i < this["batt" + parseInt(this.currentPlayerId + 1)].length; i++){
+        for (let i = 0; i < this["batt" + parseInt(this.currentPlayerId + 1)].length; i++) {
             this["batt" + parseInt(this.currentPlayerId + 1)][i].body.capacities.forEach((capa) => {
-                if(capa.trigger == TRIGGER_START_YOUR_TURN){
-                    this.pile.push({effect: capa.effect, player: this.currentPlayerId, id: i});
-                }                
+                if (capa.trigger == TRIGGER_START_YOUR_TURN) {
+                    this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
+                }
             });
         }
 
         // DEPILAGE
-        while(this.pile.length > 0){
+        while (this.pile.length > 0) {
             //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
             switch (this.pile.getTopElement().effect) {
                 case EFFECT_ADD_STRENGTH_LEADER:
@@ -169,15 +177,15 @@ class Match {
         console.log(displayBatt);
     }
 
-    getCurrentPlayerBatt(){
+    getCurrentPlayerBatt() {
         return this.getPlayerBatt(this.currentPlayerId);
     }
 
-    getPlayerBatt(playerId){
+    getPlayerBatt(playerId) {
         return this["batt" + parseInt(playerId + 1)];
     }
 
-    getLeaderPosBatt(playerId){
+    getLeaderPosBatt(playerId) {
         return this["batt" + parseInt(playerId + 1) + "PosLeader"];
     }
 
