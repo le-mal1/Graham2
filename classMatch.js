@@ -1,13 +1,13 @@
 class Match {
 
 
-    constructor(deck1, deck2) {
+    constructor(deck0, deck1) {
+        this.deck0 = deck0.copy();
         this.deck1 = deck1.copy();
-        this.deck2 = deck2.copy();
+        this.batt0 = [];
         this.batt1 = [];
-        this.batt2 = [];
+        this.batt0PosLeader = null;
         this.batt1PosLeader = null;
-        this.batt2PosLeader = null;
         this.currentPlayerId = 0;
         this.nbTurn = 0;
         this.pile = new Pile();
@@ -24,7 +24,7 @@ class Match {
     playNextTurn() {
 
         this.nbTurn++;
-        console.log("TURN: " + this.nbTurn, "Current player: " + parseInt(this.currentPlayerId + 1));
+        console.log("TURN: " + this.nbTurn, "Current player: " + this.currentPlayerId);
 
         console.log("LEADERS PHASE");
         // Update des Leaders
@@ -32,25 +32,25 @@ class Match {
         this.updateLeader(this.currentPlayerId);
         this.updateLeader(1 - this.currentPlayerId);
 
-        if (this.batt1PosLeader == -1) {
-            if (this.batt2PosLeader == -1) {
+        if (this.batt0PosLeader == -1) {
+            if (this.batt1PosLeader == -1) {
                 console.log("DRAW !!!");
                 return END_GAME;
             } else {
                 console.log("PLAYER 2 WIN !!!");
                 return END_GAME;
             }
-        } else if (this.batt2PosLeader == -1) {
+        } else if (this.batt1PosLeader == -1) {
             console.log("PLAYER 1 WIN !!!");
             return END_GAME;
         }
 
-        console.log("Pos leader 1: " + parseInt(this.batt1PosLeader + 1), "Pos leader 2: " + parseInt(this.batt2PosLeader + 1));
+        console.log("Pos leader 1: " + this.batt0PosLeader, "Pos leader 2: " + this.batt1PosLeader);
         this.displayBattlefields();
 
         // Triggers START TURN
-        for (let i = 0; i < this["batt" + parseInt(this.currentPlayerId + 1)].length; i++) {
-            this["batt" + parseInt(this.currentPlayerId + 1)][i].body.capacities.forEach((capa) => {
+        for (let i = 0; i < this["batt" + this.currentPlayerId].length; i++) {
+            this["batt" + this.currentPlayerId][i].body.capacities.forEach((capa) => {
                 if (capa.trigger == TRIGGER_START_YOUR_TURN) {
                     this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
                 }
@@ -81,17 +81,17 @@ class Match {
 
         console.log("COMBAT PHASE");
         // Combats des leaders
-        this.batt1[this.batt1PosLeader].body.pv -= this.batt2[this.batt2PosLeader].body.force;
-        this.batt2[this.batt2PosLeader].body.pv -= this.batt1[this.batt1PosLeader].body.force;
+        this.batt0[this.batt0PosLeader].body.pv -= this.batt1[this.batt1PosLeader].body.force;
+        this.batt1[this.batt1PosLeader].body.pv -= this.batt0[this.batt0PosLeader].body.force;
+
+        if (this.batt0[this.batt0PosLeader].body.pv <= 0) {
+            this.batt0[this.batt0PosLeader].alive = false;
+            this.batt0PosLeader = null;
+        }
 
         if (this.batt1[this.batt1PosLeader].body.pv <= 0) {
             this.batt1[this.batt1PosLeader].alive = false;
             this.batt1PosLeader = null;
-        }
-
-        if (this.batt2[this.batt2PosLeader].body.pv <= 0) {
-            this.batt2[this.batt2PosLeader].alive = false;
-            this.batt2PosLeader = null;
         }
 
         this.displayBattlefields();
@@ -104,15 +104,15 @@ class Match {
             this.currentPlayerId = 0;
 
         // Affichage du nouveau joueur courant
-        console.log(parseInt(this.currentPlayerId + 1));
+        console.log(this.currentPlayerId);
 
     }
 
     updateLeader(playerId) {
 
-        let tmpDeck = this["deck" + parseInt(playerId + 1)];
-        let tmpBatt = this["batt" + parseInt(playerId + 1)];
-        let tmpBattPosLeader = this["batt" + parseInt(playerId + 1) + "PosLeader"];
+        let tmpDeck = this["deck" + playerId];
+        let tmpBatt = this["batt" + playerId];
+        let tmpBattPosLeader = this["batt" + playerId + "PosLeader"];
 
         if (tmpBattPosLeader == null) {
             if (tmpBatt.length <= 0 || this.haveCardAlive(tmpBatt) == false) {
@@ -127,7 +127,7 @@ class Match {
             }
         }
 
-        this["batt" + parseInt(playerId + 1) + "PosLeader"] = tmpBattPosLeader;
+        this["batt" + playerId + "PosLeader"] = tmpBattPosLeader;
     }
 
     haveCardAlive(batt) {
@@ -148,8 +148,8 @@ class Match {
 
         for (let f = 0; f < 2; f++) {
 
-            let tmpBatt = this["batt" + parseInt(f + 1)];
-            let tmpBattPosLeader = this["batt" + parseInt(f + 1) + "PosLeader"];
+            let tmpBatt = this["batt" + f];
+            let tmpBattPosLeader = this["batt" + f + "PosLeader"];
 
             for (let i = 0; i < tmpBatt.length; i++) {
                 if (tmpBattPosLeader == i)
@@ -182,11 +182,11 @@ class Match {
     }
 
     getPlayerBatt(playerId) {
-        return this["batt" + parseInt(playerId + 1)];
+        return this["batt" + playerId];
     }
 
     getLeaderPosBatt(playerId) {
-        return this["batt" + parseInt(playerId + 1) + "PosLeader"];
+        return this["batt" + playerId + "PosLeader"];
     }
 
 }

@@ -11,20 +11,20 @@ function newTest1() {
     console.log("Test");
     match.play();
 
-    if (match.batt1PosLeader == 1) {
+    if (match.batt0PosLeader == 1) {
         console.log("OK");
     } else {
         console.log("ERROR");
     }
-    if (match.batt2PosLeader == -1) {
+    if (match.batt1PosLeader == -1) {
         console.log("OK");
     } else {
         console.log("ERROR");
     }
     if (
-        match.batt1[0].body.force == 5 && match.batt1[0].body.pv == -1 &&
-        match.batt2[0].body.force == 0 && match.batt2[0].body.pv == 0 &&
-        match.batt2[1].body.force == 3 && match.batt2[1].body.pv == -4
+        match.batt0[0].body.force == 5 && match.batt0[0].body.pv == -1 &&
+        match.batt1[0].body.force == 0 && match.batt1[0].body.pv == 0 &&
+        match.batt1[1].body.force == 3 && match.batt1[1].body.pv == -4
     ) {
         console.log("OK");
     } else {
