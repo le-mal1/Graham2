@@ -67,6 +67,11 @@ class Match {
                     this.getLeaderCard(tmpPlayerId).body.force++;
 
                     break;
+                case EFFECT_ADD_PV_LEADER:
+                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    this.getLeaderCard(this.pile.getTopElement().player).body.pv++;
+
+                    break;
                 default:
                     break;
             }

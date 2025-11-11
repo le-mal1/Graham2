@@ -5,7 +5,7 @@ let deck2 = new Deck();
 
 for (let i = 0; i < 5; i++) {
     deck1.addCard(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, [{trigger:TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_LEADER}]);
-    deck2.addCard(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, []);
+    deck2.addCard(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, [{trigger:TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_PV_LEADER}]);
 }
 /*for (let i = 0; i < 10; i++){
     deck1.addCard(1, 2);
@@ -14,7 +14,6 @@ for (let i = 0; i < 5; i++) {
 
 //console.log(deck1, deck2);
 
-//let match = new Match(deck1, deck2);
-
-//match.play();
-newTest1();
+let match = new Match(deck1, deck2);
+match.play();
+//newTest1();
