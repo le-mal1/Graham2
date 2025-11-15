@@ -210,6 +210,13 @@ class Match {
                     this.getLeaderCard(this.pile.getTopElement().player).body.pv++;
 
                     break;
+                case EFFECT_CALL_SUPPORT:
+                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    let playerId = this.pile.getTopElement().player;
+                    if (this.getPlayerDeck(playerId).cards.length > 0)
+                        this.getPlayerBatt(playerId).push(this.getPlayerDeck(playerId).drawCard());
+
+                    break;
                 default:
                     break;
             }
