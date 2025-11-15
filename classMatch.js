@@ -104,9 +104,9 @@ class Match {
 
     updateLeader(playerId) {
 
-        let tmpDeck = this["deck" + playerId];
-        let tmpBatt = this["batt" + playerId];
-        let tmpBattPosLeader = this["batt" + playerId + "PosLeader"];
+        let tmpDeck = this.getPlayerDeck(playerId);
+        let tmpBatt = this.getPlayerBatt(playerId);
+        let tmpBattPosLeader = this.getLeaderPosBatt(playerId);
 
         if (tmpBattPosLeader == null) {
             if (tmpBatt.length <= 0 || this.haveCardAlive(tmpBatt) == false) {
@@ -189,6 +189,10 @@ class Match {
 
     getLeaderCard(playerId) {
         return this.getPlayerBatt(playerId)[this.getLeaderPosBatt(playerId)];
+    }
+
+    getPlayerDeck(playerId) {
+        return this["deck" + playerId];
     }
 
     depilage() {
