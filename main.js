@@ -17,6 +17,7 @@ for (let i = 0; i < 5; i++) {
 let match = new Match(deck1, deck2);
 match.play();
 //newTest1();
+//newTest2();
 
 function createRandomCard(){
     let nbCapa = Math.floor(Math.random() * 2);

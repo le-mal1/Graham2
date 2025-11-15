@@ -117,7 +117,10 @@ class Match {
                     tmpBattPosLeader = tmpBatt.length - 1;
                 }
             } else {
-                tmpBattPosLeader = 0;
+                for (let i = 0; i < tmpBatt.length; i++) {
+                    if (tmpBatt[i].alive == true)
+                        tmpBattPosLeader = i;
+                }
             }
         }
 
@@ -127,14 +130,12 @@ class Match {
     haveCardAlive(batt) {
         let cardAlive = false;
         for (let i = 0; i < batt.length; i++) {
-            if (batt[i].alive == true)
+            if (batt[i].alive == true) {
                 cardAlive = true;
-            break;
+                break;
+            }
         }
-        if (cardAlive)
-            return true;
-        else
-            return false;
+        return cardAlive;
     }
 
     displayBattlefields() {
