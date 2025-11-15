@@ -48,13 +48,26 @@ class Match {
         console.log("Pos leader 1: " + this.batt0PosLeader, "Pos leader 2: " + this.batt1PosLeader);
         this.displayBattlefields();
 
+        // Triggers START OPPONENT TURN
+        for (let i = 0; i < this.getOtherPlayerBatt().length; i++) {
+            if (this.getOtherPlayerBatt()[i].body.alive == true) {
+                this.getOtherPlayerBatt()[i].body.capacities.forEach((capa) => {
+                    if (capa.trigger == TRIGGER_START_OPPONENT_TURN_ALIVE) {
+                        this.pile.push({ effect: capa.effect, player: 1 - this.currentPlayerId, id: i });
+                    }
+                });
+            }
+        }
+
         // Triggers START TURN
-        for (let i = 0; i < this["batt" + this.currentPlayerId].length; i++) {
-            this["batt" + this.currentPlayerId][i].body.capacities.forEach((capa) => {
-                if (capa.trigger == TRIGGER_START_YOUR_TURN) {
-                    this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
-                }
-            });
+        for (let i = 0; i < this.getCurrentPlayerBatt().length; i++) {
+            if (this.getCurrentPlayerBatt()[i].body.alive) {
+                this.getCurrentPlayerBatt()[i].body.capacities.forEach((capa) => {
+                    if (capa.trigger == TRIGGER_START_YOUR_TURN_ALIVE) {
+                        this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
+                    }
+                });
+            }
         }
 
         // DEPILAGE
@@ -162,6 +175,10 @@ class Match {
         return this.getPlayerBatt(this.currentPlayerId);
     }
 
+    getOtherPlayerBatt() {
+        return this.getPlayerBatt(1 - this.currentPlayerId);
+    }
+
     getPlayerBatt(playerId) {
         return this["batt" + playerId];
     }
@@ -170,11 +187,11 @@ class Match {
         return this["batt" + playerId + "PosLeader"];
     }
 
-    getLeaderCard(playerId){
+    getLeaderCard(playerId) {
         return this.getPlayerBatt(playerId)[this.getLeaderPosBatt(playerId)];
     }
 
-    depilage(){
+    depilage() {
         while (this.pile.length > 0) {
             //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
             switch (this.pile.getTopElement().effect) {

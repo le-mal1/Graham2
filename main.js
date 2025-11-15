@@ -19,7 +19,7 @@ match.play();
 //newTest1();
 
 function createRandomCard(){
-    let nbCapa = Math.floor(Math.random() * 3);
+    let nbCapa = Math.floor(Math.random() * 2);
     let capacities = [];
     let randomNbTrigger;
     let randomNbEffect;
