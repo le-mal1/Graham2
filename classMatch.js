@@ -50,7 +50,7 @@ class Match {
 
         // Triggers START OPPONENT TURN
         for (let i = 0; i < this.getOtherPlayerBatt().length; i++) {
-            if (this.getOtherPlayerBatt()[i].body.alive == true) {
+            if (this.getOtherPlayerBatt()[i].alive == true) {
                 this.getOtherPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_OPPONENT_TURN_ALIVE) {
                         this.pile.push({ effect: capa.effect, player: 1 - this.currentPlayerId, id: i });
@@ -61,7 +61,7 @@ class Match {
 
         // Triggers START TURN
         for (let i = 0; i < this.getCurrentPlayerBatt().length; i++) {
-            if (this.getCurrentPlayerBatt()[i].body.alive) {
+            if (this.getCurrentPlayerBatt()[i].alive) {
                 this.getCurrentPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_YOUR_TURN_ALIVE) {
                         this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
