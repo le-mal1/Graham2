@@ -58,30 +58,7 @@ class Match {
         }
 
         // DEPILAGE
-        while (this.pile.length > 0) {
-            //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
-            switch (this.pile.getTopElement().effect) {
-                case EFFECT_ADD_FORCE_LEADER:
-                    console.log("Effect: " + this.pile.getTopElement().effect);
-                    let tmpPlayerId = this.pile.getTopElement().player;
-                    this.getLeaderCard(tmpPlayerId).body.force++;
-
-                    break;
-                case EFFECT_ADD_PV_LEADER:
-                    console.log("Effect: " + this.pile.getTopElement().effect);
-                    this.getLeaderCard(this.pile.getTopElement().player).body.pv++;
-
-                    break;
-                default:
-                    break;
-            }
-            this.pile.pop();
-        }
-
-        /*for(let i = 0; i < this.pile.length; i++){
-            console.log("Triggers de debut de tour: " + this.pile.getLastElement().effect);
-            this.pile.pop();
-        }*/
+        this.depilage();
 
         console.log("COMBAT PHASE");
         // Combats des leaders
@@ -195,6 +172,28 @@ class Match {
 
     getLeaderCard(playerId){
         return this.getPlayerBatt(playerId)[this.getLeaderPosBatt(playerId)];
+    }
+
+    depilage(){
+        while (this.pile.length > 0) {
+            //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
+            switch (this.pile.getTopElement().effect) {
+                case EFFECT_ADD_FORCE_LEADER:
+                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    let tmpPlayerId = this.pile.getTopElement().player;
+                    this.getLeaderCard(tmpPlayerId).body.force++;
+
+                    break;
+                case EFFECT_ADD_PV_LEADER:
+                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    this.getLeaderCard(this.pile.getTopElement().player).body.pv++;
+
+                    break;
+                default:
+                    break;
+            }
+            this.pile.pop();
+        }
     }
 
 }
