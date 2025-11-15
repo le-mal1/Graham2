@@ -11,7 +11,6 @@ class DeckInMatch {
 
     drawCard() {
         let cardDrawed = this.cards[this.idLastCard];
-        //console.log("affichage crate du deck: " + this.cards);
         this.cards.pop();
         this.updateIdLastCard();
         return cardDrawed;

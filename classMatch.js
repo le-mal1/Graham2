@@ -197,7 +197,6 @@ class Match {
 
     depilage() {
         while (this.pile.length > 0) {
-            //console.log("Triggers de debut de tour: " + this.pile.getTopElement().effect);
             switch (this.pile.getTopElement().effect) {
                 case EFFECT_ADD_FORCE_LEADER:
                     console.log("Effect: " + this.pile.getTopElement().effect);
