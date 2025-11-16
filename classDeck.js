@@ -22,7 +22,7 @@ class Deck {
 
     copy() {
         let returnCards = [];
-        this.cards.forEach((card) => returnCards.push({ body: card, alive: true }));
+        this.cards.forEach((card) => returnCards.push({ body: card }));
         return new DeckInMatch(returnCards);
     }
 }

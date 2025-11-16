@@ -51,7 +51,7 @@ class Match {
 
         // Triggers START OPPONENT TURN
         for (let i = 0; i < this.getOtherPlayerBatt().length; i++) {
-            if (this.getOtherPlayerBatt()[i].alive == true) {
+            if (this.getOtherPlayerBatt()[i].body.pv > 0) {
                 this.getOtherPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_OPPONENT_TURN) {
                         this.pile.push({ effect: capa.effect, player: 1 - this.currentPlayerId, id: i });
@@ -62,7 +62,7 @@ class Match {
 
         // Triggers START TURN
         for (let i = 0; i < this.getCurrentPlayerBatt().length; i++) {
-            if (this.getCurrentPlayerBatt()[i].alive) {
+            if (this.getCurrentPlayerBatt()[i].body.pv > 0) {
                 this.getCurrentPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_YOUR_TURN) {
                         this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
@@ -80,12 +80,10 @@ class Match {
         this.batt1[this.batt1PosLeader].body.pv -= this.batt0[this.batt0PosLeader].body.force;
 
         if (this.batt0[this.batt0PosLeader].body.pv <= 0) {
-            this.batt0[this.batt0PosLeader].alive = false;
             this.batt0PosLeader = null;
         }
 
         if (this.batt1[this.batt1PosLeader].body.pv <= 0) {
-            this.batt1[this.batt1PosLeader].alive = false;
             this.batt1PosLeader = null;
         }
 
@@ -115,7 +113,7 @@ class Match {
                 }
             } else {
                 for (let i = 0; i < tmpBatt.length; i++) {
-                    if (tmpBatt[i].alive == true)
+                    if (tmpBatt[i].body.pv > 0)
                         tmpBattPosLeader = i;
                 }
             }
@@ -127,7 +125,7 @@ class Match {
     haveCardAlive(batt) {
         let cardAlive = false;
         for (let i = 0; i < batt.length; i++) {
-            if (batt[i].alive == true) {
+            if (batt[i].body.pv > 0) {
                 cardAlive = true;
                 break;
             }
