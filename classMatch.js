@@ -24,9 +24,10 @@ class Match {
     playNextTurn() {
 
         this.nbTurn++;
-        console.log("TURN: " + this.nbTurn, "Current player: " + this.currentPlayerId);
+        this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
 
-        console.log("LEADERS PHASE");
+
+        this.display("<br/>LEADERS PHASE");
         // Update des Leaders
 
         this.updateLeader(this.currentPlayerId);
@@ -34,18 +35,18 @@ class Match {
 
         if (this.batt0PosLeader == -1) {
             if (this.batt1PosLeader == -1) {
-                console.log("DRAW !!!");
+                this.display("DRAW !!!");
                 return END_GAME;
             } else {
-                console.log("PLAYER 2 WIN !!!");
+                this.display("PLAYER 2 WIN !!!");
                 return END_GAME;
             }
         } else if (this.batt1PosLeader == -1) {
-            console.log("PLAYER 1 WIN !!!");
+            this.display("PLAYER 1 WIN !!!");
             return END_GAME;
         }
 
-        console.log("Pos leader 1: " + this.batt0PosLeader, "Pos leader 2: " + this.batt1PosLeader);
+        this.display("Pos leader 1: " + this.batt0PosLeader + " Pos leader 2: " + this.batt1PosLeader);
         this.displayBattlefields();
 
         // Triggers START OPPONENT TURN
@@ -73,7 +74,7 @@ class Match {
         // DEPILAGE
         this.depilage();
 
-        console.log("COMBAT PHASE");
+        this.display("<br/>COMBAT PHASE");
         // Combats des leaders
         this.batt0[this.batt0PosLeader].body.pv -= this.batt1[this.batt1PosLeader].body.force;
         this.batt1[this.batt1PosLeader].body.pv -= this.batt0[this.batt0PosLeader].body.force;
@@ -90,15 +91,11 @@ class Match {
 
         this.displayBattlefields();
 
-        console.log("CHANGEMENT DE JOUEUR");
         // Changement de joueur
         if (this.currentPlayerId == 0)
             this.currentPlayerId = 1;
         else
             this.currentPlayerId = 0;
-
-        // Affichage du nouveau joueur courant
-        console.log(this.currentPlayerId);
 
     }
 
@@ -165,11 +162,11 @@ class Match {
                     displayBatt += "} ";
             }
 
-            displayBatt += "\n";
+            displayBatt += "<br/>";
         }
 
 
-        console.log(displayBatt);
+        this.display(displayBatt);
     }
 
     getCurrentPlayerBatt() {
@@ -200,18 +197,18 @@ class Match {
         while (this.pile.length > 0) {
             switch (this.pile.getTopElement().effect) {
                 case EFFECT_ADD_FORCE_LEADER:
-                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    this.display("Effect: " + this.pile.getTopElement().effect);
                     let tmpPlayerId = this.pile.getTopElement().player;
                     this.getLeaderCard(tmpPlayerId).body.force++;
 
                     break;
                 case EFFECT_ADD_PV_LEADER:
-                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    this.display("Effect: " + this.pile.getTopElement().effect);
                     this.getLeaderCard(this.pile.getTopElement().player).body.pv++;
 
                     break;
                 case EFFECT_CALL_SUPPORT:
-                    console.log("Effect: " + this.pile.getTopElement().effect);
+                    this.display("Effect: " + this.pile.getTopElement().effect);
                     let playerId = this.pile.getTopElement().player;
                     if (this.getPlayerDeck(playerId).cards.length > 0)
                         this.getPlayerBatt(playerId).push(this.getPlayerDeck(playerId).drawCard());
@@ -222,6 +219,11 @@ class Match {
             }
             this.pile.pop();
         }
+    }
+
+    display(txt) {
+        //console.log(txt);
+        document.getElementById("game").innerHTML += txt + "<br/>";
     }
 
 }
