@@ -203,19 +203,19 @@ class Match {
             tmpPlayerId = this.pile.getTopElement().player;
             this.display("Effect: " + this.pile.getTopElement().effect + ", Player: " + this.pile.getTopElement().player + ", Pos: " + this.pile.getTopElement().pos);
             switch (this.pile.getTopElement().effect) {
-                case EFFECT_ADD_FORCE_LEADER:
+                case EFFECT_ADD_FORCE_1_LEADER:
                     this.getLeaderCard(tmpPlayerId).body.force++;
 
                     break;
-                case EFFECT_ADD_FORCE_CARD:
+                case EFFECT_ADD_FORCE_1_CARD:
                     this.getPlayerCard(tmpPlayerId, this.pile.getTopElement().pos).body.force++;
 
                     break;
-                case EFFECT_ADD_PV_LEADER:
+                case EFFECT_ADD_PV_1_LEADER:
                     this.getLeaderCard(tmpPlayerId).body.pv++;
 
                     break;
-                case EFFECT_ADD_PV_CARD:
+                case EFFECT_ADD_PV_1_CARD:
                     this.getPlayerCard(tmpPlayerId, this.pile.getTopElement().pos).body.pv++;
 
                     break;
