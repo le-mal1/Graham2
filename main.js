@@ -7,12 +7,6 @@ for (let i = 0; i < 5; i++) {
     deck1.addCard(createRandomCard().force, createRandomCard().pv, createRandomCard().capacities);
     deck2.addCard(createRandomCard().force, createRandomCard().pv, createRandomCard().capacities);
 }
-/*for (let i = 0; i < 10; i++){
-    deck1.addCard(1, 2);
-    deck2.addCard(2, 1);
-}*/
-
-//console.log(deck1, deck2);
 
 let match = new Match(deck1, deck2);
 match.play();
