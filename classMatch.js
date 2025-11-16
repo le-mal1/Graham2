@@ -46,7 +46,7 @@ class Match {
             return END_GAME;
         }
 
-        this.display("Pos leader 1: " + this.batt0PosLeader + " Pos leader 2: " + this.batt1PosLeader);
+        this.display("Pos leader 0: " + this.batt0PosLeader + " Pos leader 1: " + this.batt1PosLeader);
         this.displayBattlefields();
 
         // Triggers START OPPONENT TURN
