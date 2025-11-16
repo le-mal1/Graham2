@@ -38,11 +38,11 @@ class Match {
                 this.display("DRAW !!!");
                 return END_GAME;
             } else {
-                this.display("PLAYER 2 WIN !!!");
+                this.display("PLAYER 1 WIN !!!");
                 return END_GAME;
             }
         } else if (this.batt1PosLeader == -1) {
-            this.display("PLAYER 1 WIN !!!");
+            this.display("PLAYER 0 WIN !!!");
             return END_GAME;
         }
 
