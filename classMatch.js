@@ -35,14 +35,14 @@ class Match {
 
         if (this.batt0PosLeader == -1) {
             if (this.batt1PosLeader == -1) {
-                this.display("DRAW !!!");
+                this.display("DRAW !!! --------------------------------------------------------");
                 return END_GAME;
             } else {
-                this.display("PLAYER 1 WIN !!!");
+                this.display("PLAYER 1 WIN !!! --------------------------------------------------------");
                 return END_GAME;
             }
         } else if (this.batt1PosLeader == -1) {
-            this.display("PLAYER 0 WIN !!!");
+            this.display("PLAYER 0 WIN !!! --------------------------------------------------------");
             return END_GAME;
         }
 
@@ -54,7 +54,7 @@ class Match {
             if (this.getOtherPlayerBatt()[i].body.pv > 0) {
                 this.getOtherPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_OPPONENT_TURN) {
-                        this.pile.push({ effect: capa.effect, player: 1 - this.currentPlayerId, id: i });
+                        this.pile.push({ effect: capa.effect, player: 1 - this.currentPlayerId, pos: i });
                     }
                 });
             }
@@ -65,7 +65,7 @@ class Match {
             if (this.getCurrentPlayerBatt()[i].body.pv > 0) {
                 this.getCurrentPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_YOUR_TURN) {
-                        this.pile.push({ effect: capa.effect, player: this.currentPlayerId, id: i });
+                        this.pile.push({ effect: capa.effect, player: this.currentPlayerId, pos: i });
                     }
                 });
             }
@@ -113,8 +113,10 @@ class Match {
                 }
             } else {
                 for (let i = 0; i < tmpBatt.length; i++) {
-                    if (tmpBatt[i].body.pv > 0)
+                    if (tmpBatt[i].body.pv > 0) {
                         tmpBattPosLeader = i;
+                        break;
+                    }
                 }
             }
         }
@@ -187,29 +189,39 @@ class Match {
         return this.getPlayerBatt(playerId)[this.getLeaderPosBatt(playerId)];
     }
 
+    getPlayerCard(playerId, pos) {
+        return this.getPlayerBatt(playerId)[pos];
+    }
+
     getPlayerDeck(playerId) {
         return this["deck" + playerId];
     }
 
     depilage() {
+        let tmpPlayerId;
         while (this.pile.length > 0) {
+            tmpPlayerId = this.pile.getTopElement().player;
+            this.display("Effect: " + this.pile.getTopElement().effect + ", Player: " + this.pile.getTopElement().player + ", Pos: " + this.pile.getTopElement().pos);
             switch (this.pile.getTopElement().effect) {
                 case EFFECT_ADD_FORCE_LEADER:
-                    this.display("Effect: " + this.pile.getTopElement().effect);
-                    let tmpPlayerId = this.pile.getTopElement().player;
                     this.getLeaderCard(tmpPlayerId).body.force++;
 
                     break;
+                case EFFECT_ADD_FORCE_CARD:
+                    this.getPlayerCard(tmpPlayerId, this.pile.getTopElement().pos).body.force++;
+
+                    break;
                 case EFFECT_ADD_PV_LEADER:
-                    this.display("Effect: " + this.pile.getTopElement().effect);
-                    this.getLeaderCard(this.pile.getTopElement().player).body.pv++;
+                    this.getLeaderCard(tmpPlayerId).body.pv++;
+
+                    break;
+                case EFFECT_ADD_PV_CARD:
+                    this.getPlayerCard(tmpPlayerId, this.pile.getTopElement().pos).body.pv++;
 
                     break;
                 case EFFECT_CALL_SUPPORT:
-                    this.display("Effect: " + this.pile.getTopElement().effect);
-                    let playerId = this.pile.getTopElement().player;
-                    if (this.getPlayerDeck(playerId).cards.length > 0)
-                        this.getPlayerBatt(playerId).push(this.getPlayerDeck(playerId).drawCard());
+                    if (this.getPlayerDeck(tmpPlayerId).cards.length > 0)
+                        this.getPlayerBatt(tmpPlayerId).push(this.getPlayerDeck(tmpPlayerId).drawCard());
 
                     break;
                 default:
