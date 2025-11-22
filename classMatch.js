@@ -278,68 +278,62 @@ class Match {
         let output = [];
         switch (_target.target) {
             case TARGET_MY_LEADER:
-                return [this.getLeaderCard(_target.playerId)];
+                output = [this.getLeaderCard(_target.playerId)];
                 break;
             case TARGET_OPPONENT_LEADER:
-                return [this.getLeaderCard(1 - _target.playerId)];
+                output = [this.getLeaderCard(1 - _target.playerId)];
                 break;
             case TARGET_MY_CARD:
-                return [this.getPlayerCard(_target.playerId, _target.pos)];
+                output = [this.getPlayerCard(_target.playerId, _target.pos)];
                 break;
             case TARGET_MY_CARDS:
                 output = this.getPlayerCards(_target.playerId);
-                return output;
                 break;
             case TARGET_OPPONENT_CARDS:
                 output = this.getPlayerCards(1 - _target.playerId);
-                return output;
                 break;
             case TARGET_EVERY_CARDS:
                 output = this.getAllCards();
-                return output;
                 break;
             case TARGET_MY_LEADER_NEIGHBOORS:
                 output = this.getPlayerCardNeighboors(_target.playerId, this.getLeaderPosBatt(_target.playerId));
-                return output;
                 break;
             case TARGET_OPPONENT_LEADER_NEIGHBOORS:
                 output = this.getPlayerCardNeighboors(1 - _target.playerId, this.getLeaderPosBatt(1 - _target.playerId));
-                return output;
                 break;
             case TARGET_MY_CARD_NEIGHBOORS:
                 output = this.getPlayerCardNeighboors(_target.playerId, _target.pos);
-                return output;
                 break;
             case TARGET_MY_EDGE_RIGHT:
-                return [this.getPlayerEdgeRight(_target.playerId)];
+                output = [this.getPlayerEdgeRight(_target.playerId)];
                 break;
             case TARGET_MY_EDGE_LEFT:
-                return [this.getPlayerEdgeLeft(_target.playerId)];
+                output = [this.getPlayerEdgeLeft(_target.playerId)];
                 break;
             case TARGET_OPPONENT_EDGE_RIGHT:
-                return [this.getPlayerEdgeRight(1 - _target.playerId)];
+                output = [this.getPlayerEdgeRight(1 - _target.playerId)];
                 break;
             case TARGET_OPPONENT_EDGE_LEFT:
-                return [this.getPlayerEdgeLeft(1 - _target.playerId)];
+                output = [this.getPlayerEdgeLeft(1 - _target.playerId)];
                 break;
             case TARGET_MY_EDGES:
                 output.push(this.getPlayerEdgeRight(_target.playerId));
                 output.push(this.getPlayerEdgeLeft(_target.playerId));
-                return output;
                 break;
             case TARGET_OPPONENT_EDGES:
                 output.push(this.getPlayerEdgeRight(1 - _target.playerId));
                 output.push(this.getPlayerEdgeLeft(1 - _target.playerId));
-                return output;
                 break;
             case TARGET_NONE:
-                return [];
+                output = [];
                 break;
             default:
-                return [];
+                output = [];
                 break;
         }
-        return [];
+
+        output = output.filter(e => e.body.pv > 0);
+        return output;
     }
 
     display(txt) {

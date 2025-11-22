@@ -1,16 +1,6 @@
 const END_GAME = "end game";
-const TEST = true;
+const TEST = false;
 
-let deck1 = new Deck();
-let deck2 = new Deck();
-
-/*for (let i = 0; i < 5; i++) {
-    deck1.addCard(createRandomCard().force, createRandomCard().pv, createRandomCard().capacities);
-    deck2.addCard(createRandomCard().force, createRandomCard().pv, createRandomCard().capacities);
-}
-
-let match = new Match(deck1, deck2);
-match.play();*/
 if (TEST) {
     newTest1();
     newTest2();
@@ -29,30 +19,32 @@ if (TEST) {
     newTest15();
     newTest16();
     newTest17();
+} else {
+    let deck1 = createRandomDeck();
+    let deck2 = createRandomDeck();
+    let match = new Match(deck1, deck2);
+    match.play();
 }
 
-function createRandomCard() {
-    let nbCapa = Math.floor(Math.random() * 2);
+function createRandomDeck(size = 7){
+    let deck = new Deck();
+    let force;
+    let pv;
     let capacities = [];
-    let randomNbTrigger;
-    let randomNbEffect;
-    for (let i = 0; i < nbCapa; i++) {
-        randomNbTrigger = Math.floor(Math.random() * TRIGGERS_ARRAY.length);
-        randomNbEffect = Math.floor(Math.random() * EFFECTS_ARRAY.length);
-        capacities.push({ trigger: TRIGGERS_ARRAY[randomNbTrigger], effect: EFFECTS_ARRAY[randomNbEffect]});
-    }
-    return new Card(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, capacities);
-}
+    let capaTrigger;
+    let capaEffect;
+    let capaTarget;
+    for(let i = 0; i < size; i++){
+        //deck.addCard(1, 1);
+        force = Math.floor(Math.random() * 10);
+        pv = Math.floor(Math.random() * 9) + 1;
 
-/*function createRandomCard() {
-    let nbCapa = Math.floor(Math.random() * 2);
-    let capacities = [];
-    let randomNbTrigger;
-    let randomNbEffect;
-    for (let i = 0; i < nbCapa; i++) {
-        randomNbTrigger = Math.floor(Math.random() * TRIGGERS_ARRAY.length);
-        randomNbEffect = Math.floor(Math.random() * EFFECTS_ARRAY.length);
-        capacities.push({ trigger: TRIGGERS_ARRAY[randomNbTrigger], effect: EFFECTS_ARRAY[randomNbEffect]});
+        capaTrigger = randomElement(TRIGGERS_ARRAY);
+        capaEffect = randomElement(EFFECTS_ARRAY);
+        capaTarget = randomElement(TARGETS_ARRAY);
+        capacities = [];
+        capacities.push(new Capacity(capaTrigger, capaEffect, capaTarget)); 
+        deck.addCard(force, pv, capacities);
     }
-    return new Card(Math.floor(Math.random() * 10), Math.floor(Math.random() * 9) + 1, capacities);
-}*/
+    return deck;
+}
