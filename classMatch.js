@@ -50,26 +50,10 @@ class Match {
         this.displayBattlefields();
 
         // Triggers START OPPONENT TURN
-        for (let i = 0; i < this.getOtherPlayerBatt().length; i++) {
-            if (this.getOtherPlayerBatt()[i].body.pv > 0) {
-                this.getOtherPlayerBatt()[i].body.capacities.forEach((capa) => {
-                    if (capa.trigger == TRIGGER_START_OPPONENT_TURN) {
-                        this.pile.push({ effect: capa.effect, target: capa.target, playerId: 1 - this.currentPlayerId, pos: i });
-                    }
-                });
-            }
-        }
+       this.empilageForStep(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId, true);
 
         // Triggers START TURN
-        for (let i = 0; i < this.getCurrentPlayerBatt().length; i++) {
-            if (this.getCurrentPlayerBatt()[i].body.pv > 0) {
-                this.getCurrentPlayerBatt()[i].body.capacities.forEach((capa) => {
-                    if (capa.trigger == TRIGGER_START_YOUR_TURN) {
-                        this.pile.push({ effect: capa.effect, target: capa.target, playerId: this.currentPlayerId, pos: i });
-                    }
-                });
-            }
-        }
+       this.empilageForStep(TRIGGER_START_YOUR_TURN, this.currentPlayerId, true);
 
         // DEPILAGE
         this.depilage();
@@ -197,6 +181,18 @@ class Match {
         return this["deck" + playerId];
     }
 
+    empilageForStep(trigger, playerId, needAlive = true) {
+        for (let i = 0; i < this.getPlayerBatt(playerId).length; i++) {
+            if (needAlive == true && this.getPlayerBatt(playerId)[i].body.pv > 0) {
+                this.getPlayerBatt(playerId)[i].body.capacities.forEach((capa) => {
+                    if (capa.trigger == trigger) {
+                        this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: i });
+                    }
+                });
+            }
+        }
+    }
+
     depilage() {
         let tmpPlayerId;
         let target;
@@ -206,14 +202,10 @@ class Match {
             switch (this.pile.getTopElement().effect) {
                 // new
                 case EFFECT_ADD_FORCE_1:
-                    //this.getTargets(this.pile.getTopElement())[0].body.force++;
                     this.getTargets(this.pile.getTopElement()).forEach((card) => card.body.force++);
-                    // TODO => .forEach()
                     break;
                 case EFFECT_ADD_PV_1:
-                    //this.getTargets(this.pile.getTopElement())[0].body.pv++;
                     this.getTargets(this.pile.getTopElement()).forEach((card) => card.body.pv++);
-                    // TODO => .forEach()
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0)
