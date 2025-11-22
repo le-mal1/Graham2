@@ -50,10 +50,10 @@ class Match {
         this.displayBattlefields();
 
         // Triggers START OPPONENT TURN
-       this.empilageForStep(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId, true);
+        this.empilageForStep(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId, true);
 
         // Triggers START TURN
-       this.empilageForStep(TRIGGER_START_YOUR_TURN, this.currentPlayerId, true);
+        this.empilageForStep(TRIGGER_START_YOUR_TURN, this.currentPlayerId, true);
 
         // DEPILAGE
         this.depilage();
@@ -189,6 +189,13 @@ class Match {
                         this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: i });
                     }
                 });
+                /*let capa;
+                for(let j = this.getPlayerBatt(playerId)[i].body.capacities.length - 1; j > 0; j--){
+                    capa = this.getPlayerBatt(playerId)[i].body.capacities[j];
+                    if (capa.trigger == trigger) {
+                        this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: i });
+                    }
+                }*/
             }
         }
     }
@@ -225,6 +232,9 @@ class Match {
             case TARGET_MY_LEADER:
                 return [this.getLeaderCard(_target.playerId)];
                 break;
+            case TARGET_OPPONENT_LEADER:
+                return [this.getLeaderCard(1 - _target.playerId)];
+                break;
             case TARGET_MY_CARD:
                 return [this.getPlayerCard(_target.playerId, _target.pos)];
                 break;
@@ -233,6 +243,68 @@ class Match {
                     if (card.body.pv > 0)
                         output.push(card)
                 });
+                return output;
+                break;
+            case TARGET_OPPONENT_CARDS:
+                this.getPlayerBatt(1 - _target.playerId).forEach((card) => {
+                    if (card.body.pv > 0)
+                        output.push(card)
+                });
+                return output;
+                break;
+            case TARGET_EVERY_CARDS:
+                this.getPlayerBatt(_target.playerId).forEach((card) => {
+                    if (card.body.pv > 0)
+                        output.push(card)
+                });
+                this.getPlayerBatt(1 - _target.playerId).forEach((card) => {
+                    if (card.body.pv > 0)
+                        output.push(card)
+                });
+                return output;
+                break;
+            case TARGET_MY_LEADER_NEIGHBOORS:
+                if (_target.pos > 0)
+                    output.push(this.getPlayerCard(_target.playerId, _target.pos - 1));
+                if (_target.pos < this.getPlayerBatt(_target.playerId).length - 1)
+                    output.push(this.getPlayerCard(_target.playerId, _target.pos + 1));
+                return output;
+                break;
+            case TARGET_OPPONENT_LEADER_NEIGHBOORS:
+                let oppPos = this.getLeaderPosBatt(1 - _target.playerId);
+                if (oppPos > 0)
+                    output.push(this.getPlayerCard(1 - _target.playerId, oppPos - 1));
+                if (oppPos < this.getPlayerBatt(1 - _target.playerId).length - 1)
+                    output.push(this.getPlayerCard(1 - _target.playerId, oppPos + 1));
+                return output;
+                break;
+            case TARGET_MY_CARD_NEIGHBOORS:
+                if (_target.pos > 0)
+                    output.push(this.getPlayerCard(_target.playerId, _target.pos - 1));
+                if (_target.pos < this.getPlayerBatt(_target.playerId).length - 1)
+                    output.push(this.getPlayerCard(_target.playerId, _target.pos + 1));
+                return output;
+                break;
+            case TARGET_MY_EDGE_RIGHT:
+                return [this.getPlayerCard(_target.playerId, this.getPlayerBatt(_target.playerId).length - 1)];
+                break;
+            case TARGET_MY_EDGE_LEFT:
+                return [this.getPlayerCard(_target.playerId, 0)];
+                break;
+            case TARGET_OPPONENT_EDGE_RIGHT:
+                return [this.getPlayerCard(1 - _target.playerId, this.getPlayerBatt(1 - _target.playerId).length - 1)];
+                break;
+            case TARGET_OPPONENT_EDGE_LEFT:
+                return [this.getPlayerCard(1 - _target.playerId, 0)];
+                break;
+            case TARGET_MY_EDGES:
+                output.push(this.getPlayerCard(_target.playerId, 0));
+                output.push(this.getPlayerCard(_target.playerId, this.getPlayerBatt(_target.playerId).length - 1));
+                return output;
+                break;
+            case TARGET_OPPONENT_EDGES:
+                output.push(this.getPlayerCard(1 - _target.playerId, 0));
+                output.push(this.getPlayerCard(1 - _target.playerId, this.getPlayerBatt(1 - _target.playerId).length - 1));
                 return output;
                 break;
             case TARGET_NONE:
