@@ -1,21 +1,16 @@
 const TRIGGER_START_YOUR_TURN = "start your turn";
 const TRIGGER_START_OPPONENT_TURN = "start opponent turn";
 
-// Ancient effects
-const EFFECT_ADD_FORCE_1_LEADER = "add force 1 leader";
-const EFFECT_ADD_FORCE_1_CARD = "add force 1 card";
-const EFFECT_ADD_PV_1_LEADER = "add pv 1 leader";
-const EFFECT_ADD_PV_1_CARD = "add pv 1 card";
+const EFFECT_ADD_FORCE_1 = "add force";
+const EFFECT_ADD_PV_1 = "add pv";
 const EFFECT_CALL_SUPPORT = "call support";
 
-// new effects
-const EFFECT_ADD_FORCE = "add force";
-
-const TARGET_CARD = "target card";
+const TARGET_MY_CARD = "target card";
 const TARGET_MY_LEADER = "target my leader";
 const TARGET_OPPONENT_LEADER = "target opponent leader";
 const TARGET_MY_LEADER_NEIGHBOORS = "target my leader neighboors";
 const TARGET_OPPONENT_LEADER_NEIGHBOORS = "target opponent leader neighboors";
+const TARGET_MY_CARD_NEIGHBOORS = "target my card neighboors";
 const TARGET_MY_EDGE_RIGHT = "target my edge right";
 const TARGET_MY_EDGE_LEFT = "target my edge left";
 const TARGET_OPPONENT_EDGE_RIGHT = "target opponent edge right";
@@ -33,19 +28,18 @@ const TRIGGERS_ARRAY = [
 ];
 
 const EFFECTS_ARRAY = [
-    EFFECT_ADD_FORCE_1_LEADER,
-    EFFECT_ADD_PV_1_LEADER,
-    EFFECT_ADD_FORCE_1_CARD,
-    EFFECT_ADD_PV_1_CARD,
-    EFFECT_CALL_SUPPORT,
+    EFFECT_ADD_FORCE_1,
+    EFFECT_ADD_PV_1,
+    EFFECT_CALL_SUPPORT,    
 ];
 
 const TARGETS_ARRAY = [
-    TARGET_CARD,
+    TARGET_MY_CARD,
     TARGET_MY_LEADER,
     TARGET_OPPONENT_LEADER,
     TARGET_MY_LEADER_NEIGHBOORS,
     TARGET_OPPONENT_LEADER_NEIGHBOORS,
+    TARGET_MY_CARD_NEIGHBOORS,
     TARGET_MY_EDGE_RIGHT,
     TARGET_MY_EDGE_LEFT,
     TARGET_OPPONENT_EDGE_RIGHT,

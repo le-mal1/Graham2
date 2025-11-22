@@ -54,7 +54,7 @@ class Match {
             if (this.getOtherPlayerBatt()[i].body.pv > 0) {
                 this.getOtherPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_OPPONENT_TURN) {
-                        this.pile.push({ effect: capa.effect, player: 1 - this.currentPlayerId, pos: i });
+                        this.pile.push({ effect: capa.effect, target: capa.target, playerId: 1 - this.currentPlayerId, pos: i });
                     }
                 });
             }
@@ -65,7 +65,7 @@ class Match {
             if (this.getCurrentPlayerBatt()[i].body.pv > 0) {
                 this.getCurrentPlayerBatt()[i].body.capacities.forEach((capa) => {
                     if (capa.trigger == TRIGGER_START_YOUR_TURN) {
-                        this.pile.push({ effect: capa.effect, player: this.currentPlayerId, pos: i });
+                        this.pile.push({ effect: capa.effect, target: capa.target, playerId: this.currentPlayerId, pos: i });
                     }
                 });
             }
@@ -199,25 +199,19 @@ class Match {
 
     depilage() {
         let tmpPlayerId;
+        let target;
         while (this.pile.length > 0) {
-            tmpPlayerId = this.pile.getTopElement().player;
-            this.display("Effect: " + this.pile.getTopElement().effect + ", Player: " + this.pile.getTopElement().player + ", Pos: " + this.pile.getTopElement().pos);
+            tmpPlayerId = this.pile.getTopElement().playerId;
+            this.display("Effect: " + this.pile.getTopElement().effect + ", Player: " + this.pile.getTopElement().playerId + ", Pos: " + this.pile.getTopElement().pos + ", Target: " + this.pile.getTopElement().target);
             switch (this.pile.getTopElement().effect) {
-                case EFFECT_ADD_FORCE_1_LEADER:
-                    this.getLeaderCard(tmpPlayerId).body.force++;
-
+                // new
+                case EFFECT_ADD_FORCE_1:
+                    this.getTargets(this.pile.getTopElement())[0].body.force++;
+                    // TODO => .forEach()
                     break;
-                case EFFECT_ADD_FORCE_1_CARD:
-                    this.getPlayerCard(tmpPlayerId, this.pile.getTopElement().pos).body.force++;
-
-                    break;
-                case EFFECT_ADD_PV_1_LEADER:
-                    this.getLeaderCard(tmpPlayerId).body.pv++;
-
-                    break;
-                case EFFECT_ADD_PV_1_CARD:
-                    this.getPlayerCard(tmpPlayerId, this.pile.getTopElement().pos).body.pv++;
-
+                case EFFECT_ADD_PV_1:
+                    this.getTargets(this.pile.getTopElement())[0].body.pv++;
+                    // TODO => .forEach()
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0)
@@ -231,8 +225,22 @@ class Match {
         }
     }
 
+    getTargets(_target){
+        switch(_target.target){
+            case TARGET_MY_LEADER:
+                return [this.getLeaderCard(_target.playerId)];
+                break;
+            case TARGET_MY_CARD:
+                return [this.getPlayerCard(_target.playerId, _target.pos)];
+                break;
+            default:
+                return [];
+                break;
+        }
+        return [];
+    }
+
     display(txt) {
-        //console.log(txt);
         document.getElementById("game").innerHTML += txt + "<br/>";
     }
 
