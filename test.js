@@ -47,7 +47,7 @@ function newTest2() {
     deck1.addCard(0, 4, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_ADD_FORCE_1, target: TARGET_MY_LEADER }]);
     let deck2 = new Deck();
     deck2.addCard(0, 6, [{ trigger: TRIGGER_START_OPPONENT_TURN, effect: EFFECT_ADD_FORCE_1, target: TARGET_MY_LEADER }]);
-    deck2.addCard(0, 8, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_CALL_SUPPORT }]);
+    deck2.addCard(0, 8, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_CALL_SUPPORT, target: TARGET_NONE }]);
     let match = new Match(deck1, deck2);
 
     console.log("Test 2");
@@ -86,7 +86,7 @@ function newTest3() {
     let deck2 = new Deck();
     deck2.addCard(0, 2, [{ trigger: TRIGGER_START_OPPONENT_TURN, effect: EFFECT_ADD_PV_1, target: TARGET_MY_CARD }]);
     deck2.addCard(0, 3, [{ trigger: TRIGGER_START_OPPONENT_TURN, effect: EFFECT_ADD_PV_1, target: TARGET_MY_CARD }]);
-    deck2.addCard(0, 5, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_CALL_SUPPORT }]);
+    deck2.addCard(0, 5, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_CALL_SUPPORT, target: TARGET_NONE }]);
     let match = new Match(deck1, deck2);
 
     console.log("Test 3");
