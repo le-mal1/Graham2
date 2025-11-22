@@ -16,6 +16,7 @@ if (TEST) {
     newTest2();
     newTest3();
     newTest4();
+    newTest5();
 }
 
 function createRandomCard() {

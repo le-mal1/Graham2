@@ -139,3 +139,31 @@ function newTest4() {
     }
 
 }
+
+function newTest5() {
+    let deck1 = new Deck();
+    deck1.addCard(0, 3, [{ trigger: TRIGGER_START_OPPONENT_TURN, effect: EFFECT_ADD_PV_1, target: TARGET_MY_CARDS }]);
+    deck1.addCard(0, 3, [{ trigger: TRIGGER_START_YOUR_TURN, effect: EFFECT_CALL_SUPPORT, target: TARGET_NONE }]);
+    let deck2 = new Deck();
+    deck2.addCard(2, 1);
+    let match = new Match(deck1, deck2);
+
+    console.log("Test 5");
+    match.play();
+
+    if (match.nbTurn == 6) {
+        console.log("OK");
+    } else {
+        console.log("ERROR");
+    }
+    if (
+        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
+        match.batt0[1].body.force == 0 && match.batt0[1].body.pv == -1 &&
+        match.batt1[0].body.force == 2 && match.batt1[0].body.pv == 1
+    ) {
+        console.log("OK");
+    } else {
+        console.log("ERROR");
+    }
+
+}

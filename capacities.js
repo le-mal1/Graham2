@@ -5,6 +5,7 @@ const EFFECT_ADD_FORCE_1 = "add force";
 const EFFECT_ADD_PV_1 = "add pv";
 const EFFECT_CALL_SUPPORT = "call support";
 
+const TARGET_NONE = "target none";
 const TARGET_MY_CARD = "target card";
 const TARGET_MY_LEADER = "target my leader";
 const TARGET_OPPONENT_LEADER = "target opponent leader";

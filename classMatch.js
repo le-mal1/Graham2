@@ -206,11 +206,13 @@ class Match {
             switch (this.pile.getTopElement().effect) {
                 // new
                 case EFFECT_ADD_FORCE_1:
-                    this.getTargets(this.pile.getTopElement())[0].body.force++;
+                    //this.getTargets(this.pile.getTopElement())[0].body.force++;
+                    this.getTargets(this.pile.getTopElement()).forEach((card) => card.body.force++);
                     // TODO => .forEach()
                     break;
                 case EFFECT_ADD_PV_1:
-                    this.getTargets(this.pile.getTopElement())[0].body.pv++;
+                    //this.getTargets(this.pile.getTopElement())[0].body.pv++;
+                    this.getTargets(this.pile.getTopElement()).forEach((card) => card.body.pv++);
                     // TODO => .forEach()
                     break;
                 case EFFECT_CALL_SUPPORT:
@@ -225,13 +227,24 @@ class Match {
         }
     }
 
-    getTargets(_target){
-        switch(_target.target){
+    getTargets(_target) {
+        let output = [];
+        switch (_target.target) {
             case TARGET_MY_LEADER:
                 return [this.getLeaderCard(_target.playerId)];
                 break;
             case TARGET_MY_CARD:
                 return [this.getPlayerCard(_target.playerId, _target.pos)];
+                break;
+            case TARGET_MY_CARDS:
+                this.getPlayerBatt(_target.playerId).forEach((card) => {
+                    if (card.body.pv > 0)
+                        output.push(card)
+                });
+                return output;
+                break;
+            case TARGET_NONE:
+                return [];
                 break;
             default:
                 return [];
