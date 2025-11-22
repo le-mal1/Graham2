@@ -4,13 +4,13 @@ const TEST = true;
 let deck1 = new Deck();
 let deck2 = new Deck();
 
-for (let i = 0; i < 5; i++) {
+/*for (let i = 0; i < 5; i++) {
     deck1.addCard(createRandomCard().force, createRandomCard().pv, createRandomCard().capacities);
     deck2.addCard(createRandomCard().force, createRandomCard().pv, createRandomCard().capacities);
 }
 
 let match = new Match(deck1, deck2);
-//match.play();
+match.play();*/
 if (TEST) {
     newTest1();
     newTest2();
