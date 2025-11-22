@@ -24,10 +24,12 @@ class Match {
     playNextTurn() {
 
         this.nbTurn++;
-        this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
+        //this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
+        this.displayTurn(this.nbTurn, this.currentPlayerId);
 
 
-        this.display("<br/>LEADERS PHASE");
+        //this.display("<br/>LEADERS PHASE");
+        this.displayPhaseName("LEADERS PHASE");
         // Update des Leaders
 
         this.updateLeader(this.currentPlayerId);
@@ -58,7 +60,8 @@ class Match {
         // DEPILAGE
         this.depilage();
 
-        this.display("<br/>COMBAT PHASE");
+        //this.display("<br/>COMBAT PHASE");
+        this.displayPhaseName("COMBAT PHASE");
         // Combats des leaders
         this.batt0[this.batt0PosLeader].body.pv -= this.batt1[this.batt1PosLeader].body.force;
         this.batt1[this.batt1PosLeader].body.pv -= this.batt0[this.batt0PosLeader].body.force;
@@ -119,40 +122,6 @@ class Match {
         return cardAlive;
     }
 
-    displayBattlefields() {
-        let displayBatt = "";
-
-        for (let f = 0; f < 2; f++) {
-
-            let tmpBatt = this["batt" + f];
-            let tmpBattPosLeader = this["batt" + f + "PosLeader"];
-
-            for (let i = 0; i < tmpBatt.length; i++) {
-                if (tmpBattPosLeader == i)
-                    displayBatt += "|[";
-                else
-                    displayBatt += "{";
-                displayBatt += tmpBatt[i].body.force + ", ";
-                displayBatt += tmpBatt[i].body.pv + ", ";
-                for (let j = 0; j < tmpBatt[i].body.capacities.length; j++) {
-                    displayBatt += "[";
-                    displayBatt += tmpBatt[i].body.capacities[j].trigger + ", ";
-                    displayBatt += tmpBatt[i].body.capacities[j].effect;
-                    displayBatt += "]";
-                }
-                if (tmpBattPosLeader == i)
-                    displayBatt += "]|";
-                else
-                    displayBatt += "} ";
-            }
-
-            displayBatt += "<br/>";
-        }
-
-
-        this.display(displayBatt);
-    }
-
     getCurrentPlayerBatt() {
         return this.getPlayerBatt(this.currentPlayerId);
     }
@@ -189,7 +158,7 @@ class Match {
         return output;
     }
 
-    getAllCards(){
+    getAllCards() {
         let output = [];
         this.getPlayerBatt(this.currentPlayerId).forEach((card) => {
             if (card.body.pv > 0)
@@ -211,18 +180,18 @@ class Match {
         return output;
     }
 
-    getPlayerEdgeRight(playerId){
-        for(let i = this.getPlayerBatt(playerId).length - 1; i >= 0; i++){
-            if(this.getPlayerBatt(playerId)[i].body.pv > 0){
+    getPlayerEdgeRight(playerId) {
+        for (let i = this.getPlayerBatt(playerId).length - 1; i >= 0; i++) {
+            if (this.getPlayerBatt(playerId)[i].body.pv > 0) {
                 return this.getPlayerBatt(playerId)[i];
             }
         }
         return [];
     }
 
-    getPlayerEdgeLeft(playerId){
-        for(let i = 0; i < this.getPlayerBatt(playerId).length; i++){
-            if(this.getPlayerBatt(playerId)[i].body.pv > 0){
+    getPlayerEdgeLeft(playerId) {
+        for (let i = 0; i < this.getPlayerBatt(playerId).length; i++) {
+            if (this.getPlayerBatt(playerId)[i].body.pv > 0) {
                 return this.getPlayerBatt(playerId)[i];
             }
         }
@@ -338,6 +307,74 @@ class Match {
 
     display(txt) {
         document.getElementById("game").innerHTML += txt + "<br/>";
+    }
+
+    displayTurn(nbTurn, playerId) {
+        //this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
+        this.display("<h2>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId + "</h2>");
+
+    }
+
+    displayPhaseName(phaseName) {
+        this.display("<h3>" + phaseName + "</h3>");
+
+    }
+
+    displayBattlefields() {
+        /*let displayBatt = "";
+
+        for (let f = 0; f < 2; f++) {
+
+            let tmpBatt = this["batt" + f];
+            let tmpBattPosLeader = this["batt" + f + "PosLeader"];
+
+            for (let i = 0; i < tmpBatt.length; i++) {
+                if (tmpBattPosLeader == i)
+                    displayBatt += "|[";
+                else
+                    displayBatt += "{";
+                displayBatt += tmpBatt[i].body.force + ", ";
+                displayBatt += tmpBatt[i].body.pv + ", ";
+                for (let j = 0; j < tmpBatt[i].body.capacities.length; j++) {
+                    displayBatt += "[";
+                    displayBatt += tmpBatt[i].body.capacities[j].trigger + ", ";
+                    displayBatt += tmpBatt[i].body.capacities[j].effect;
+                    displayBatt += "]";
+                }
+                if (tmpBattPosLeader == i)
+                    displayBatt += "]|";
+                else
+                    displayBatt += "} ";
+            }
+
+            displayBatt += "<br/>";
+        }
+
+
+        this.display(displayBatt);*/
+
+        let displayBatt = "";
+        let tmpBatt;
+        let tmpBattPosLeader;
+        let tmpCard;
+
+        for (let f = 0; f < 2; f++) {
+
+            tmpBatt = this["batt" + f];
+            tmpBattPosLeader = this["batt" + f + "PosLeader"];
+
+            displayBatt += "<div class='battlefield'>";
+            for (let i = 0; i < tmpBatt.length; i++) {
+                tmpCard = this.getPlayerCard(f, i);
+                displayBatt += "<div class='card'>";
+                displayBatt += "<div class='card-force'>Force: " + tmpCard.body.force + "</div>";
+                displayBatt += "<div class='card-pv'>PV: " + tmpCard.body.pv + "</div>";
+                displayBatt += "</div>";
+            }
+            displayBatt += "</div>";
+        }
+
+        this.display(displayBatt);
     }
 
 }

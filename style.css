@@ -2,3 +2,27 @@ body {
   font-size: 20px;
   margin-left: 30px;
 }
+
+.battlefield {
+  display: flex;
+  background-color: black;
+  padding: 3px;
+  margin: 5px;
+}
+
+.card {
+  background-color: grey;
+  width: 200px;
+  height: 250px;
+  margin: 5px;
+}
+
+.card-force {
+  margin: 5px;
+  font-size: 40px;
+}
+
+.card-pv {
+  margin: 5px;
+  font-size: 40px;
+}
