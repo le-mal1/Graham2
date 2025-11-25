@@ -8,6 +8,7 @@ body {
   background-color: black;
   padding: 3px;
   margin: 5px;
+  border-radius: 5px;
 }
 
 .card {
@@ -15,14 +16,25 @@ body {
   width: 200px;
   height: 250px;
   margin: 5px;
+  border-radius: 5px;
+}
+
+.dead {
+  background-color: black;
+  color: white;
 }
 
 .card-force {
   margin: 5px;
-  font-size: 40px;
+  font-size: 25px;
 }
 
 .card-pv {
   margin: 5px;
-  font-size: 40px;
+  font-size: 25px;
+}
+
+.card-capacity {
+  margin: 7px;
+  font-size: 20px;
 }

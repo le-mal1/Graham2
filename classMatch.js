@@ -357,6 +357,7 @@ class Match {
         let tmpBatt;
         let tmpBattPosLeader;
         let tmpCard;
+        let cardClass;
 
         for (let f = 0; f < 2; f++) {
 
@@ -365,10 +366,19 @@ class Match {
 
             displayBatt += "<div class='battlefield'>";
             for (let i = 0; i < tmpBatt.length; i++) {
+                cardClass = "card";
+                if(tmpBatt[i].body.pv <= 0)
+                    cardClass += " dead";
                 tmpCard = this.getPlayerCard(f, i);
-                displayBatt += "<div class='card'>";
+                displayBatt += "<div class='" + cardClass + "'>";
                 displayBatt += "<div class='card-force'>Force: " + tmpCard.body.force + "</div>";
                 displayBatt += "<div class='card-pv'>PV: " + tmpCard.body.pv + "</div>";
+                tmpCard.body.capacities.forEach((capa) => {
+                    displayBatt += "<div class='card-capacity'>Capacity:<br/>-" + 
+                    capa.trigger + "<br/>-" + 
+                    capa.effect + "<br/>-" + 
+                    capa.target + "</div>"
+                });
                 displayBatt += "</div>";
             }
             displayBatt += "</div>";
