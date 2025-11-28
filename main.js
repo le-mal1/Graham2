@@ -19,6 +19,7 @@ if (TEST) {
     newTest15();
     newTest16();
     newTest17();
+    newTest18();
 } else {
     let deck1 = createRandomDeck();
     let deck2 = createRandomDeck();

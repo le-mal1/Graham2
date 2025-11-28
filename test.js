@@ -447,3 +447,24 @@ function newTest17() {
         console.log("ERROR");
     }
 }
+
+function newTest18() {
+    console.log("Test 18 - ENTER MY CARD");
+    let deck1 = new Deck();
+    deck1.addCard(0, 1, [new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_ADD_FORCE_1, TARGET_MY_CARD)]);
+    deck1.addCard(0, 1, [new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    let deck2 = new Deck();
+    deck2.addCard(1, 1);
+    let match = new Match(deck1, deck2);
+
+    match.play();
+    if (
+        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
+        match.batt0[1].body.force == 1 && match.batt0[1].body.pv == 0 &&
+        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 0
+    ) {
+        console.log("OK");
+    } else {
+        console.log("ERROR");
+    }
+}
