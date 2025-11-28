@@ -220,16 +220,19 @@ class Match {
     depilage() {
         let tmpPlayerId;
         let target;
+        let tmpTopCapacity;
         while (this.pile.length > 0) {
-            tmpPlayerId = this.pile.getTopElement().playerId;
-            this.display("Effect: " + this.pile.getTopElement().effect + ", Player: " + this.pile.getTopElement().playerId + ", Pos: " + this.pile.getTopElement().pos + ", Target: " + this.pile.getTopElement().target);
-            switch (this.pile.getTopElement().effect) {
+            tmpTopCapacity = this.pile.getTopElement();
+            this.pile.pop();
+            tmpPlayerId = tmpTopCapacity.playerId;
+            this.display("Effect: " + tmpTopCapacity.effect + ", Player: " + tmpPlayerId + ", Pos: " + tmpTopCapacity.pos + ", Target: " + tmpTopCapacity.target);
+            switch (tmpTopCapacity.effect) {
                 // new
                 case EFFECT_ADD_FORCE_1:
-                    this.getTargets(this.pile.getTopElement()).forEach((card) => card.body.force++);
+                    this.getTargets(tmpTopCapacity).forEach((card) => card.body.force++);
                     break;
                 case EFFECT_ADD_PV_1:
-                    this.getTargets(this.pile.getTopElement()).forEach((card) => card.body.pv++);
+                    this.getTargets(tmpTopCapacity).forEach((card) => card.body.pv++);
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0)
@@ -239,7 +242,6 @@ class Match {
                 default:
                     break;
             }
-            this.pile.pop();
         }
     }
 
