@@ -40,7 +40,30 @@ class DeckEditor {
     }
 
     updateDisplayCardEditor(deck, cardPos) {
-        this.display(displayOutputCard(deck.cards[cardPos]), "card-editor", true);
+        let tmpCard = deck.cards[cardPos];
+        let output = "";
+        output += "<div>Force: <select>";
+        for(let i = 0; i < 10; i++){
+            if(tmpCard.force == i){
+                output += "<option '" + i + "' selected='selected'>";
+            } else {
+                output += "<option>";
+            }
+            output += i + "</option>";
+        }
+        output += "</select></div>";
+        output += "<div>Pv: <select>";
+        for(let i = 0; i < 10; i++){
+            if(tmpCard.pv == i){
+                output += "<option '" + i + "' selected='selected'>";
+            } else {
+                output += "<option>";
+            }
+            output += i + "</option>";
+        }
+        output += "</select></div>";
+        //output += "<div>PV: <select><option>" + tmpCard.pv + "<option></select></div>";
+        this.display(output, "card-editor", true);
     }
 
     display(txt, id, isReplacing = false) {
