@@ -63,14 +63,14 @@ class Match {
         //this.display("<br/>COMBAT PHASE");
         this.displayPhaseName("COMBAT PHASE");
         // Combats des leaders
-        this.batt0[this.batt0PosLeader].body.pv -= this.batt1[this.batt1PosLeader].body.force;
-        this.batt1[this.batt1PosLeader].body.pv -= this.batt0[this.batt0PosLeader].body.force;
+        this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
+        this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
 
-        if (this.batt0[this.batt0PosLeader].body.pv <= 0) {
+        if (this.batt0[this.batt0PosLeader].pv <= 0) {
             this.batt0PosLeader = null;
         }
 
-        if (this.batt1[this.batt1PosLeader].body.pv <= 0) {
+        if (this.batt1[this.batt1PosLeader].pv <= 0) {
             this.batt1PosLeader = null;
         }
 
@@ -98,7 +98,7 @@ class Match {
                     let tmpDrawnCard = tmpDeck.drawCard();
                     tmpBatt.push(tmpDrawnCard);
                     tmpBattPosLeader = tmpBatt.length - 1;
-                    tmpDrawnCard.body.capacities.forEach((capa) => {
+                    tmpDrawnCard.capacities.forEach((capa) => {
                         if (capa.trigger == TRIGGER_ENTER_MY_CARD) {
                             this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: tmpBattPosLeader });
                         }
@@ -106,7 +106,7 @@ class Match {
                 }
             } else {
                 for (let i = 0; i < tmpBatt.length; i++) {
-                    if (tmpBatt[i].body.pv > 0) {
+                    if (tmpBatt[i].pv > 0) {
                         tmpBattPosLeader = i;
                         break;
                     }
@@ -120,7 +120,7 @@ class Match {
     haveCardAlive(batt) {
         let cardAlive = false;
         for (let i = 0; i < batt.length; i++) {
-            if (batt[i].body.pv > 0) {
+            if (batt[i].pv > 0) {
                 cardAlive = true;
                 break;
             }
@@ -158,7 +158,7 @@ class Match {
     getPlayerCards(playerId) {
         let output = [];
         this.getPlayerBatt(playerId).forEach((card) => {
-            if (card.body.pv > 0)
+            if (card.pv > 0)
                 output.push(card)
         });
         return output;
@@ -167,11 +167,11 @@ class Match {
     getAllCards() {
         let output = [];
         this.getPlayerBatt(this.currentPlayerId).forEach((card) => {
-            if (card.body.pv > 0)
+            if (card.pv > 0)
                 output.push(card)
         });
         this.getPlayerBatt(1 - this.currentPlayerId).forEach((card) => {
-            if (card.body.pv > 0)
+            if (card.pv > 0)
                 output.push(card)
         });
         return output;
@@ -188,7 +188,7 @@ class Match {
 
     getPlayerEdgeRight(playerId) {
         for (let i = this.getPlayerBatt(playerId).length - 1; i >= 0; i++) {
-            if (this.getPlayerBatt(playerId)[i].body.pv > 0) {
+            if (this.getPlayerBatt(playerId)[i].pv > 0) {
                 return this.getPlayerBatt(playerId)[i];
             }
         }
@@ -197,7 +197,7 @@ class Match {
 
     getPlayerEdgeLeft(playerId) {
         for (let i = 0; i < this.getPlayerBatt(playerId).length; i++) {
-            if (this.getPlayerBatt(playerId)[i].body.pv > 0) {
+            if (this.getPlayerBatt(playerId)[i].pv > 0) {
                 return this.getPlayerBatt(playerId)[i];
             }
         }
@@ -220,15 +220,15 @@ class Match {
 
     pushToPileCapacitiesFromCard(trigger, playerId, pos) {
         let card = this.getPlayerCard(playerId, pos);
-        if (card.body.pv > 0) {
-            card.body.capacities.forEach((capa) => {
+        if (card.pv > 0) {
+            card.capacities.forEach((capa) => {
                 if (capa.trigger == trigger) {
                     this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: pos });
                 }
             });
             /*let capa;
-            for(let j = this.getPlayerBatt(playerId)[i].body.capacities.length - 1; j >= 0; j--){
-                capa = this.getPlayerBatt(playerId)[i].body.capacities[j];
+            for(let j = this.getPlayerBatt(playerId)[i].capacities.length - 1; j >= 0; j--){
+                capa = this.getPlayerBatt(playerId)[i].capacities[j];
                 if (capa.trigger == trigger) {
                     this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: i });
                 }
@@ -247,10 +247,10 @@ class Match {
             this.display("Effect: " + tmpTopCapacity.effect + ", Player: " + tmpPlayerId + ", Pos: " + tmpTopCapacity.pos + ", Target: " + tmpTopCapacity.target);
             switch (tmpTopCapacity.effect) {
                 case EFFECT_ADD_FORCE_1:
-                    this.getTargets(tmpTopCapacity).forEach((card) => card.body.force++);
+                    this.getTargets(tmpTopCapacity).forEach((card) => card.force++);
                     break;
                 case EFFECT_ADD_PV_1:
-                    this.getTargets(tmpTopCapacity).forEach((card) => card.body.pv++);
+                    this.getTargets(tmpTopCapacity).forEach((card) => card.pv++);
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
@@ -323,7 +323,7 @@ class Match {
                 break;
         }
 
-        output = output.filter(e => e.body.pv > 0);
+        output = output.filter(e => e.pv > 0);
         return output;
     }
 
@@ -355,12 +355,12 @@ class Match {
                     displayBatt += "|[";
                 else
                     displayBatt += "{";
-                displayBatt += tmpBatt[i].body.force + ", ";
-                displayBatt += tmpBatt[i].body.pv + ", ";
-                for (let j = 0; j < tmpBatt[i].body.capacities.length; j++) {
+                displayBatt += tmpBatt[i].force + ", ";
+                displayBatt += tmpBatt[i].pv + ", ";
+                for (let j = 0; j < tmpBatt[i].capacities.length; j++) {
                     displayBatt += "[";
-                    displayBatt += tmpBatt[i].body.capacities[j].trigger + ", ";
-                    displayBatt += tmpBatt[i].body.capacities[j].effect;
+                    displayBatt += tmpBatt[i].capacities[j].trigger + ", ";
+                    displayBatt += tmpBatt[i].capacities[j].effect;
                     displayBatt += "]";
                 }
                 if (tmpBattPosLeader == i)
@@ -401,12 +401,12 @@ class Match {
     displayOutputCard(card) {
         let output = "";
         let cardClass = "card";
-        if (card.body.pv <= 0)
+        if (card.pv <= 0)
             cardClass += " dead";
         output += "<div class='" + cardClass + "'>";
-        output += "<div class='card-force'>Force: " + card.body.force + "</div>";
-        output += "<div class='card-pv'>PV: " + card.body.pv + "</div>";
-        card.body.capacities.forEach((capa) => {
+        output += "<div class='card-force'>Force: " + card.force + "</div>";
+        output += "<div class='card-pv'>PV: " + card.pv + "</div>";
+        card.capacities.forEach((capa) => {
             output += "<div class='card-capacity'>Capacity:<br/>-" +
                 capa.trigger + "<br/>-" +
                 capa.effect + "<br/>-" +

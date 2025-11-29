@@ -26,9 +26,9 @@ function newTest1() {
         console.log("ERROR");
     }
     if (
-        match.batt0[0].body.force == 5 && match.batt0[0].body.pv == -1 &&
-        match.batt1[0].body.force == 0 && match.batt1[0].body.pv == 0 &&
-        match.batt1[1].body.force == 3 && match.batt1[1].body.pv == -4
+        match.batt0[0].force == 5 && match.batt0[0].pv == -1 &&
+        match.batt1[0].force == 0 && match.batt1[0].pv == 0 &&
+        match.batt1[1].force == 3 && match.batt1[1].pv == -4
     ) {
         console.log("OK");
     } else {
@@ -64,10 +64,10 @@ function newTest2() {
         console.log("ERROR");
     }
     if (
-        match.batt0[0].body.force == 3 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 4 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 2 && match.batt1[0].body.pv == -1 &&
-        match.batt1[1].body.force == 1 && match.batt1[1].body.pv == -2
+        match.batt0[0].force == 3 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 4 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 2 && match.batt1[0].pv == -1 &&
+        match.batt1[1].force == 1 && match.batt1[1].pv == -2
     ) {
         console.log("OK");
     } else {
@@ -103,10 +103,10 @@ function newTest3() {
         console.log("ERROR");
     }
     if (
-        match.batt0[0].body.force == 4 && match.batt0[0].body.pv == 4 &&
-        match.batt1[0].body.force == 0 && match.batt1[0].body.pv == -1 &&
-        match.batt1[1].body.force == 0 && match.batt1[1].body.pv == -1 &&
-        match.batt1[2].body.force == 0 && match.batt1[2].body.pv == 0
+        match.batt0[0].force == 4 && match.batt0[0].pv == 4 &&
+        match.batt1[0].force == 0 && match.batt1[0].pv == -1 &&
+        match.batt1[1].force == 0 && match.batt1[1].pv == -1 &&
+        match.batt1[2].force == 0 && match.batt1[2].pv == 0
     ) {
         console.log("OK");
     } else {
@@ -130,8 +130,8 @@ function newTest4() {
     match.play();
 
     if (
-        match.batt0[0].body.force == 1 && match.batt0[0].body.pv == 3 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 0
+        match.batt0[0].force == 1 && match.batt0[0].pv == 3 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == 0
     ) {
         console.log("OK");
     } else {
@@ -157,9 +157,9 @@ function newTest5() {
         console.log("ERROR");
     }
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 0 && match.batt0[1].body.pv == -1 &&
-        match.batt1[0].body.force == 2 && match.batt1[0].body.pv == 1
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 0 && match.batt0[1].pv == -1 &&
+        match.batt1[0].force == 2 && match.batt1[0].pv == 1
     ) {
         console.log("OK");
     } else {
@@ -180,8 +180,8 @@ function newTest6() {
     console.log("Test 6 - TARGET_OPPONENT_LEADER");
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == -1 &&
-        match.batt1[0].body.force == 2 && match.batt1[0].body.pv == 2
+        match.batt0[0].force == 0 && match.batt0[0].pv == -1 &&
+        match.batt1[0].force == 2 && match.batt1[0].pv == 2
     ) {
         console.log("OK");
     } else {
@@ -204,9 +204,9 @@ function newTest7() {
     console.log("Test 7 - TARGET_MY_LEADER_NEIGHBOORS");
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 3 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 3 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -226,9 +226,9 @@ function newTest8() {
     console.log("Test 8 - TARGET_OPPONENT_LEADER_NEIGHBOORS");
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 3 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 3 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -251,9 +251,9 @@ function newTest9() {
     console.log("Test 9 - TARGET_MY_CARD_NEIGHBOORS");
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 3 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 3 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -276,9 +276,9 @@ function newTest10() {
     console.log("Test 10 - TARGET_MY_EDGE_RIGHT");
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 3 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 3 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -297,8 +297,8 @@ function newTest11() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 1 && match.batt0[0].body.pv == 0 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 1
+        match.batt0[0].force == 1 && match.batt0[0].pv == 0 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == 1
     ) {
         console.log("OK");
     } else {
@@ -318,9 +318,9 @@ function newTest12() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 3 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 3 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -339,8 +339,8 @@ function newTest13() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 1 && match.batt0[0].body.pv == 0 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 1
+        match.batt0[0].force == 1 && match.batt0[0].pv == 0 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == 1
     ) {
         console.log("OK");
     } else {
@@ -360,9 +360,9 @@ function newTest14() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 1 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 2 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 1 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 2 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -382,9 +382,9 @@ function newTest15() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 1 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 2 && match.batt0[1].body.pv == 1 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == -1
+        match.batt0[0].force == 1 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 2 && match.batt0[1].pv == 1 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == -1
     ) {
         console.log("OK");
     } else {
@@ -409,10 +409,10 @@ function newTest16() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 3 &&
-        match.batt1[1].body.force == 2 && match.batt1[1].body.pv == 2 &&
-        match.batt1[2].body.force == 2 && match.batt1[2].body.pv == 2
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == 3 &&
+        match.batt1[1].force == 2 && match.batt1[1].pv == 2 &&
+        match.batt1[2].force == 2 && match.batt1[2].pv == 2
     ) {
         console.log("OK");
     } else {
@@ -437,10 +437,10 @@ function newTest17() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 1 && match.batt0[0].body.pv == 0 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 2 &&
-        match.batt1[1].body.force == 2 && match.batt1[1].body.pv == 2 &&
-        match.batt1[2].body.force == 2 && match.batt1[2].body.pv == 2
+        match.batt0[0].force == 1 && match.batt0[0].pv == 0 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == 2 &&
+        match.batt1[1].force == 2 && match.batt1[1].pv == 2 &&
+        match.batt1[2].force == 2 && match.batt1[2].pv == 2
     ) {
         console.log("OK");
     } else {
@@ -459,9 +459,9 @@ function newTest18() {
 
     match.play();
     if (
-        match.batt0[0].body.force == 0 && match.batt0[0].body.pv == 0 &&
-        match.batt0[1].body.force == 1 && match.batt0[1].body.pv == 0 &&
-        match.batt1[0].body.force == 1 && match.batt1[0].body.pv == 0
+        match.batt0[0].force == 0 && match.batt0[0].pv == 0 &&
+        match.batt0[1].force == 1 && match.batt0[1].pv == 0 &&
+        match.batt1[0].force == 1 && match.batt1[0].pv == 0
     ) {
         console.log("OK");
     } else {
