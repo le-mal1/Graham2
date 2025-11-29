@@ -389,30 +389,13 @@ class Match {
             displayBatt += "<div class='battlefield'>";
             for (let i = 0; i < tmpBatt.length; i++) {
                 tmpCard = this.getPlayerCard(f, i);
-                displayBatt += this.displayOutputCard(tmpCard);
+                displayBatt += displayOutputCard(tmpCard);
                 displayBatt += "</div>";
             }
             displayBatt += "</div>";
         }
 
         this.display(displayBatt);
-    }
-
-    displayOutputCard(card) {
-        let output = "";
-        let cardClass = "card";
-        if (card.pv <= 0)
-            cardClass += " dead";
-        output += "<div class='" + cardClass + "'>";
-        output += "<div class='card-force'>Force: " + card.force + "</div>";
-        output += "<div class='card-pv'>PV: " + card.pv + "</div>";
-        card.capacities.forEach((capa) => {
-            output += "<div class='card-capacity'>Capacity:<br/>-" +
-                capa.trigger + "<br/>-" +
-                capa.effect + "<br/>-" +
-                capa.target + "</div>"
-        });
-        return output;
     }
 
 }
