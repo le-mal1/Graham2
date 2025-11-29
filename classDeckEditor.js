@@ -1,7 +1,7 @@
 class DeckEditor {
     constructor() {
         this.deck1 = new Deck();
-        this.deck2 = new Deck();
+        this.selectedCard = 0;
 
         this.init();
     }
@@ -32,8 +32,15 @@ class DeckEditor {
         ]);
     }
 
+    updateCard() {
+        this.deck1.cards[this.selectedCard].force = document.getElementById("card-force-selector").selectedIndex;
+        this.deck1.cards[this.selectedCard].pv = document.getElementById("card-pv-selector").selectedIndex;
+        this.displayDeck();
+    }
+
 
     displayDeck() {
+        this.eraseDisplayDeck();
         this.deck1.cards.forEach((card) => {
             this.display(displayOutputCard(card), "cards-list");
         });
@@ -42,28 +49,72 @@ class DeckEditor {
     updateDisplayCardEditor(deck, cardPos) {
         let tmpCard = deck.cards[cardPos];
         let output = "";
-        output += "<div>Force: <select>";
-        for(let i = 0; i < 10; i++){
-            if(tmpCard.force == i){
-                output += "<option '" + i + "' selected='selected'>";
+        output += "<div>Force: <select id='card-force-selector'>";
+        for (let i = 0; i < 10; i++) {
+            if (tmpCard.force == i) {
+                output += "<option value='" + i + "' selected='selected'>";
             } else {
                 output += "<option>";
             }
-            output += i + "</option>";
+            output += i;
+            output += "</option>";
         }
         output += "</select></div>";
-        output += "<div>Pv: <select>";
-        for(let i = 0; i < 10; i++){
-            if(tmpCard.pv == i){
-                output += "<option '" + i + "' selected='selected'>";
+        output += "<div>Pv: <select id='card-pv-selector'>";
+        for (let i = 0; i < 10; i++) {
+            if (tmpCard.pv == i) {
+                output += "<option value='" + i + "' selected='selected'>";
             } else {
                 output += "<option>";
             }
-            output += i + "</option>";
+            output += i;
+            output += "</option>";
         }
         output += "</select></div>";
-        //output += "<div>PV: <select><option>" + tmpCard.pv + "<option></select></div>";
+        tmpCard.capacities.forEach((capa) => {
+            output += "<div>Capacity:</div>";
+
+            output += "<div>Trigger: <select id='card-trigger-selector'>";
+            for (let i = 0; i < TRIGGERS_ARRAY.length; i++) {
+                if (capa.trigger == TRIGGERS_ARRAY[i]) {
+                    output += "<option value='" + TRIGGERS_ARRAY[i] + "' selected='selected'>";
+                } else {
+                    output += "<option>";
+                }
+                output += TRIGGERS_ARRAY[i];
+                output += "</option>";
+            }
+            output += "</select></div>";
+
+            output += "<div>Effect: <select id='card-effect-selector'>";
+            for (let i = 0; i < EFFECTS_ARRAY.length; i++) {
+                if (capa.effect == EFFECTS_ARRAY[i]) {
+                    output += "<option value='" + EFFECTS_ARRAY[i] + "' selected='selected'>";
+                } else {
+                    output += "<option>";
+                }
+                output += EFFECTS_ARRAY[i];
+                output += "</option>";
+            }
+            output += "</select></div>";
+
+            output += "<div>Target: <select id='card-target-selector'>";
+            for (let i = 0; i <TARGETS_ARRAY.length; i++) {
+                if (capa.target == TARGETS_ARRAY[i]) {
+                    output += "<option value='" + TARGETS_ARRAY[i] + "' selected='selected'>";
+                } else {
+                    output += "<option>";
+                }
+                output += TARGETS_ARRAY[i];
+                output += "</option>";
+            }
+            output += "</select></div>";
+        });
         this.display(output, "card-editor", true);
+    }
+
+    eraseDisplayDeck() {
+        this.display("", "cards-list", true);
     }
 
     display(txt, id, isReplacing = false) {
