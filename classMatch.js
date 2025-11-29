@@ -204,11 +204,11 @@ class Match {
         return [];
     }
 
-    getBattLastCard(playerId){
+    getBattLastCard(playerId) {
         return this.getPlayerBatt(playerId)[this.getBattLastCardPos(playerId)];
     }
 
-    getBattLastCardPos(playerId){
+    getBattLastCardPos(playerId) {
         return this.getPlayerBatt(playerId).length - 1;
     }
 
@@ -253,7 +253,7 @@ class Match {
                     this.getTargets(tmpTopCapacity).forEach((card) => card.body.pv++);
                     break;
                 case EFFECT_CALL_SUPPORT:
-                    if (this.getPlayerDeck(tmpPlayerId).cards.length > 0){     
+                    if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
                         this.getPlayerBatt(tmpPlayerId).push(this.getPlayerDeck(tmpPlayerId).drawCard());
                         this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, tmpPlayerId, this.getPlayerBatt(tmpPlayerId).length - 1);
                     }
@@ -388,25 +388,31 @@ class Match {
 
             displayBatt += "<div class='battlefield'>";
             for (let i = 0; i < tmpBatt.length; i++) {
-                cardClass = "card";
-                if (tmpBatt[i].body.pv <= 0)
-                    cardClass += " dead";
                 tmpCard = this.getPlayerCard(f, i);
-                displayBatt += "<div class='" + cardClass + "'>";
-                displayBatt += "<div class='card-force'>Force: " + tmpCard.body.force + "</div>";
-                displayBatt += "<div class='card-pv'>PV: " + tmpCard.body.pv + "</div>";
-                tmpCard.body.capacities.forEach((capa) => {
-                    displayBatt += "<div class='card-capacity'>Capacity:<br/>-" +
-                        capa.trigger + "<br/>-" +
-                        capa.effect + "<br/>-" +
-                        capa.target + "</div>"
-                });
+                displayBatt += this.displayOutputCard(tmpCard);
                 displayBatt += "</div>";
             }
             displayBatt += "</div>";
         }
 
         this.display(displayBatt);
+    }
+
+    displayOutputCard(card) {
+        let output = "";
+        let cardClass = "card";
+        if (card.body.pv <= 0)
+            cardClass += " dead";
+        output += "<div class='" + cardClass + "'>";
+        output += "<div class='card-force'>Force: " + card.body.force + "</div>";
+        output += "<div class='card-pv'>PV: " + card.body.pv + "</div>";
+        card.body.capacities.forEach((capa) => {
+            output += "<div class='card-capacity'>Capacity:<br/>-" +
+                capa.trigger + "<br/>-" +
+                capa.effect + "<br/>-" +
+                capa.target + "</div>"
+        });
+        return output;
     }
 
 }
