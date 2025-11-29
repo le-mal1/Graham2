@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="deck-editor">
+        <div id="cards-list"></div>
+        <div id="card-editor"></div>
+        <select id="cards-selector" onchange="deckEditor.updateDisplayCardEditor(deckEditor.deck1, this.selectedIndex)">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+
+    <script src="tools.js"></script>
+    <script src="classCapacity.js"></script>
+    <script src="capacities.js"></script>
+    <script src="classCard.js"></script>
+    <script src="classDeck.js"></script>
+    <script src="classDeckEditor.js"></script>
+    <script src="mainDeckEditor.js"></script>
+</body>
+
+</html>
