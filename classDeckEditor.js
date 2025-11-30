@@ -33,8 +33,14 @@ class DeckEditor {
     }
 
     updateCard() {
-        this.deck1.cards[this.selectedCard].force = document.getElementById("card-force-selector").selectedIndex;
-        this.deck1.cards[this.selectedCard].pv = document.getElementById("card-pv-selector").selectedIndex;
+        let tmpCard = this.deck1.cards[this.selectedCard];
+        tmpCard.force = document.getElementById("card-force-selector").selectedIndex;
+        tmpCard.pv = document.getElementById("card-pv-selector").selectedIndex;
+        for (let capaId = 0; capaId < tmpCard.capacities.length; capaId++) {
+            tmpCard.capacities[capaId].trigger = TRIGGERS_ARRAY[document.getElementById("card-trigger-selector-" + capaId).selectedIndex];
+            tmpCard.capacities[capaId].effect = EFFECTS_ARRAY[document.getElementById("card-effect-selector-" + capaId).selectedIndex];
+            tmpCard.capacities[capaId].target = TARGETS_ARRAY[document.getElementById("card-target-selector-" + capaId).selectedIndex];
+        }
         this.displayDeck();
     }
 
@@ -71,10 +77,10 @@ class DeckEditor {
             output += "</option>";
         }
         output += "</select></div>";
-        tmpCard.capacities.forEach((capa) => {
+        tmpCard.capacities.forEach((capa, index) => {
             output += "<div>Capacity:</div>";
 
-            output += "<div>Trigger: <select id='card-trigger-selector'>";
+            output += "<div>Trigger: <select id='card-trigger-selector-" + index + "'>";
             for (let i = 0; i < TRIGGERS_ARRAY.length; i++) {
                 if (capa.trigger == TRIGGERS_ARRAY[i]) {
                     output += "<option value='" + TRIGGERS_ARRAY[i] + "' selected='selected'>";
@@ -86,7 +92,7 @@ class DeckEditor {
             }
             output += "</select></div>";
 
-            output += "<div>Effect: <select id='card-effect-selector'>";
+            output += "<div>Effect: <select id='card-effect-selector-" + index + "'>";
             for (let i = 0; i < EFFECTS_ARRAY.length; i++) {
                 if (capa.effect == EFFECTS_ARRAY[i]) {
                     output += "<option value='" + EFFECTS_ARRAY[i] + "' selected='selected'>";
@@ -98,8 +104,8 @@ class DeckEditor {
             }
             output += "</select></div>";
 
-            output += "<div>Target: <select id='card-target-selector'>";
-            for (let i = 0; i <TARGETS_ARRAY.length; i++) {
+            output += "<div>Target: <select id='card-target-selector-" + index + "'>";
+            for (let i = 0; i < TARGETS_ARRAY.length; i++) {
                 if (capa.target == TARGETS_ARRAY[i]) {
                     output += "<option value='" + TARGETS_ARRAY[i] + "' selected='selected'>";
                 } else {
