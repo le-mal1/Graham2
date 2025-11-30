@@ -9,7 +9,7 @@
     <div id="deck-editor">
         <div id="cards-list"></div>
         <div id="card-editor"></div>
-        <select id="cards-selector" onchange="deckEditor.selectedCardPos = this.selectedIndex;">
+        <select id="cards-selector" onchange="deckEditor.selectedCardPos = this.selectedIndex; deckEditor.displayDeck()">
             <!--option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>

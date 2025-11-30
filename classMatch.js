@@ -383,15 +383,16 @@ class Match {
         let tmpCard;
         let cardClass;
 
-        for (let f = 0; f < 2; f++) {
+        for (let playerId = 0; playerId < 2; playerId++) {
 
-            tmpBatt = this["batt" + f];
-            tmpBattPosLeader = this["batt" + f + "PosLeader"];
+            tmpBatt = this["batt" + playerId];
+            tmpBattPosLeader = this["batt" + playerId + "PosLeader"];
 
             displayBatt += "<div class='battlefield'>";
-            for (let i = 0; i < tmpBatt.length; i++) {
-                tmpCard = this.getPlayerCard(f, i);
-                displayBatt += displayOutputCard(tmpCard);
+            for (let cardPos = 0; cardPos < tmpBatt.length; cardPos++) {
+                tmpCard = this.getPlayerCard(playerId, cardPos);
+                let isLeaderCard = (cardPos == this.getLeaderPosBatt(playerId)) ? true : false;
+                displayBatt += displayOutputCard(tmpCard, false, isLeaderCard);
                 displayBatt += "</div>";
             }
             displayBatt += "</div>";

@@ -74,8 +74,9 @@ class DeckEditor {
 
     displayDeck() {
         this.eraseDisplayDeck();
-        this.deck1.cards.forEach((card) => {
-            this.display(displayOutputCard(card), "cards-list");
+        this.deck1.cards.forEach((card, cardPos) => {
+            let isSelectedCard = (cardPos == this.selectedCardPos)?true:false;                
+            this.display(displayOutputCard(card, isSelectedCard), "cards-list");
         });
 
         this.updateDisplayCardEditor(this.deck1, this.selectedCardPos)

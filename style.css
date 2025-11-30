@@ -22,9 +22,19 @@ body {
   border-color: rgb(68, 68, 68);
 }
 
-.dead {
+.dead-card {
   background-color: black;
   color: white;
+}
+
+.selected-card {
+  background-color: rgb(189, 16, 16);
+  color: white;
+}
+
+.leader-card {
+  background-color: rgb(187, 255, 0);
+  color: rgb(173, 0, 0);
 }
 
 .card-force {
