@@ -32,6 +32,7 @@ class Deck {
             tmpCard = new Card();
             tmpCard.force = card.force;
             tmpCard.pv = card.pv;
+            tmpCard.capacities = card.capacities;
             this.cards.push(tmpCard);
         });
 
