@@ -73,11 +73,24 @@ class DeckEditor {
         this.displayDeck();
     }
 
+    copyCard() {
+        if (this.deck1.cards.length > 0) {
+            let cardToCopy = this.deck1.cards[this.selectedCardPos];
+            let tmpCard = new Card(cardToCopy.force, cardToCopy.pv, cardToCopy.capacities.slice());
+            this.deck1.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
+
+            this.selectedCardPos++;
+            this.displayDeck();
+        } else {
+            alert("you need another card");
+        }
+    }
+
 
     displayDeck() {
         this.eraseDisplayDeck();
         this.deck1.cards.forEach((card, cardPos) => {
-            let isSelectedCard = (cardPos == this.selectedCardPos)?true:false;                
+            let isSelectedCard = (cardPos == this.selectedCardPos) ? true : false;
             this.display(displayOutputCard(card, isSelectedCard), "cards-list");
         });
 
