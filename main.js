@@ -1,5 +1,5 @@
 const END_GAME = "end game";
-const TEST = false;
+const TEST = true;
 
 if (TEST) {
     newTest1();

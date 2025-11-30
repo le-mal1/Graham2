@@ -193,8 +193,8 @@ function newTest7() {
     // TARGET_MY_LEADER_NEIGHBOORS
     let deck1 = new Deck();
     deck1.addCard(0, 3, [
+        new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER_NEIGHBOORS),
-        new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
     ]);
     deck1.addCard(1, 2);
     let deck2 = new Deck();
@@ -240,8 +240,8 @@ function newTest9() {
     // TARGET_MY_CARD_NEIGHBOORS
     let deck1 = new Deck();
     deck1.addCard(0, 3, [
+        new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_CARD_NEIGHBOORS),
-        new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
     ]);
     deck1.addCard(1, 2);
     let deck2 = new Deck();
@@ -265,8 +265,8 @@ function newTest10() {
     // TARGET_MY_EDGE_RIGHT
     let deck1 = new Deck();
     deck1.addCard(0, 3, [
+        new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_EDGE_RIGHT),
-        new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
     ]);
     deck1.addCard(1, 2);
     let deck2 = new Deck();

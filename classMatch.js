@@ -221,18 +221,13 @@ class Match {
     pushToPileCapacitiesFromCard(trigger, playerId, pos) {
         let card = this.getPlayerCard(playerId, pos);
         if (card.pv > 0) {
-            card.capacities.forEach((capa) => {
-                if (capa.trigger == trigger) {
-                    this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: pos });
+            //card.capacities.forEach((capa) => {
+            for (let capaId = card.capacities.length - 1; capaId >= 0; capaId--) {
+                if (card.capacities[capaId].trigger == trigger) {
+                    this.pile.push({ effect: card.capacities[capaId].effect, target: card.capacities[capaId].target, playerId: playerId, pos: pos });
                 }
-            });
-            /*let capa;
-            for(let j = this.getPlayerBatt(playerId)[i].capacities.length - 1; j >= 0; j--){
-                capa = this.getPlayerBatt(playerId)[i].capacities[j];
-                if (capa.trigger == trigger) {
-                    this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: i });
-                }
-            }*/
+            }
+            //});
         }
     }
 
