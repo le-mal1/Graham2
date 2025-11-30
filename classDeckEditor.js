@@ -1,7 +1,7 @@
 class DeckEditor {
     constructor() {
         this.deck1 = new Deck();
-        this.selectedCard = 0;
+        this.selectedCardPos = 0;
 
         this.init();
     }
@@ -33,7 +33,7 @@ class DeckEditor {
     }
 
     updateCard() {
-        let tmpCard = this.deck1.cards[this.selectedCard];
+        let tmpCard = this.deck1.cards[this.selectedCardPos];
         tmpCard.force = document.getElementById("card-force-selector").selectedIndex;
         tmpCard.pv = document.getElementById("card-pv-selector").selectedIndex;
         for (let capaId = 0; capaId < tmpCard.capacities.length; capaId++) {
@@ -41,6 +41,11 @@ class DeckEditor {
             tmpCard.capacities[capaId].effect = EFFECTS_ARRAY[document.getElementById("card-effect-selector-" + capaId).selectedIndex];
             tmpCard.capacities[capaId].target = TARGETS_ARRAY[document.getElementById("card-target-selector-" + capaId).selectedIndex];
         }
+        this.displayDeck();
+    }
+
+    deleteCard(){
+        this.deck1.cards.splice(this.selectedCardPos, 1);
         this.displayDeck();
     }
 
