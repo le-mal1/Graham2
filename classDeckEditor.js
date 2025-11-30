@@ -47,6 +47,8 @@ class DeckEditor {
                 document.getElementById("card-selector").innerHTML = "<option value='" + cardPos + "'>" + cardPos + "</option>";
             })*/
             this.displayDeck();
+
+            localStorage.setItem("deck1", JSON.stringify(this.deck1));
         }
     }
 

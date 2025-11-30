@@ -1,22 +1,15 @@
 class DeckInMatch {
     constructor(cards = []) {
         this.cards = cards;
-        this.idLastCard = this.cards.length - 1;
     }
 
     addCard(card) {
         this.cards.push(card);
-        this.updateIdLastCard();
     }
 
     drawCard() {
-        let cardDrawed = this.cards[this.idLastCard];
-        this.cards.pop();
-        this.updateIdLastCard();
+        let cardDrawed = this.cards[0];
+        this.cards.splice(0, 1);
         return cardDrawed;
-    }
-
-    updateIdLastCard() {
-        this.idLastCard = this.cards.length - 1;
     }
 }

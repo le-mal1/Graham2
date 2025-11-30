@@ -1,29 +1,40 @@
 class Deck {
     constructor(cards = []) {
         this.cards = cards;
-        this.idLastCard = this.cards.length - 1;
+        //this.idLastCard = this.cards.length - 1;
     }
 
     addCard(force, pv, capacities) {
         this.cards.push(new Card(force, pv, capacities));
-        this.updateIdLastCard();
+        //this.updateIdLastCard();
     }
 
-    drawCard() {
+    /*drawCard() {
         let cardDrawed = this.cards[this.idLastCard];
         this.cards = this.cards.pop();
         this.updateIdLastCard();
         return cardDrawed;
-    }
+    }*/
 
-    updateIdLastCard() {
+    /*updateIdLastCard() {
         this.idLastCard = this.cards.length - 1;
-    }
+    }*/
 
     copy() {
         let returnCards = [];
-        //this.cards.forEach((card) => returnCards.push({ body: card }));
         this.cards.forEach((card) => returnCards.push(card));
         return new DeckInMatch(returnCards);
+    }
+
+    importJson(jsonObject) {
+        let tmpCard;
+        jsonObject.cards.forEach((card) => {
+            tmpCard = new Card();
+            tmpCard.force = card.force;
+            tmpCard.pv = card.pv;
+            this.cards.push(tmpCard);
+        });
+
+        return this;
     }
 }

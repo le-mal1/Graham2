@@ -21,7 +21,8 @@ if (TEST) {
     newTest17();
     newTest18();
 } else {
-    let deck1 = createRandomDeck();
+    //let deck1 = createRandomDeck();
+    let deck1 = new Deck().importJson(JSON.parse(localStorage.getItem("deck1")));
     let deck2 = createRandomDeck();
     let match = new Match(deck1, deck2);
     match.play();

@@ -4,12 +4,12 @@ function newTest1() {
     deck1.addCard(3, 2, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     deck1.addCard(3, 2, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     let deck2 = new Deck();
+    deck2.addCard(0, 8);
     deck2.addCard(0, 6, [
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)
     ]);
-    deck2.addCard(0, 8);
     let match = new Match(deck1, deck2);
 
     console.log("Test 1");
@@ -43,11 +43,11 @@ function newTest1() {
 
 function newTest2() {
     let deck1 = new Deck();
-    deck1.addCard(3, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     deck1.addCard(0, 4, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
+    deck1.addCard(3, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     let deck2 = new Deck();
-    deck2.addCard(0, 6, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     deck2.addCard(0, 8, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck2.addCard(0, 6, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     let match = new Match(deck1, deck2);
 
     console.log("Test 2");
@@ -84,9 +84,9 @@ function newTest3() {
     let deck1 = new Deck();
     deck1.addCard(0, 4, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER)]);
     let deck2 = new Deck();
-    deck2.addCard(0, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARD)]);
-    deck2.addCard(0, 3, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARD)]);
     deck2.addCard(0, 5, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck2.addCard(0, 3, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARD)]);
+    deck2.addCard(0, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARD)]);
     let match = new Match(deck1, deck2);
 
     console.log("Test 3");
@@ -142,8 +142,8 @@ function newTest4() {
 
 function newTest5() {
     let deck1 = new Deck();
-    deck1.addCard(0, 3, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARDS)]);
     deck1.addCard(0, 3, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck1.addCard(0, 3, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARDS)]);
     let deck2 = new Deck();
     deck2.addCard(2, 1);
     let match = new Match(deck1, deck2);
@@ -192,11 +192,11 @@ function newTest6() {
 function newTest7() {
     // TARGET_MY_LEADER_NEIGHBOORS
     let deck1 = new Deck();
-    deck1.addCard(1, 2);
     deck1.addCard(0, 3, [
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_LEADER_NEIGHBOORS),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
     ]);
+    deck1.addCard(1, 2);
     let deck2 = new Deck();
     deck2.addCard(1, 2);
     let match = new Match(deck1, deck2);
@@ -217,8 +217,8 @@ function newTest7() {
 function newTest8() {
     // TARGET_OPPONENT_LEADER_NEIGHBOORS
     let deck1 = new Deck();
-    deck1.addCard(1, 2);
     deck1.addCard(0, 3, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck1.addCard(1, 2);
     let deck2 = new Deck();
     deck2.addCard(1, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_OPPONENT_LEADER_NEIGHBOORS)]);
     let match = new Match(deck1, deck2);
@@ -239,11 +239,11 @@ function newTest8() {
 function newTest9() {
     // TARGET_MY_CARD_NEIGHBOORS
     let deck1 = new Deck();
-    deck1.addCard(1, 2);
     deck1.addCard(0, 3, [
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_CARD_NEIGHBOORS),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
     ]);
+    deck1.addCard(1, 2);
     let deck2 = new Deck();
     deck2.addCard(1, 2);
     let match = new Match(deck1, deck2);
@@ -264,11 +264,11 @@ function newTest9() {
 function newTest10() {
     // TARGET_MY_EDGE_RIGHT
     let deck1 = new Deck();
-    deck1.addCard(1, 2);
     deck1.addCard(0, 3, [
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_EDGE_RIGHT),
         new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
     ]);
+    deck1.addCard(1, 2);
     let deck2 = new Deck();
     deck2.addCard(1, 2);
     let match = new Match(deck1, deck2);
@@ -310,8 +310,8 @@ function newTest12() {
     // TARGET_OPPONENT_EDGE_RIGHT
     console.log("Test 12 - TARGET_OPPONENT_EDGE_RIGHT");
     let deck1 = new Deck();
+    deck1.addCard(0, 3, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
     deck1.addCard(1, 2);
-    deck1.addCard(0, 3, [ new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
     let deck2 = new Deck();
     deck2.addCard(1, 2, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_OPPONENT_EDGE_RIGHT)]);
     let match = new Match(deck1, deck2);
@@ -352,8 +352,8 @@ function newTest14() {
     // TARGET_MY_EDGES
     console.log("Test 14 - TARGET_MY_EDGES");
     let deck1 = new Deck();
-    deck1.addCard(1, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_EDGES)]);
     deck1.addCard(0, 2, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck1.addCard(1, 2, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_EDGES)]);
     let deck2 = new Deck();
     deck2.addCard(1, 2);
     let match = new Match(deck1, deck2);
@@ -374,8 +374,8 @@ function newTest15() {
     // TARGET_OPPONENT_EDGES
     console.log("Test 15 - TARGET_OPPONENT_EDGES");
     let deck1 = new Deck();
-    deck1.addCard(1, 2);
     deck1.addCard(0, 2, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck1.addCard(1, 2);
     let deck2 = new Deck();
     deck2.addCard(1, 2, [new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_OPPONENT_EDGES)]);
     let match = new Match(deck1, deck2);
@@ -398,13 +398,13 @@ function newTest16() {
     let deck1 = new Deck();
     deck1.addCard(0, 1, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_OPPONENT_CARDS)]);
     let deck2 = new Deck();
-    deck2.addCard(1, 2);
-    deck2.addCard(1, 2);
     deck2.addCard(0, 3, [
         new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE),
         new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
 
     ]);
+    deck2.addCard(1, 2);
+    deck2.addCard(1, 2);
     let match = new Match(deck1, deck2);
 
     match.play();
@@ -426,13 +426,13 @@ function newTest17() {
     let deck1 = new Deck();
     deck1.addCard(0, 1, [new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_ADD_FORCE_1, TARGET_EVERY_CARDS)]);
     let deck2 = new Deck();
-    deck2.addCard(1, 2);
-    deck2.addCard(1, 2);
     deck2.addCard(0, 3, [
         new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE),
         new Capacity(TRIGGER_START_OPPONENT_TURN, EFFECT_CALL_SUPPORT, TARGET_NONE)
 
     ]);
+    deck2.addCard(1, 2);
+    deck2.addCard(1, 2);
     let match = new Match(deck1, deck2);
 
     match.play();
@@ -451,8 +451,8 @@ function newTest17() {
 function newTest18() {
     console.log("Test 18 - ENTER MY CARD");
     let deck1 = new Deck();
-    deck1.addCard(0, 1, [new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_ADD_FORCE_1, TARGET_MY_CARD)]);
     deck1.addCard(0, 1, [new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)]);
+    deck1.addCard(0, 1, [new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_ADD_FORCE_1, TARGET_MY_CARD)]);
     let deck2 = new Deck();
     deck2.addCard(1, 1);
     let match = new Match(deck1, deck2);
