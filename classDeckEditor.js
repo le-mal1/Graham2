@@ -3,7 +3,7 @@ class DeckEditor {
         this.deck1 = new Deck();
         this.selectedCardPos = 0;
 
-        this.init();
+        //this.init();
     }
 
     init() {
@@ -46,6 +46,16 @@ class DeckEditor {
 
     deleteCard(){
         this.deck1.cards.splice(this.selectedCardPos, 1);
+        this.displayDeck();
+    }
+
+    addCard(){
+        let tmpCard = new Card(1, 1, [
+            new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
+            new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
+            new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
+        ]);
+        this.deck1.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
         this.displayDeck();
     }
 

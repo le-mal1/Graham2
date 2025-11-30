@@ -9,7 +9,7 @@
     <div id="deck-editor">
         <div id="cards-list"></div>
         <div id="card-editor"></div>
-        <select id="cards-selector" onchange="deckEditor.selectedCard = this.selectedIndex; deckEditor.updateDisplayCardEditor(deckEditor.deck1, this.selectedIndex)">
+        <select id="cards-selector" onchange="deckEditor.selectedCardPos = this.selectedIndex; deckEditor.updateDisplayCardEditor(deckEditor.deck1, this.selectedIndex)">
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -20,6 +20,7 @@
         </select>
         <button id="update-card-button" onclick="deckEditor.updateCard()">Update Card</button>
         <button id="delete-card-button" onclick="deckEditor.deleteCard()">Delete Card</button>
+        <button id="add-card-button" onclick="deckEditor.addCard()">Add Card</button>
     </div>
 
     <script src="tools.js"></script>
