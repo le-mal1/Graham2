@@ -1,7 +1,9 @@
+const TRIGGER_NONE = "trigger none";
 const TRIGGER_START_YOUR_TURN = "start your turn";
 const TRIGGER_START_OPPONENT_TURN = "start opponent turn";
 const TRIGGER_ENTER_MY_CARD = "enter my card";
 
+const EFFECT_NONE = "effect none";
 const EFFECT_ADD_FORCE_1 = "add force";
 const EFFECT_ADD_PV_1 = "add pv";
 const EFFECT_CALL_SUPPORT = "call support";
@@ -25,15 +27,17 @@ const TARGET_EVERY_CARDS = "target every cards";
 
 
 const TRIGGERS_ARRAY = [
+    TRIGGER_NONE,
     TRIGGER_START_YOUR_TURN,
     TRIGGER_START_OPPONENT_TURN,
     TRIGGER_ENTER_MY_CARD,
 ];
 
 const EFFECTS_ARRAY = [
+    EFFECT_NONE,
     EFFECT_ADD_FORCE_1,
     EFFECT_ADD_PV_1,
-    EFFECT_CALL_SUPPORT,    
+    EFFECT_CALL_SUPPORT,
 ];
 
 const TARGETS_ARRAY = [

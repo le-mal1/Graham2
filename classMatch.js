@@ -259,6 +259,8 @@ class Match {
                     }
 
                     break;
+                case EFFECT_NONE:
+                    break;
                 default:
                     break;
             }
