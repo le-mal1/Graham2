@@ -34,6 +34,7 @@ class Match {
 
         this.updateLeader(this.currentPlayerId);
         this.updateLeader(1 - this.currentPlayerId);
+        this.depilage();
 
         if (this.batt0PosLeader == -1) {
             if (this.batt1PosLeader == -1) {
