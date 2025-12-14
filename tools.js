@@ -22,10 +22,13 @@ function displayOutputCard(card, isSelected = false, isLeader = false) {
     output += "<div class='card-force'>Force: " + card.force + "</div>";
     output += "<div class='card-pv'>PV: " + card.pv + "</div>";
     card.capacities.forEach((capa) => {
-        output += "<div class='card-capacity'>Capacity:<br/>-" +
-            capa.trigger + "<br/>-" +
-            capa.effect + "<br/>-" +
-            capa.target + "</div>"
+        if (capa.trigger != TRIGGER_NONE && capa.effect != EFFECT_NONE) {
+            output += "<div class='card-capacity'>Capacity:<br/>-";
+            output += capa.trigger + "<br/>-";
+            output += capa.effect + "<br/>-";
+            output += capa.target;
+            output += "</div>";
+        }
     });
     return output;
 }

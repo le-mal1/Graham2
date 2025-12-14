@@ -1,40 +1,18 @@
 class DeckEditor {
     constructor() {
-        this.deck1 = new Deck();
+        this.deck = new Deck();
         this.selectedCardPos = -1;
 
-        //this.init();
+        this.init();
     }
 
     init() {
-        this.deck1.addCard(0, 1, [
-            new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)
-        ]);
-        this.deck1.addCard(1, 1, [
-            new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)
-        ]);
-        this.deck1.addCard(1, 2, [
-            new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)
-        ]);
-        this.deck1.addCard(2, 2, [
-            new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)
-        ]);
-        this.deck1.addCard(2, 3, [
-            new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)
-        ]);
-        this.deck1.addCard(3, 3, [
-            new Capacity(TRIGGER_ENTER_MY_CARD, EFFECT_CALL_SUPPORT, TARGET_NONE)
-        ]);
-        this.deck1.addCard(3, 4, [
-            new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_FORCE_1, TARGET_MY_CARDS),
-            new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARDS),
-            new Capacity(TRIGGER_START_YOUR_TURN, EFFECT_ADD_PV_1, TARGET_MY_CARDS),
-        ]);
+        this.addCard();
     }
 
     updateCard() {
-        if (this.deck1.cards.length > 0) {
-            let tmpCard = this.deck1.cards[this.selectedCardPos];
+        if (this.deck.cards.length > 0) {
+            let tmpCard = this.deck.cards[this.selectedCardPos];
             tmpCard.force = document.getElementById("card-force-selector").selectedIndex;
             tmpCard.pv = document.getElementById("card-pv-selector").selectedIndex;
             for (let capaId = 0; capaId < tmpCard.capacities.length; capaId++) {
@@ -48,15 +26,15 @@ class DeckEditor {
             })*/
             this.displayDeck();
 
-            localStorage.setItem("deck1", JSON.stringify(this.deck1));
+            localStorage.setItem("deck1", JSON.stringify(this.deck));
         }
     }
 
     deleteCard() {
-        if (this.deck1.cards.length > 0) {
-            this.deck1.cards.splice(this.selectedCardPos, 1);
-            if (this.selectedCardPos >= this.deck1.cards.length)
-                this.selectedCardPos = this.deck1.cards.length - 1;
+        if (this.deck.cards.length > 0) {
+            this.deck.cards.splice(this.selectedCardPos, 1);
+            if (this.selectedCardPos >= this.deck.cards.length)
+                this.selectedCardPos = this.deck.cards.length - 1;
             this.displayDeck();
         }
     }
@@ -67,17 +45,17 @@ class DeckEditor {
             new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
             new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
         ]);
-        this.deck1.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
+        this.deck.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
 
         this.selectedCardPos++;
         this.displayDeck();
     }
 
     copyCard() {
-        if (this.deck1.cards.length > 0) {
-            let cardToCopy = this.deck1.cards[this.selectedCardPos];
+        if (this.deck.cards.length > 0) {
+            let cardToCopy = this.deck.cards[this.selectedCardPos];
             let tmpCard = new Card(cardToCopy.force, cardToCopy.pv, cardToCopy.capacities.slice());
-            this.deck1.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
+            this.deck.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
 
             this.selectedCardPos++;
             this.displayDeck();
@@ -89,19 +67,19 @@ class DeckEditor {
 
     displayDeck() {
         this.eraseDisplayDeck();
-        this.deck1.cards.forEach((card, cardPos) => {
+        this.deck.cards.forEach((card, cardPos) => {
             let isSelectedCard = (cardPos == this.selectedCardPos) ? true : false;
             this.display(displayOutputCard(card, isSelectedCard), "cards-list");
         });
 
-        this.updateDisplayCardEditor(this.deck1, this.selectedCardPos)
+        this.updateDisplayCardEditor(this.deck, this.selectedCardPos)
         this.updateCardSelector();
     }
 
     updateCardSelector() {
         let output = "";
         let selected;
-        for (let cardPos = 0; cardPos < this.deck1.cards.length; cardPos++) {
+        for (let cardPos = 0; cardPos < this.deck.cards.length; cardPos++) {
             if (this.selectedCardPos == cardPos) {
                 selected = "selected='selected'";
             } else {
@@ -183,7 +161,7 @@ class DeckEditor {
         this.display(output, "card-editor", true);
 
         output = "TOTAL POWER: " + deck.getTotalPower();
-        this.display(output, "cards-total-power", true);
+        this.display(output, "cards-total-power", true); // TO REFACTOR
     }
 
     eraseDisplayDeck() {
