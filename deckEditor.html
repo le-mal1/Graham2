@@ -9,13 +9,20 @@
     <div id="deck-editor">
         <div id="cards-list"></div>
         <div id="cards-total-power"></div>
-        <div id="card-editor"></div>
-        <select id="cards-selector" onchange="deckEditor.selectedCardPos = this.selectedIndex; deckEditor.displayDeck()">
-        </select>
-        <button id="update-card-button" onclick="deckEditor.updateCard()">Update Card</button>
-        <button id="delete-card-button" onclick="deckEditor.deleteCard()">Delete Card</button>
-        <button id="add-card-button" onclick="deckEditor.addCard()">Add Card</button>
-        <button id="copy-card-button" onclick="deckEditor.copyCard()">Copy Card</button>
+        <div id="card-zone">
+            <div id="card-editor"></div>
+            <div id="card-actions">
+                <select id="cards-selector" class="card-action"
+                    onchange="deckEditor.selectedCardPos = this.selectedIndex; deckEditor.displayDeck()">
+                </select>
+                <button id="update-card-button" class="card-action" onclick="deckEditor.updateCard()">Update
+                    Card</button>
+                <button id="delete-card-button" class="card-action" onclick="deckEditor.deleteCard()">Delete
+                    Card</button>
+                <button id="add-card-button" class="card-action" onclick="deckEditor.addCard()">Add Card</button>
+                <button id="copy-card-button" class="card-action" onclick="deckEditor.copyCard()">Copy Card</button>
+            </div>
+        </div>
     </div>
 
     <script src="tools.js"></script>
