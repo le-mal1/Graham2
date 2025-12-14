@@ -26,7 +26,7 @@ class DeckEditor {
             })*/
             this.displayDeck();
 
-            localStorage.setItem("deck1", JSON.stringify(this.deck));
+            
         }
     }
 
@@ -72,6 +72,7 @@ class DeckEditor {
             this.display(displayOutputCard(card, isSelectedCard), "cards-list");
         });
 
+        this.updateDisplayDeckActions();
         this.updateDisplayCardEditor(this.deck, this.selectedCardPos)
         this.updateCardSelector();
     }
@@ -117,7 +118,7 @@ class DeckEditor {
             }
             output += "</select> (" + tmpCard.getPowerPv() + ")</div>";
             tmpCard.capacities.forEach((capa, index) => {
-                output += "<div>Capacity:</div>";
+                output += "<br/><div>Capacity:</div>";
 
                 output += "<div>Trigger: <select id='card-trigger-selector-" + index + "'>";
                 for (let i = 0; i < TRIGGERS_ARRAY.length; i++) {
@@ -156,16 +157,31 @@ class DeckEditor {
                 output += "</select> (" + Card.getPowerTarget(capa.target) + ")</div>";
             });
 
-            output += "<div>TOTAL POWER: " + tmpCard.getTotalPower() + "</div>";
+            output += "<br/><div>TOTAL POWER: " + tmpCard.getTotalPower() + "</div>";
         }
         this.display(output, "card-editor", true);
+    }
 
-        output = "TOTAL POWER: " + deck.getTotalPower();
-        this.display(output, "cards-total-power", true); // TO REFACTOR
+    updateDisplayDeckActions(){
+        let output = "DECK TOTAL POWER: " + this.deck.getTotalPower();
+
+            
+
+        this.display(output, "cards-total-power", true);
+
     }
 
     eraseDisplayDeck() {
         this.display("", "cards-list", true);
+    }
+
+    saveAsDeck(deckId){
+        localStorage.setItem("deck" + deckId, JSON.stringify(this.deck));
+    }
+
+    loadDeck(deckId){
+        this.deck = new Deck().importJson(JSON.parse(localStorage.getItem("deck" + deckId)));
+        this.displayDeck();
     }
 
     display(txt, id, isReplacing = false) {

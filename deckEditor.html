@@ -9,6 +9,16 @@
     <div id="deck-editor">
         <div id="cards-list"></div>
         <div id="cards-total-power"></div>
+        <div id="cards-actions">
+            <button class="deck-action" onclick="deckEditor.loadDeck(1)">Load Deck 1</button>
+            <button class="deck-action" onclick="deckEditor.loadDeck(2)">Load Deck 2</button>
+            <button class="deck-action" onclick="deckEditor.saveAsDeck(1)">Save as Deck 1</button>
+            <button class="deck-action" onclick="deckEditor.saveAsDeck(2)">Save as Deck 2</button>
+            <button class="deck-action" onclick="window.open('fight.html', '_blank')">FIGHT 1 vs 2</button>
+            <button class="deck-action" onclick="window.open('fight.html?deck2=RANDOM', '_blank')">FIGHT 1 vs R</button>
+            <button class="deck-action" onclick="window.open('fight.html?deck1=RANDOM', '_blank')">FIGHT R vs 2</button>
+            <button class="deck-action" onclick="window.open('fight.html?deck1=RANDOM&deck2=RANDOM', '_blank')">FIGHT R vs R</button>
+        </div>
         <div id="card-zone">
             <div id="card-editor"></div>
             <div id="card-actions">

@@ -21,9 +21,20 @@ if (TEST) {
     newTest17();
     newTest18();
 } else {
-    //let deck1 = createRandomDeck();
-    let deck1 = new Deck().importJson(JSON.parse(localStorage.getItem("deck1")));
-    let deck2 = createRandomDeck();
+
+    let deck1;
+    let deck2;
+    let URLparams = new URLSearchParams(document.location.search);
+    if(URLparams.get("deck1") == "RANDOM") {
+        deck1 = createRandomDeck();
+    } else {
+            deck1 = new Deck().importJson(JSON.parse(localStorage.getItem("deck1")));
+    }
+    if(URLparams.get("deck2") == "RANDOM") {
+        deck2 = createRandomDeck();
+    } else {
+            deck2 = new Deck().importJson(JSON.parse(localStorage.getItem("deck2")));
+    }
     let match = new Match(deck1, deck2);
     match.play();
 }
