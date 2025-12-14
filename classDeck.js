@@ -38,4 +38,12 @@ class Deck {
 
         return this;
     }
+
+    getTotalPower(){
+        let totalPower = 0;
+        this.cards.forEach((card) => {
+            totalPower += card.getTotalPower();
+        })
+        return totalPower;
+    }
 }

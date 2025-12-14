@@ -126,7 +126,7 @@ class DeckEditor {
                 output += i;
                 output += "</option>";
             }
-            output += "</select></div>";
+            output += "</select> (" + tmpCard.getPowerForce() + ")</div>";
             output += "<div>Pv: <select id='card-pv-selector'>";
             for (let i = 0; i < 10; i++) {
                 if (tmpCard.pv == i) {
@@ -137,7 +137,7 @@ class DeckEditor {
                 output += i;
                 output += "</option>";
             }
-            output += "</select></div>";
+            output += "</select> (" + tmpCard.getPowerPv() + ")</div>";
             tmpCard.capacities.forEach((capa, index) => {
                 output += "<div>Capacity:</div>";
 
@@ -151,7 +151,7 @@ class DeckEditor {
                     output += TRIGGERS_ARRAY[i];
                     output += "</option>";
                 }
-                output += "</select></div>";
+                output += "</select> (" + Card.getPowerTrigger(capa.trigger) + ")</div>";
 
                 output += "<div>Effect: <select id='card-effect-selector-" + index + "'>";
                 for (let i = 0; i < EFFECTS_ARRAY.length; i++) {
@@ -163,7 +163,7 @@ class DeckEditor {
                     output += EFFECTS_ARRAY[i];
                     output += "</option>";
                 }
-                output += "</select></div>";
+                output += "</select> (" + Card.getPowerEffect(capa.effect) + ")</div>";
 
                 output += "<div>Target: <select id='card-target-selector-" + index + "'>";
                 for (let i = 0; i < TARGETS_ARRAY.length; i++) {
@@ -175,10 +175,15 @@ class DeckEditor {
                     output += TARGETS_ARRAY[i];
                     output += "</option>";
                 }
-                output += "</select></div>";
+                output += "</select> (" + Card.getPowerTarget(capa.target) + ")</div>";
             });
+
+            output += "<div>TOTAL POWER: " + tmpCard.getTotalPower() + "</div>";
         }
         this.display(output, "card-editor", true);
+
+        output = "TOTAL POWER: " + deck.getTotalPower();
+        this.display(output, "cards-total-power", true);
     }
 
     eraseDisplayDeck() {

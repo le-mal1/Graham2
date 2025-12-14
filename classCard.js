@@ -11,4 +11,54 @@ class Card {
         }
 
     }
+
+    static getPowerForce(force){
+        let power = 0;
+        power = force;
+        return power;
+    }
+
+    getPowerForce(){
+        return Card.getPowerForce(this.force);
+    }
+
+    static getPowerPv(pv){
+        let power = 0;
+        power = pv;
+        return power;
+    }
+
+    getPowerPv(){
+        return Card.getPowerPv(this.pv);
+    }
+
+    static getPowerTrigger(trigger){
+        let power = 0;
+        power = TRIGGERS_POWER_MAP.get(trigger);
+        return power;
+    }
+
+    static getPowerEffect(effect){
+        let power = 0;
+        power = EFFECTS_POWER_MAP.get(effect);
+        return power;
+    }
+
+    static getPowerTarget(target){
+        let power = 0;
+        power = TARGETS_POWER_MAP.get(target);
+        return power;
+    }
+
+    getTotalPower(){
+        let power = 0;
+        power += this.getPowerForce();
+        power += this.getPowerPv();
+        this.capacities.forEach((capa) => {
+            power += Card.getPowerTrigger(capa.trigger);
+            power += Card.getPowerEffect(capa.effect);
+            power += Card.getPowerTarget(capa.target);
+        });
+        return power;
+    }
 }

@@ -8,15 +8,9 @@
 <body>
     <div id="deck-editor">
         <div id="cards-list"></div>
+        <div id="cards-total-power"></div>
         <div id="card-editor"></div>
         <select id="cards-selector" onchange="deckEditor.selectedCardPos = this.selectedIndex; deckEditor.displayDeck()">
-            <!--option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option-->
         </select>
         <button id="update-card-button" onclick="deckEditor.updateCard()">Update Card</button>
         <button id="delete-card-button" onclick="deckEditor.deleteCard()">Delete Card</button>
