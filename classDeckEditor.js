@@ -181,8 +181,8 @@ class DeckEditor {
 
     display(txt, id, isReplacing = false) {
         if (isReplacing)
-            document.getElementById(id).innerHTML = txt + "<br/>";
+            document.getElementById(id).innerHTML = txt;
         else
-            document.getElementById(id).innerHTML += txt + "<br/>";
+            document.getElementById(id).innerHTML += txt;
     }
 }

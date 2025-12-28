@@ -326,7 +326,7 @@ class Match {
     }
 
     display(txt) {
-        document.getElementById("game").innerHTML += txt + "<br/>";
+        document.getElementById("game").innerHTML += txt;
     }
 
     displayTurn(nbTurn, playerId) {
