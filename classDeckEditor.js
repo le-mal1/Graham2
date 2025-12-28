@@ -40,11 +40,7 @@ class DeckEditor {
     }
 
     addCard() {
-        let tmpCard = new Card(1, 1, [
-            new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
-            new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
-            new Capacity(TRIGGER_NONE, EFFECT_NONE, TARGET_NONE),
-        ]);
+        let tmpCard = new Card();
         this.deck.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
 
         this.selectedCardPos++;
@@ -54,8 +50,7 @@ class DeckEditor {
     copyCard() {
         if (this.deck.cards.length > 0) {
             let cardToCopy = this.deck.cards[this.selectedCardPos];
-            let tmpCard = new Card(cardToCopy.force, cardToCopy.pv, cardToCopy.capacities.slice());
-            this.deck.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
+            this.deck.cards.splice(this.selectedCardPos + 1, 0, cardToCopy.copy());
 
             this.updateSelectedCardPos(this.selectedCardPos + 1);
         } else {

@@ -28,18 +28,16 @@ class Deck {
 
     importJson(jsonObject) {
         let tmpCard;
-        jsonObject.cards.forEach((card) => {
+        jsonObject.cards.forEach((cardStruc) => {
             tmpCard = new Card();
-            tmpCard.force = card.force;
-            tmpCard.pv = card.pv;
-            tmpCard.capacities = card.capacities;
+            tmpCard.initFromStruc(cardStruc);
             this.cards.push(tmpCard);
         });
 
         return this;
     }
 
-    getTotalPower(){
+    getTotalPower() {
         let totalPower = 0;
         this.cards.forEach((card) => {
             totalPower += card.getTotalPower();

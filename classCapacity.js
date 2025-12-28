@@ -5,4 +5,8 @@ class Capacity {
         this.target = target;
         this.value = value;
     }
+
+    copy() {
+        return new Capacity(this.trigger, this.effect, this.target, this.value);
+    }
 }
