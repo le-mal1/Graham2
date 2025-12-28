@@ -35,15 +35,29 @@ body {
 .leader-card {
   background-color: rgb(187, 255, 0);
   color: rgb(173, 0, 0);
-  animation-name: blinking;
-  animation-duration: 1s;
-  animation-direction: alternate;
-  animation-iteration-count: infinite;
+  animation-name: appearing, blinking;
+  animation-duration: 1s, 1s;
+  animation-direction: normal, alternate;
+  animation-iteration-count: 1, infinite;
 }
 
 @keyframes blinking {
   from {background-color: rgb(187, 255, 0);}
   to {background-color: rgb(187, 255, 200);}
+}
+
+@keyframes blinking2 {
+  from {background-color: rgba(187, 255, 0, 0);}
+  to {background-color: rgba(187, 255, 0, 1);}
+}
+
+@keyframes appearing {
+  from {
+    scale: 0%;
+  }
+  to {
+    scale: 1;
+  }
 }
 
 .card-force {
