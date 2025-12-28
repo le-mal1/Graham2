@@ -57,27 +57,30 @@ class DeckEditor {
             let tmpCard = new Card(cardToCopy.force, cardToCopy.pv, cardToCopy.capacities.slice());
             this.deck.cards.splice(this.selectedCardPos + 1, 0, tmpCard);
 
-            this.selectedCardPos++;
-            this.displayDeck();
+            this.updateSelectedCardPos(this.selectedCardPos + 1);
         } else {
             alert("you need another card");
         }
     }
 
-
     displayDeck() {
         this.eraseDisplayDeck();
         this.deck.cards.forEach((card, cardPos) => {
             let isSelectedCard = (cardPos == this.selectedCardPos) ? true : false;
-            this.display(displayOutputCard(card, isSelectedCard), "cards-list");
+            this.display(displayOutputCard(card, isSelectedCard, false, cardPos), "cards-list");
         });
 
         this.updateDisplayDeckActions();
         this.updateDisplayCardEditor(this.deck, this.selectedCardPos)
-        this.updateCardSelector();
+        this.updateDisplayCardSelector();
     }
 
-    updateCardSelector() {
+   updateSelectedCardPos(newSelectedCardPos){
+        this.selectedCardPos = newSelectedCardPos;
+        this.displayDeck();
+    }
+
+    updateDisplayCardSelector() {
         let output = "";
         let selected;
         for (let cardPos = 0; cardPos < this.deck.cards.length; cardPos++) {
