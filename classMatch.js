@@ -24,11 +24,9 @@ class Match {
     playNextTurn() {
 
         this.nbTurn++;
-        //this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
         this.displayTurn(this.nbTurn, this.currentPlayerId);
 
 
-        //this.display("<br/>LEADERS PHASE");
         this.displayPhaseName("LEADERS PHASE");
         // Update des Leaders
 
@@ -61,7 +59,6 @@ class Match {
         // DEPILAGE
         this.depilage();
 
-        //this.display("<br/>COMBAT PHASE");
         this.displayPhaseName("COMBAT PHASE");
         // Combats des leaders
         this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;

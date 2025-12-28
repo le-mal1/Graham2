@@ -23,7 +23,7 @@ class Deck {
     copy() {
         let returnCards = [];
         this.cards.forEach((card) => returnCards.push(card));
-        return new DeckInMatch(returnCards);
+        return new DeckInMatch(returnCards);  //TODO copy must return same object type
     }
 
     importJson(jsonObject) {
