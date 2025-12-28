@@ -389,7 +389,7 @@ class Match {
                 tmpCard = this.getPlayerCard(playerId, cardPos);
                 let isLeaderCard = (cardPos == this.getLeaderPosBatt(playerId)) ? true : false;
                 displayBatt += displayOutputCard(tmpCard, false, isLeaderCard);
-                displayBatt += "</div>";
+                //displayBatt += "</div>";
             }
             displayBatt += "</div>";
         }
