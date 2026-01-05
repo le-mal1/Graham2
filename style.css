@@ -3,8 +3,34 @@ body {
   margin-left: 30px;
 }
 
+/*--- In match ---*/
+
+/* Meta */
+.change-step-buttons {
+  width: 110px;
+  height: 60px;
+  font-size: 20px;
+}
+
+#game {
+  width: 100%;
+  height: 700px;
+}
+
+/* Texts */
+.indications {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+/* Structures */
 .battlefield {
   display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: black;
   padding: 3px;
   margin: 5px;
@@ -22,44 +48,34 @@ body {
   border-color: rgb(68, 68, 68);
 }
 
+/* Special cards */
 .dead-card {
   background-color: black;
-  color: white;
-}
-
-.selected-card {
-  background-color: rgb(189, 16, 16);
   color: white;
 }
 
 .leader-card {
   background-color: rgb(187, 255, 0);
   color: rgb(173, 0, 0);
-  animation-name: appearing, blinking;
-  animation-duration: 1s, 1s;
-  animation-direction: normal, alternate;
-  animation-iteration-count: 1, infinite;
+  animation-name: appearing;
+  animation-duration: 1s;
+  animation-direction: normal;
+  animation-iteration-count: 1;
 }
 
-@keyframes blinking {
-  from {background-color: rgb(187, 255, 0);}
-  to {background-color: rgb(187, 255, 200);}
-}
-
-@keyframes blinking2 {
-  from {background-color: rgba(187, 255, 0, 0);}
-  to {background-color: rgba(187, 255, 0, 1);}
-}
-
+/* Animations */
 @keyframes appearing {
   from {
-    scale: 0%;
+    scale: 0;
+    background-color: grey;
   }
   to {
     scale: 1;
+    background-color: rgb(187, 255, 0);
   }
 }
 
+/* In a card */
 .card-force {
   margin: 5px;
   font-size: 25px;
@@ -73,6 +89,13 @@ body {
 .card-capacity {
   margin: 7px;
   font-size: 20px;
+}
+
+/*--- In deck creator ---*/
+
+.selected-card {
+  background-color: rgb(189, 16, 16);
+  color: white;
 }
 
 #cards-list {

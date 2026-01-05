@@ -8,15 +8,23 @@ function randomElement(array) {
 
 
 //DISPLAY
-function displayOutputCard(card, isSelected = false, isLeader = false, cardPosInDeck = undefined) {
+function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, visuals = []) {
     let output = "";
     let cardClass = "card";
     if (card.pv <= 0)
         cardClass += " dead-card";
     if (isSelected)
         cardClass += " selected-card";
-    if (isLeader)
-        cardClass += " leader-card";
+    visuals.forEach((visualEffect) => {
+        switch (visualEffect) {
+            case IS_LEADER:
+                cardClass += " leader-card";
+                break;
+
+            default:
+                break;
+        }
+    });
 
     //let dataCardPosInDeck = "";
     let onClick = "";

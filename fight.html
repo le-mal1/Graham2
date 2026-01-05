@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <div id="game"></div>
 
-        <script src="tools.js"></script>
-        <script src="classCapacity.js"></script>
-        <script src="classPile.js"></script>
-        <script src="capacities.js"></script>
-        <script src="classCard.js"></script>
-        <script src="classDeckInMatch.js"></script>
-        <script src="classDeck.js"></script>
-        <script src="classMatch.js"></script>
-        <script src="test.js"></script>
-        <script src="main.js"></script>
-    </body>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="game"></div>
+
+    <script src="visual.js"></script>
+    <script src="tools.js"></script>
+    <script src="classCapacity.js"></script>
+    <script src="classPile.js"></script>
+    <script src="capacities.js"></script>
+    <script src="classCard.js"></script>
+    <script src="classDeckInMatch.js"></script>
+    <script src="classDeck.js"></script>
+    <script src="classMatch.js"></script>
+    <script src="test.js"></script>
+    <script src="setupDecks.js"></script>
+    <button id="last-step-button" class="change-step-buttons" onclick="returnToLastStep(match)">Last Step</button>
+    <button id="next-step-button" class="change-step-buttons" onclick="goToNextStep(match)">Next Step</button>
+
+    <script src="main.js"></script>
+</body>
+
 </html>

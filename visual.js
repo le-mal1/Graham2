@@ -1,0 +1,1 @@
+const IS_LEADER = "is leader";

@@ -11,6 +11,8 @@ class Match {
         this.currentPlayerId = 0;
         this.nbTurn = 0;
         this.pile = new Pile();
+        this.displayingMatch = [];
+        this.displayingMatchIndex = -1;
     }
 
     play() {
@@ -24,9 +26,10 @@ class Match {
     playNextTurn() {
 
         this.nbTurn++;
+        this.newStep();
         this.displayTurn(this.nbTurn, this.currentPlayerId);
 
-
+        this.newStep();
         this.displayPhaseName("LEADERS PHASE");
         // Update des Leaders
 
@@ -37,17 +40,20 @@ class Match {
         if (this.batt0PosLeader == -1) {
             if (this.batt1PosLeader == -1) {
                 this.display("DRAW !!! --------------------------------------------------------");
+                this.resetDisplayingMatchIndex();
                 return END_GAME;
             } else {
                 this.display("PLAYER 1 WIN !!! --------------------------------------------------------");
+                this.resetDisplayingMatchIndex();
                 return END_GAME;
             }
         } else if (this.batt1PosLeader == -1) {
             this.display("PLAYER 0 WIN !!! --------------------------------------------------------");
+            this.resetDisplayingMatchIndex();
             return END_GAME;
         }
 
-        this.display("Pos leader 0: " + this.batt0PosLeader + " Pos leader 1: " + this.batt1PosLeader);
+        //this.display("Pos leader 0: " + this.batt0PosLeader + " Pos leader 1: " + this.batt1PosLeader);
         this.displayBattlefields();
 
         // Triggers START OPPONENT TURN
@@ -59,6 +65,7 @@ class Match {
         // DEPILAGE
         this.depilage();
 
+        this.newStep();
         this.displayPhaseName("COMBAT PHASE");
         // Combats des leaders
         this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
@@ -323,12 +330,13 @@ class Match {
     }
 
     display(txt) {
-        document.getElementById("game").innerHTML += txt;
+        //document.getElementById("game").innerHTML += txt;
+        this.displayingMatch[this.displayingMatchIndex] += txt;
     }
 
     displayTurn(nbTurn, playerId) {
         //this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
-        this.display("<h2>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId + "</h2>");
+        this.display("<div class='indications'><h2>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId + "</h2></div>");
 
     }
 
@@ -374,7 +382,7 @@ class Match {
         let tmpBatt;
         let tmpBattPosLeader;
         let tmpCard;
-        let cardClass;
+        let visualsEffect = [];
 
         for (let playerId = 0; playerId < 2; playerId++) {
 
@@ -384,14 +392,24 @@ class Match {
             displayBatt += "<div class='battlefield'>";
             for (let cardPos = 0; cardPos < tmpBatt.length; cardPos++) {
                 tmpCard = this.getPlayerCard(playerId, cardPos);
-                let isLeaderCard = (cardPos == this.getLeaderPosBatt(playerId)) ? true : false;
-                displayBatt += displayOutputCard(tmpCard, false, isLeaderCard);
-                //displayBatt += "</div>";
+                visualsEffect = [];
+                if(cardPos == this.getLeaderPosBatt(playerId))
+                    visualsEffect.push(IS_LEADER);
+                displayBatt += displayOutputCard(tmpCard, false, false, visualsEffect);
             }
             displayBatt += "</div>";
         }
 
         this.display(displayBatt);
+    }
+
+    newStep() {
+        this.displayingMatchIndex++;
+        this.displayingMatch[this.displayingMatchIndex] = "";
+    }
+
+    resetDisplayingMatchIndex() {
+        this.displayingMatchIndex = 0;
     }
 
 }
