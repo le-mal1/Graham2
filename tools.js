@@ -8,17 +8,19 @@ function randomElement(array) {
 
 
 //DISPLAY
-function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, visuals = []) {
+function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, visualEffects = new VisualEffects()) {
     let output = "";
     let cardClass = "card";
-    if (card.pv <= 0)
-        cardClass += " dead-card";
     if (isSelected)
         cardClass += " selected-card";
-    visuals.forEach((visualEffect) => {
+    visualEffects.getVisualEffects().forEach((visualEffect) => {
         switch (visualEffect) {
             case IS_LEADER:
                 cardClass += " leader-card";
+                break;
+
+            case IS_DEAD:
+                cardClass += " dead-card";
                 break;
 
             default:

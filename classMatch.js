@@ -59,7 +59,7 @@ class Match {
         // Triggers START OPPONENT TURN
         this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId, true);
 
-        // Triggers START TURN
+        // Triggers START YOUR TURN
         this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_YOUR_TURN, this.currentPlayerId, true);
 
         // DEPILAGE
@@ -73,10 +73,12 @@ class Match {
 
         if (this.batt0[this.batt0PosLeader].pv <= 0) {
             this.batt0PosLeader = null;
+            this.updateVisualEffects();
         }
 
         if (this.batt1[this.batt1PosLeader].pv <= 0) {
             this.batt1PosLeader = null;
+            this.updateVisualEffects();
         }
 
         this.displayBattlefields();
@@ -382,7 +384,6 @@ class Match {
         let tmpBatt;
         let tmpBattPosLeader;
         let tmpCard;
-        let visualsEffect = [];
 
         for (let playerId = 0; playerId < 2; playerId++) {
 
@@ -392,10 +393,8 @@ class Match {
             displayBatt += "<div class='battlefield'>";
             for (let cardPos = 0; cardPos < tmpBatt.length; cardPos++) {
                 tmpCard = this.getPlayerCard(playerId, cardPos);
-                visualsEffect = [];
-                if(cardPos == this.getLeaderPosBatt(playerId))
-                    visualsEffect.push(IS_LEADER);
-                displayBatt += displayOutputCard(tmpCard, false, false, visualsEffect);
+                this.updateVisualEffects();
+                displayBatt += displayOutputCard(tmpCard, false, false, tmpCard.visualEffects);
             }
             displayBatt += "</div>";
         }
@@ -406,6 +405,25 @@ class Match {
     newStep() {
         this.displayingMatchIndex++;
         this.displayingMatch[this.displayingMatchIndex] = "";
+        this.updateVisualEffects();
+    }
+
+    updateVisualEffects() {
+        let playerId;
+        for (let i = 0; i < 2; i++) {
+            playerId = i;
+            this.getPlayerBatt(playerId).forEach((card, cardPos) => {
+                if (card.pv <= 0) {
+                    card.visualEffects.isDead.isActive = true;
+                }
+                if (!card.visualEffects.isLeader.isActive && this.getLeaderPosBatt(playerId) == cardPos) {
+                    card.visualEffects.isLeader.isActive = true;
+                }
+                if (card.visualEffects.isLeader.isActive && this.getLeaderPosBatt(playerId) != cardPos) {
+                    card.visualEffects.isLeader.isActive = false;
+                }
+            });
+        }
     }
 
     resetDisplayingMatchIndex() {

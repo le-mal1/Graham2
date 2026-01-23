@@ -15,6 +15,7 @@ class Card {
         } else {
             this.capacities = capacities.slice();
         }
+        this.visualEffects = new VisualEffects();
 
     }
 
