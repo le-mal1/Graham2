@@ -21,6 +21,8 @@ class Match {
                 break;
             }
         }
+        this.display("DRAW !!! --------------------------------------------------------");
+        this.resetDisplayingMatchIndex();
     }
 
     playNextTurn() {
