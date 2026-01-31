@@ -23,6 +23,10 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
                 cardClass += " dead-card";
                 break;
 
+            case IS_ENTERED_THIS_STEP:
+                cardClass += " entered-this-step";
+                break;
+
             default:
                 break;
         }

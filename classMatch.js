@@ -104,6 +104,7 @@ class Match {
                 } else {
                     let tmpDrawnCard = tmpDeck.drawCard();
                     tmpBatt.push(tmpDrawnCard);
+                    this.getPlayerEdgeRight(playerId).visualEffects.isEnteredThisStep.isActive = true;
                     tmpBattPosLeader = tmpBatt.length - 1;
                     tmpDrawnCard.capacities.forEach((capa) => {
                         if (capa.trigger == TRIGGER_ENTER_MY_CARD) {
@@ -246,7 +247,8 @@ class Match {
             tmpTopCapacity = this.pile.getTopElement();
             this.pile.pop();
             tmpPlayerId = tmpTopCapacity.playerId;
-            this.display("Effect: " + tmpTopCapacity.effect + ", Player: " + tmpPlayerId + ", Pos: " + tmpTopCapacity.pos + ", Target: " + tmpTopCapacity.target);
+            //this.display("Effect: " + tmpTopCapacity.effect + ", Player: " + tmpPlayerId + ", Pos: " + tmpTopCapacity.pos + ", Target: " + tmpTopCapacity.target);
+            //this.displayCapacity(tmpPlayerId, tmpTopCapacity.pos);
             switch (tmpTopCapacity.effect) {
                 case EFFECT_ADD_FORCE_1:
                     this.getTargets(tmpTopCapacity).forEach((card) => card.force++);
@@ -257,6 +259,7 @@ class Match {
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
                         this.getPlayerBatt(tmpPlayerId).push(this.getPlayerDeck(tmpPlayerId).drawCard());
+                        this.getPlayerEdgeRight(tmpPlayerId).visualEffects.isEnteredThisStep.isActive = true;
                         this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, tmpPlayerId, this.getPlayerBatt(tmpPlayerId).length - 1);
                     }
 
@@ -333,7 +336,14 @@ class Match {
 
     display(txt) {
         //document.getElementById("game").innerHTML += txt;
-        this.displayingMatch[this.displayingMatchIndex] += txt;
+        this.displayingMatch[this.displayingMatchIndex].game += txt;
+    }
+
+    displayCapacity(playerId, cardPos) {
+        let capaCanvas = this.displayingMatch[this.displayingMatchIndex].capaCanvas;
+        capaCanvas += "Player: " + playerId + "<br/>";
+        capaCanvas += "Card pos: " + cardPos + "<br/>";
+        this.displayingMatch[this.displayingMatchIndex].capaCanvas = capaCanvas;
     }
 
     displayTurn(nbTurn, playerId) {
@@ -343,42 +353,11 @@ class Match {
     }
 
     displayPhaseName(phaseName) {
-        this.display("<h3>" + phaseName + "</h3>");
+        this.display("<h3>Turn " + this.nbTurn + ", Current player " + this.currentPlayerId + ", " + phaseName + "</h3>");
 
     }
 
     displayBattlefields() {
-        /*let displayBatt = "";
-
-        for (let f = 0; f < 2; f++) {
-
-            let tmpBatt = this["batt" + f];
-            let tmpBattPosLeader = this["batt" + f + "PosLeader"];
-
-            for (let i = 0; i < tmpBatt.length; i++) {
-                if (tmpBattPosLeader == i)
-                    displayBatt += "|[";
-                else
-                    displayBatt += "{";
-                displayBatt += tmpBatt[i].force + ", ";
-                displayBatt += tmpBatt[i].pv + ", ";
-                for (let j = 0; j < tmpBatt[i].capacities.length; j++) {
-                    displayBatt += "[";
-                    displayBatt += tmpBatt[i].capacities[j].trigger + ", ";
-                    displayBatt += tmpBatt[i].capacities[j].effect;
-                    displayBatt += "]";
-                }
-                if (tmpBattPosLeader == i)
-                    displayBatt += "]|";
-                else
-                    displayBatt += "} ";
-            }
-
-            displayBatt += "<br/>";
-        }
-
-
-        this.display(displayBatt);*/
 
         let displayBatt = "";
         let tmpBatt;
@@ -400,11 +379,12 @@ class Match {
         }
 
         this.display(displayBatt);
+        this.removeIsEnteredThisStep();
     }
 
     newStep() {
         this.displayingMatchIndex++;
-        this.displayingMatch[this.displayingMatchIndex] = "";
+        this.displayingMatch[this.displayingMatchIndex] = { game: "", capaCanvas: "" };
         this.updateVisualEffects();
     }
 
@@ -421,6 +401,18 @@ class Match {
                 }
                 if (card.visualEffects.isLeader.isActive && this.getLeaderPosBatt(playerId) != cardPos) {
                     card.visualEffects.isLeader.isActive = false;
+                }
+            });
+        }
+    }
+
+    removeIsEnteredThisStep() {
+        let playerId;
+        for (let i = 0; i < 2; i++) {
+            playerId = i;
+            this.getPlayerBatt(playerId).forEach((card, cardPos) => {
+                if (card.visualEffects.isEnteredThisStep.isActive) {
+                    card.visualEffects.isEnteredThisStep.isActive = false;
                 }
             });
         }

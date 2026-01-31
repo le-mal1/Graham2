@@ -7,8 +7,8 @@ body {
 
 /* Meta */
 .change-step-buttons {
-  width: 110px;
-  height: 60px;
+  width: 170px;
+  height: 80px;
   font-size: 20px;
 }
 
@@ -56,7 +56,10 @@ body {
 
 .leader-card {
   background-color: rgb(187, 255, 0);
-  color: rgb(173, 0, 0);
+  color: rgb(0, 0, 0);
+}
+
+.entered-this-step {
   animation-name: appearing;
   animation-duration: 1s;
   animation-direction: normal;
@@ -67,11 +70,9 @@ body {
 @keyframes appearing {
   from {
     scale: 0;
-    background-color: grey;
   }
   to {
     scale: 1;
-    background-color: rgb(187, 255, 0);
   }
 }
 

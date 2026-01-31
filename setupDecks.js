@@ -36,7 +36,8 @@ if (TEST) {
     }
     var match = new Match(deck1, deck2);
     match.play();
-    document.getElementById("game").innerHTML = match.displayingMatch[0];
+    document.getElementById("game").innerHTML = match.displayingMatch[0].game;
+    document.getElementById("previous-step-button").style.opacity = 0.5;
 }
 
 function createRandomDeck(size = 7) {
