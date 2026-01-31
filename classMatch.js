@@ -21,7 +21,6 @@ class Match {
                 break;
             }
         }
-        this.display("DRAW !!! --------------------------------------------------------");
         this.resetDisplayingMatchIndex();
     }
 
@@ -42,16 +41,13 @@ class Match {
         if (this.batt0PosLeader == -1) {
             if (this.batt1PosLeader == -1) {
                 this.display("DRAW !!! --------------------------------------------------------");
-                this.resetDisplayingMatchIndex();
                 return END_GAME;
             } else {
                 this.display("PLAYER 1 WIN !!! --------------------------------------------------------");
-                this.resetDisplayingMatchIndex();
                 return END_GAME;
             }
         } else if (this.batt1PosLeader == -1) {
             this.display("PLAYER 0 WIN !!! --------------------------------------------------------");
-            this.resetDisplayingMatchIndex();
             return END_GAME;
         }
 
