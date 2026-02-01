@@ -74,8 +74,6 @@ class Match {
         this.getLeaderCard(1).visualEffects.isFighting1.isActive = true;
 
         this.displayBattlefields();
-        this.newStep();
-        this.displayPhaseName("END PHASE");
 
         this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
         this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
@@ -90,7 +88,10 @@ class Match {
             this.updateVisualEffects();
         }
 
+        this.newStep();
+        this.displayPhaseName("END PHASE");
         this.displayBattlefields();
+
 
         // Changement de joueur
         if (this.currentPlayerId == 0)
@@ -115,11 +116,12 @@ class Match {
                     tmpBatt.push(tmpDrawnCard);
                     this.getPlayerEdgeRight(playerId).visualEffects.isEnteredThisStep.isActive = true;
                     tmpBattPosLeader = tmpBatt.length - 1;
-                    tmpDrawnCard.capacities.forEach((capa) => {
+                    /*tmpDrawnCard.capacities.forEach((capa) => {
                         if (capa.trigger == TRIGGER_ENTER_MY_CARD) {
                             this.pushToPileCapacitiesFromCard(capa.trigger, playerId, tmpBattPosLeader)
                         }
-                    })
+                    });*/
+                    this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, playerId, tmpBattPosLeader);
                 }
             } else {
                 for (let i = 0; i < tmpBatt.length; i++) {

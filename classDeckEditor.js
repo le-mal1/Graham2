@@ -17,8 +17,14 @@ class DeckEditor {
             selectedCard.pv = document.getElementById("card-pv-selector").selectedIndex;
             for (let capaId = 0; capaId < selectedCard.capacities.length; capaId++) {
                 selectedCard.capacities[capaId].trigger = TRIGGERS_ARRAY[document.getElementById("card-trigger-selector-" + capaId).selectedIndex];
+                //if (TRIGGERS_ARRAY[document.getElementById("card-trigger-selector-" + capaId).selectedIndex] != TRIGGER_NONE) {
+                //this.updateDisplayCardEditor(this.deck, this.selectedCardPos);
                 selectedCard.capacities[capaId].effect = EFFECTS_ARRAY[document.getElementById("card-effect-selector-" + capaId).selectedIndex];
+                //if (EFFECTS_ARRAY[document.getElementById("card-effect-selector-" + capaId).selectedIndex] != EFFECT_NONE) {
+                //this.updateDisplayCardEditor(this.deck, this.selectedCardPos);
                 selectedCard.capacities[capaId].target = TARGETS_ARRAY[document.getElementById("card-target-selector-" + capaId).selectedIndex];
+                //}
+                //}
             }
             this.displayDeck();
 
@@ -62,7 +68,7 @@ class DeckEditor {
         });
 
         this.updateDisplayDeckActions();
-        this.updateDisplayCardEditor(this.deck, this.selectedCardPos)
+        this.updateDisplayCardEditor(this.deck, this.selectedCardPos);
         this.updateDisplayCardSelector();
     }
 
@@ -86,8 +92,8 @@ class DeckEditor {
     }
 
     updateDisplayCardEditor(deck, cardPos) {
-        let tmpCard = deck.cards[cardPos];
         let output = "";
+        let tmpCard = deck.cards[cardPos];
         let onChangeJS = "onchange=\"deckEditor.updateCard()\"";
         if (deck.cards.length > 0) {
             output += "<div>Force: <select id='card-force-selector' " + onChangeJS + ">";
@@ -127,6 +133,7 @@ class DeckEditor {
                 }
                 output += "</select> (" + Card.getPowerTrigger(capa.trigger) + ")</div>";
 
+                //if (capa.trigger != TRIGGER_NONE) {
                 output += "<div>Effect: <select id='card-effect-selector-" + index + "' " + onChangeJS + ">";
                 for (let i = 0; i < EFFECTS_ARRAY.length; i++) {
                     if (capa.effect == EFFECTS_ARRAY[i]) {
@@ -139,6 +146,7 @@ class DeckEditor {
                 }
                 output += "</select> (" + Card.getPowerEffect(capa.effect) + ")</div>";
 
+                //if (capa.effect != EFFECT_NONE && capa.effect != EFFECT_CALL_SUPPORT) {
                 output += "<div>Target: <select id='card-target-selector-" + index + "' " + onChangeJS + ">";
                 for (let i = 0; i < TARGETS_ARRAY.length; i++) {
                     if (capa.target == TARGETS_ARRAY[i]) {
@@ -150,6 +158,8 @@ class DeckEditor {
                     output += "</option>";
                 }
                 output += "</select> (" + Card.getPowerTarget(capa.target) + ")</div>";
+                //}
+                //}
             });
 
             output += "<br/><div>TOTAL POWER: " + tmpCard.getTotalPower() + "</div>";
