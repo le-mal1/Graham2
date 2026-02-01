@@ -190,6 +190,11 @@ body {
   width: 350px;
 }
 
+.selector {
+  min-width: 100px;
+  height: 23px;
+}
+
 .card-action {
   display: block;
   margin: 10px;

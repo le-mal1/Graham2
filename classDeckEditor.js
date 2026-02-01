@@ -91,7 +91,7 @@ class DeckEditor {
         let tmpCard = deck.cards[cardPos];
         let onChangeJS = "onchange=\"deckEditor.updateCard()\"";
         if (deck.cards.length > 0) {
-            output += "<div>Force: <select id='card-force-selector' " + onChangeJS + ">";
+            output += "<div>Force: <select class='selector' id='card-force-selector' " + onChangeJS + ">";
             for (let i = 0; i < 10; i++) {
                 if (tmpCard.force == i) {
                     output += "<option value='" + i + "' selected='selected'>";
@@ -102,7 +102,7 @@ class DeckEditor {
                 output += "</option>";
             }
             output += "</select> (" + tmpCard.getPowerForce() + ")</div>";
-            output += "<div>Pv: <select id='card-pv-selector' " + onChangeJS + ">";
+            output += "<div>Pv: <select class='selector' id='card-pv-selector' " + onChangeJS + ">";
             for (let i = 0; i < 10; i++) {
                 if (tmpCard.pv == i) {
                     output += "<option value='" + i + "' selected='selected'>";
@@ -116,7 +116,7 @@ class DeckEditor {
             tmpCard.capacities.forEach((capa, index) => {
                 output += "<br/><div>Capacity:</div>";
 
-                output += "<div>Trigger: <select id='card-trigger-selector-" + index + "' " + onChangeJS + ">";
+                output += "<div>Trigger: <select class='selector' id='card-trigger-selector-" + index + "' " + onChangeJS + ">";
                 for (let i = 0; i < TRIGGERS_ARRAY.length; i++) {
                     if (capa.trigger == TRIGGERS_ARRAY[i]) {
                         output += "<option value='" + TRIGGERS_ARRAY[i] + "' selected='selected'>";
@@ -128,7 +128,7 @@ class DeckEditor {
                 }
                 output += "</select> (" + Card.getPowerTrigger(capa.trigger) + ")</div>";
 
-                output += "<div>Effect: <select id='card-effect-selector-" + index + "' " + onChangeJS + ">";
+                output += "<div>Effect: <select class='selector' id='card-effect-selector-" + index + "' " + onChangeJS + ">";
                 for (let i = 0; i < EFFECTS_ARRAY.length; i++) {
                     if (capa.effect == EFFECTS_ARRAY[i]) {
                         output += "<option value='" + EFFECTS_ARRAY[i] + "' selected='selected'>";
@@ -140,7 +140,7 @@ class DeckEditor {
                 }
                 output += "</select> (" + Card.getPowerEffect(capa.effect) + ")</div>";
 
-                output += "<div>Value: <select id='card-value-selector-" + index + "' " + onChangeJS + ">";
+                output += "<div>Value: <select class='selector' id='card-value-selector-" + index + "' " + onChangeJS + ">";
                 for (let i = 0; i < VALUES_ARRAY.length; i++) {
                     if (capa.value == VALUES_ARRAY[i]) {
                         output += "<option value='" + VALUES_ARRAY[i] + "' selected='selected'>";
@@ -152,7 +152,7 @@ class DeckEditor {
                 }
                 output += "</select> (" + Card.getPowerValue(capa.value) + ")</div>";
 
-                output += "<div>Target: <select id='card-target-selector-" + index + "' " + onChangeJS + ">";
+                output += "<div>Target: <select class='selector' id='card-target-selector-" + index + "' " + onChangeJS + ">";
                 for (let i = 0; i < TARGETS_ARRAY.length; i++) {
                     if (capa.target == TARGETS_ARRAY[i]) {
                         output += "<option value='" + TARGETS_ARRAY[i] + "' selected='selected'>";
@@ -171,7 +171,7 @@ class DeckEditor {
     }
 
     updateDisplayDeckActions() {
-        let output = "DECK TOTAL POWER: " + this.deck.getTotalPower() + " / GREATER POWER IN DECK: " + this.deck.getGreatestPower();
+        let output = "TOTAL POWER: " + this.deck.getTotalPower() + " / GREATEST POWER: " + this.deck.getGreatestPower();
 
         this.display(output, "cards-total-power", true);
 
