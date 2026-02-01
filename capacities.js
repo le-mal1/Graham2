@@ -12,6 +12,8 @@ const EFFECT_CALL_SUPPORT = "call support";
 const VALUE_0 = 0;
 const VALUE_1 = 1;
 const VALUE_2 = 2;
+const VALUE_3 = 3;
+const VALUE_4 = 4;
 const VALUE_5 = 5;
 
 const TARGET_NONE = "target none";
@@ -64,6 +66,8 @@ const VALUES_ARRAY = [
     VALUE_0,
     VALUE_1,
     VALUE_2,
+    VALUE_3,
+    VALUE_4,
     VALUE_5,
 ];
 
@@ -71,6 +75,8 @@ const VALUES_POWER_MAP = new Map();
 VALUES_POWER_MAP.set(VALUE_0, 0);
 VALUES_POWER_MAP.set(VALUE_1, 1);
 VALUES_POWER_MAP.set(VALUE_2, 2);
+VALUES_POWER_MAP.set(VALUE_3, 3);
+VALUES_POWER_MAP.set(VALUE_4, 4);
 VALUES_POWER_MAP.set(VALUE_5, 5);
 
 const TARGETS_ARRAY = [
