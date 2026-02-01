@@ -51,8 +51,6 @@ class Match {
             return END_GAME;
         }
 
-        //this.display("Pos leader 0: " + this.batt0PosLeader + " Pos leader 1: " + this.batt1PosLeader);
-        this.displayBattlefields();
 
         // Triggers START OPPONENT TURN
         this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId, true);
@@ -63,9 +61,19 @@ class Match {
         // DEPILAGE
         this.depilage();
 
+        this.displayBattlefields();
+
         this.newStep();
         this.displayPhaseName("COMBAT PHASE");
         // Combats des leaders
+
+        this.getLeaderCard(0).visualEffects.isFighting0.isActive = true;
+        this.getLeaderCard(1).visualEffects.isFighting1.isActive = true;
+
+        this.displayBattlefields();
+        this.newStep();
+        this.displayPhaseName("END PHASE");
+
         this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
         this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
 
@@ -106,7 +114,7 @@ class Match {
                     tmpBattPosLeader = tmpBatt.length - 1;
                     tmpDrawnCard.capacities.forEach((capa) => {
                         if (capa.trigger == TRIGGER_ENTER_MY_CARD) {
-                            this.pile.push({ effect: capa.effect, target: capa.target, playerId: playerId, pos: tmpBattPosLeader });
+                            this.pushToPileCapacitiesFromCard(capa.trigger, playerId, tmpBattPosLeader)
                         }
                     })
                 }
@@ -227,32 +235,37 @@ class Match {
     pushToPileCapacitiesFromCard(trigger, playerId, pos) {
         let card = this.getPlayerCard(playerId, pos);
         if (card.pv > 0) {
-            //card.capacities.forEach((capa) => {
             for (let capaId = card.capacities.length - 1; capaId >= 0; capaId--) {
                 if (card.capacities[capaId].trigger == trigger) {
-                    this.pile.push({ effect: card.capacities[capaId].effect, target: card.capacities[capaId].target, playerId: playerId, pos: pos });
+                    this.pile.push({ capacity: new Capacity(trigger, card.capacities[capaId].effect, card.capacities[capaId].target), playerId: playerId, pos: pos });
                 }
             }
-            //});
         }
     }
 
     depilage() {
         let tmpPlayerId;
         let target;
+        let tmpTopElement;
         let tmpTopCapacity;
         while (this.pile.length > 0) {
-            tmpTopCapacity = this.pile.getTopElement();
+
+            tmpTopElement = this.pile.getTopElement();
+            tmpTopCapacity = tmpTopElement.capacity;
+
+            this.displayBattlefields();
+            this.newStep();
+            this.displayPhaseName(tmpTopElement.playerId + "/" + tmpTopElement.pos + " : " + tmpTopCapacity.toString());
+            tmpPlayerId = tmpTopElement.playerId;
+            this.getPlayerCard(tmpPlayerId, tmpTopElement.pos).visualEffects.isResolving.isActive = true;
             this.pile.pop();
-            tmpPlayerId = tmpTopCapacity.playerId;
-            //this.display("Effect: " + tmpTopCapacity.effect + ", Player: " + tmpPlayerId + ", Pos: " + tmpTopCapacity.pos + ", Target: " + tmpTopCapacity.target);
-            //this.displayCapacity(tmpPlayerId, tmpTopCapacity.pos);
+
             switch (tmpTopCapacity.effect) {
                 case EFFECT_ADD_FORCE_1:
-                    this.getTargets(tmpTopCapacity).forEach((card) => card.force++);
+                    this.getTargets(tmpTopElement).forEach((card) => card.force++);
                     break;
                 case EFFECT_ADD_PV_1:
-                    this.getTargets(tmpTopCapacity).forEach((card) => card.pv++);
+                    this.getTargets(tmpTopElement).forEach((card) => card.pv++);
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
@@ -270,55 +283,55 @@ class Match {
         }
     }
 
-    getTargets(_target) {
+    getTargets(_elem) {
         let output = [];
-        switch (_target.target) {
+        switch (_elem.capacity.target) {
             case TARGET_MY_LEADER:
-                output = [this.getLeaderCard(_target.playerId)];
+                output = [this.getLeaderCard(_elem.playerId)];
                 break;
             case TARGET_OPPONENT_LEADER:
-                output = [this.getLeaderCard(1 - _target.playerId)];
+                output = [this.getLeaderCard(1 - _elem.playerId)];
                 break;
             case TARGET_MY_CARD:
-                output = [this.getPlayerCard(_target.playerId, _target.pos)];
+                output = [this.getPlayerCard(_elem.playerId, _elem.pos)];
                 break;
             case TARGET_MY_CARDS:
-                output = this.getPlayerCards(_target.playerId);
+                output = this.getPlayerCards(_elem.playerId);
                 break;
             case TARGET_OPPONENT_CARDS:
-                output = this.getPlayerCards(1 - _target.playerId);
+                output = this.getPlayerCards(1 - _elem.playerId);
                 break;
             case TARGET_EVERY_CARDS:
                 output = this.getAllCards();
                 break;
             case TARGET_MY_LEADER_NEIGHBOORS:
-                output = this.getPlayerCardNeighboors(_target.playerId, this.getLeaderPosBatt(_target.playerId));
+                output = this.getPlayerCardNeighboors(_elem.playerId, this.getLeaderPosBatt(_elem.playerId));
                 break;
             case TARGET_OPPONENT_LEADER_NEIGHBOORS:
-                output = this.getPlayerCardNeighboors(1 - _target.playerId, this.getLeaderPosBatt(1 - _target.playerId));
+                output = this.getPlayerCardNeighboors(1 - _elem.playerId, this.getLeaderPosBatt(1 - _elem.playerId));
                 break;
             case TARGET_MY_CARD_NEIGHBOORS:
-                output = this.getPlayerCardNeighboors(_target.playerId, _target.pos);
+                output = this.getPlayerCardNeighboors(_elem.playerId, _elem.pos);
                 break;
             case TARGET_MY_EDGE_RIGHT:
-                output = [this.getPlayerEdgeRight(_target.playerId)];
+                output = [this.getPlayerEdgeRight(_elem.playerId)];
                 break;
             case TARGET_MY_EDGE_LEFT:
-                output = [this.getPlayerEdgeLeft(_target.playerId)];
+                output = [this.getPlayerEdgeLeft(_elem.playerId)];
                 break;
             case TARGET_OPPONENT_EDGE_RIGHT:
-                output = [this.getPlayerEdgeRight(1 - _target.playerId)];
+                output = [this.getPlayerEdgeRight(1 - _elem.playerId)];
                 break;
             case TARGET_OPPONENT_EDGE_LEFT:
-                output = [this.getPlayerEdgeLeft(1 - _target.playerId)];
+                output = [this.getPlayerEdgeLeft(1 - _elem.playerId)];
                 break;
             case TARGET_MY_EDGES:
-                output.push(this.getPlayerEdgeRight(_target.playerId));
-                output.push(this.getPlayerEdgeLeft(_target.playerId));
+                output.push(this.getPlayerEdgeRight(_elem.playerId));
+                output.push(this.getPlayerEdgeLeft(_elem.playerId));
                 break;
             case TARGET_OPPONENT_EDGES:
-                output.push(this.getPlayerEdgeRight(1 - _target.playerId));
-                output.push(this.getPlayerEdgeLeft(1 - _target.playerId));
+                output.push(this.getPlayerEdgeRight(1 - _elem.playerId));
+                output.push(this.getPlayerEdgeLeft(1 - _elem.playerId));
                 break;
             case TARGET_NONE:
                 output = [];
@@ -333,19 +346,10 @@ class Match {
     }
 
     display(txt) {
-        //document.getElementById("game").innerHTML += txt;
         this.displayingMatch[this.displayingMatchIndex].game += txt;
     }
 
-    displayCapacity(playerId, cardPos) {
-        let capaCanvas = this.displayingMatch[this.displayingMatchIndex].capaCanvas;
-        capaCanvas += "Player: " + playerId + "<br/>";
-        capaCanvas += "Card pos: " + cardPos + "<br/>";
-        this.displayingMatch[this.displayingMatchIndex].capaCanvas = capaCanvas;
-    }
-
     displayTurn(nbTurn, playerId) {
-        //this.display("<br/>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId);
         this.display("<div class='indications'><h2>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId + "</h2></div>");
 
     }
@@ -377,7 +381,7 @@ class Match {
         }
 
         this.display(displayBatt);
-        this.removeIsEnteredThisStep();
+        this.removeTmpVisualEffects();
     }
 
     newStep() {
@@ -387,9 +391,7 @@ class Match {
     }
 
     updateVisualEffects() {
-        let playerId;
-        for (let i = 0; i < 2; i++) {
-            playerId = i;
+        for (let playerId = 0; playerId < 2; playerId++) {
             this.getPlayerBatt(playerId).forEach((card, cardPos) => {
                 if (card.pv <= 0) {
                     card.visualEffects.isDead.isActive = true;
@@ -404,14 +406,19 @@ class Match {
         }
     }
 
-    removeIsEnteredThisStep() {
+    removeTmpVisualEffects() {
         let playerId;
         for (let i = 0; i < 2; i++) {
             playerId = i;
-            this.getPlayerBatt(playerId).forEach((card, cardPos) => {
-                if (card.visualEffects.isEnteredThisStep.isActive) {
+            this.getPlayerBatt(playerId).forEach((card) => {
+                if (card.visualEffects.isEnteredThisStep.isActive)
                     card.visualEffects.isEnteredThisStep.isActive = false;
-                }
+                if (card.visualEffects.isResolving.isActive)
+                    card.visualEffects.isResolving.isActive = false;
+                if (card.visualEffects.isFighting0.isActive)
+                    card.visualEffects.isFighting0.isActive = false;
+                if (card.visualEffects.isFighting1.isActive)
+                    card.visualEffects.isFighting1.isActive = false;
             });
         }
     }

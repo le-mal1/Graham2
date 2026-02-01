@@ -27,6 +27,18 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
                 cardClass += " entered-this-step";
                 break;
 
+            case IS_RESOLVING:
+                cardClass += " is-resolving";
+                break;
+
+            case IS_FIGHTING0:
+                cardClass += " is-fighting-0";
+                break;
+
+            case IS_FIGHTING1:
+                cardClass += " is-fighting-1";
+                break;
+
             default:
                 break;
         }

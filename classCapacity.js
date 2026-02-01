@@ -9,4 +9,8 @@ class Capacity {
     copy() {
         return new Capacity(this.trigger, this.effect, this.target, this.value);
     }
+
+    toString(){
+        return this.trigger + "/" + this.effect + "/" + this.target;
+    }
 }

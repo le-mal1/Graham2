@@ -23,7 +23,7 @@ body {
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
 /* Structures */
@@ -66,13 +66,70 @@ body {
   animation-iteration-count: 1;
 }
 
+.is-resolving {
+  border-color: rgb(255, 255, 255);
+  animation-name: resolving;
+  animation-duration: 1s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+.is-fighting-0 {
+  animation-name: fighting0;
+  animation-duration: 0.5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+.is-fighting-1 {
+  animation-name: fighting1;
+  animation-duration: 0.5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
 /* Animations */
 @keyframes appearing {
   from {
     scale: 0;
   }
+
   to {
     scale: 1;
+  }
+}
+
+@keyframes resolving {
+  from {
+    scale: 1;
+  }
+
+  to {
+    scale: 1.1;
+  }
+}
+
+@keyframes fighting0 {
+  from {
+    position: relative;
+    top: 0;
+  }
+
+  to {
+    position: relative;
+    top: 50px;
+  }
+}
+
+@keyframes fighting1 {
+  from {
+    position: relative;
+    top: 0;
+  }
+
+  to {
+    position: relative;
+    top: -50px;
   }
 }
 
