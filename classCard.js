@@ -71,6 +71,12 @@ class Card {
         return power;
     }
 
+    static getPowerValue(value) {
+        let power = 0;
+        power = VALUES_POWER_MAP.get(value);
+        return power;
+    }
+
     static getPowerTarget(target) {
         let power = 0;
         power = TARGETS_POWER_MAP.get(target);
@@ -84,6 +90,7 @@ class Card {
         this.capacities.forEach((capa) => {
             power += Card.getPowerTrigger(capa.trigger);
             power += Card.getPowerEffect(capa.effect);
+            power += Card.getPowerValue(capa.value);
             power += Card.getPowerTarget(capa.target);
         });
         return power;

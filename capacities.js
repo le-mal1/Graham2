@@ -5,9 +5,14 @@ const TRIGGER_START_EACH_TURN = "start each turn";
 const TRIGGER_ENTER_MY_CARD = "enter my card";
 
 const EFFECT_NONE = "effect none";
-const EFFECT_ADD_FORCE_1 = "add force";
-const EFFECT_ADD_PV_1 = "add pv";
+const EFFECT_ADD_FORCE = "add force";
+const EFFECT_ADD_PV = "add pv";
 const EFFECT_CALL_SUPPORT = "call support";
+
+const VALUE_0 = 0;
+const VALUE_1 = 1;
+const VALUE_2 = 2;
+const VALUE_5 = 5;
 
 const TARGET_NONE = "target none";
 const TARGET_MY_CARD = "target card";
@@ -44,16 +49,29 @@ TRIGGERS_POWER_MAP.set(TRIGGER_ENTER_MY_CARD, 1);
 
 const EFFECTS_ARRAY = [
     EFFECT_NONE,
-    EFFECT_ADD_FORCE_1,
-    EFFECT_ADD_PV_1,
+    EFFECT_ADD_FORCE,
+    EFFECT_ADD_PV,
     EFFECT_CALL_SUPPORT,
 ];
 
 const EFFECTS_POWER_MAP = new Map();
 EFFECTS_POWER_MAP.set(EFFECT_NONE, 0);
-EFFECTS_POWER_MAP.set(EFFECT_ADD_FORCE_1, 1);
-EFFECTS_POWER_MAP.set(EFFECT_ADD_PV_1, 1);
+EFFECTS_POWER_MAP.set(EFFECT_ADD_FORCE, 1);
+EFFECTS_POWER_MAP.set(EFFECT_ADD_PV, 1);
 EFFECTS_POWER_MAP.set(EFFECT_CALL_SUPPORT, 4);
+
+const VALUES_ARRAY = [
+    VALUE_0,
+    VALUE_1,
+    VALUE_2,
+    VALUE_5,
+];
+
+const VALUES_POWER_MAP = new Map();
+VALUES_POWER_MAP.set(VALUE_0, 0);
+VALUES_POWER_MAP.set(VALUE_1, 1);
+VALUES_POWER_MAP.set(VALUE_2, 2);
+VALUES_POWER_MAP.set(VALUE_5, 5);
 
 const TARGETS_ARRAY = [
     TARGET_NONE,

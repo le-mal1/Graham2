@@ -242,7 +242,7 @@ class Match {
         if (card.pv > 0) {
             for (let capaId = card.capacities.length - 1; capaId >= 0; capaId--) {
                 if (card.capacities[capaId].trigger == trigger) {
-                    this.pile.push({ capacity: new Capacity(trigger, card.capacities[capaId].effect, card.capacities[capaId].target), playerId: playerId, pos: pos });
+                    this.pile.push({ capacity: new Capacity(trigger, card.capacities[capaId].effect, card.capacities[capaId].target, card.capacities[capaId].value), playerId: playerId, pos: pos });
                 }
             }
         }
@@ -266,11 +266,11 @@ class Match {
             this.pile.pop();
 
             switch (tmpTopCapacity.effect) {
-                case EFFECT_ADD_FORCE_1:
-                    this.getTargets(tmpTopElement).forEach((card) => card.force++);
+                case EFFECT_ADD_FORCE:
+                    this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
                     break;
-                case EFFECT_ADD_PV_1:
-                    this.getTargets(tmpTopElement).forEach((card) => card.pv++);
+                case EFFECT_ADD_PV:
+                    this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
