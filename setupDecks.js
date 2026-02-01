@@ -38,6 +38,7 @@ if (TEST) {
     match.play();
     document.getElementById("game").innerHTML = match.displayingMatch[0].game;
     document.getElementById("previous-step-button").style.opacity = 0.5;
+    document.getElementById("first-step-button").style.opacity = 0.5;
 }
 
 function createRandomDeck(size = 7) {
@@ -54,8 +55,8 @@ function createRandomDeck(size = 7) {
         pv = Math.floor(Math.random() * 9) + 1;
 
         capaTrigger = randomElement(TRIGGERS_ARRAY);
-        capaEffect = randomElement(EFFECTS_ARRAY);
-        capaTarget = randomElement(TARGETS_ARRAY);
+        capaEffect = randomElement(EFFECTS_ARRAY.toSpliced(0, 1));
+        capaTarget = randomElement(TARGETS_ARRAY.toSpliced(0, 1));
         capacities = [];
         capacities.push(new Capacity(capaTrigger, capaEffect, capaTarget));
         deck.addCard(force, pv, capacities);
