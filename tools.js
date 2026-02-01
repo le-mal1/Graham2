@@ -55,7 +55,7 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
     output += "<div class='card-force'>Force: " + card.force + "</div>";
     output += "<div class='card-pv'>PV: " + card.pv + "</div>";
     card.capacities.forEach((capa) => {
-        if (capa.trigger != TRIGGER_NONE || capa.effect != EFFECT_NONE) {
+        if (capa.trigger != TRIGGER_NONE && capa.effect != EFFECT_NONE) {
             output += "<div class='card-capacity'>Capacity:<br/>-";
             output += capa.trigger + "<br/>-";
             output += capa.effect + "<br/>-";
