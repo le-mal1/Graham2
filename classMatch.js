@@ -350,7 +350,7 @@ class Match {
     }
 
     displayTurn(nbTurn, playerId) {
-        this.display("<div class='indications'><h2>TURN: " + this.nbTurn + " Current player: " + this.currentPlayerId + "</h2></div>");
+        this.display("<div class='indications'><h2>TURN: " + this.nbTurn + " / Current player: " + this.currentPlayerId + "</h2></div>");
 
     }
 

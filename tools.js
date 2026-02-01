@@ -58,8 +58,9 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
         if (capa.trigger != TRIGGER_NONE && capa.effect != EFFECT_NONE) {
             output += "<div class='card-capacity'>Capacity:<br/>-";
             output += capa.trigger + "<br/>-";
-            output += capa.effect + "<br/>-";
-            output += capa.target;
+            output += capa.effect + "<br/>";
+            if (capa.effect != EFFECT_CALL_SUPPORT)
+                output += "-" + capa.target;
             output += "</div>";
         }
     });
