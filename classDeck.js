@@ -44,4 +44,13 @@ class Deck {
         })
         return totalPower;
     }
+
+    getGreatestPower(){
+        let output = 0;
+        this.cards.forEach((card) => {
+            if(card.getTotalPower() > output)
+                output = card.getTotalPower();
+        });
+        return output;
+    }
 }

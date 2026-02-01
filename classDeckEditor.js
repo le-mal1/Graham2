@@ -158,9 +158,7 @@ class DeckEditor {
     }
 
     updateDisplayDeckActions() {
-        let output = "DECK TOTAL POWER: " + this.deck.getTotalPower();
-
-
+        let output = "DECK TOTAL POWER: " + this.deck.getTotalPower() + " / GREATER POWER IN DECK: " + this.deck.getGreatestPower();
 
         this.display(output, "cards-total-power", true);
 
