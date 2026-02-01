@@ -48,6 +48,16 @@ body {
   border-color: rgb(68, 68, 68);
 }
 
+#step-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.change-step-buttons {
+  margin: 5px;
+}
+
 /* Special cards */
 .dead-card {
   background-color: black;
