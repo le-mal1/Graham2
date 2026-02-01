@@ -51,12 +51,15 @@ class Match {
             return END_GAME;
         }
 
+        // Triggers START EACH TURN
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_EACH_TURN, 1 - this.currentPlayerId);
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_EACH_TURN, this.currentPlayerId);
 
         // Triggers START OPPONENT TURN
-        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId, true);
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId);
 
         // Triggers START YOUR TURN
-        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_YOUR_TURN, this.currentPlayerId, true);
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_YOUR_TURN, this.currentPlayerId);
 
         // DEPILAGE
         this.depilage();
