@@ -49,6 +49,7 @@ function createRandomDeck(size = 7) {
     let capaTrigger;
     let capaEffect;
     let capaTarget;
+    let capaValue;
     for (let i = 0; i < size; i++) {
         //deck.addCard(1, 1);
         force = Math.floor(Math.random() * 10);
@@ -57,8 +58,9 @@ function createRandomDeck(size = 7) {
         capaTrigger = randomElement(TRIGGERS_ARRAY);
         capaEffect = randomElement(EFFECTS_ARRAY.toSpliced(0, 1));
         capaTarget = randomElement(TARGETS_ARRAY.toSpliced(0, 1));
+        capaValue = randomElement(VALUES_ARRAY.toSpliced(0, 1));
         capacities = [];
-        capacities.push(new Capacity(capaTrigger, capaEffect, capaTarget));
+        capacities.push(new Capacity(capaTrigger, capaEffect, capaTarget, capaValue));
         deck.addCard(force, pv, capacities);
     }
     return deck;

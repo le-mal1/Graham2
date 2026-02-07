@@ -70,23 +70,19 @@ class Match {
         this.displayPhaseName("COMBAT PHASE");
         // Combats des leaders
 
-        this.getLeaderCard(0).visualEffects.isFighting0.isActive = true;
-        this.getLeaderCard(1).visualEffects.isFighting1.isActive = true;
+        if (this.getLeaderCard(0) != null)
+            this.getLeaderCard(0).visualEffects.isFighting0.isActive = true;
+        if (this.getLeaderCard(1) != null)
+            this.getLeaderCard(1).visualEffects.isFighting1.isActive = true;
 
         this.displayBattlefields();
 
-        this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
-        this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
-
-        if (this.batt0[this.batt0PosLeader].pv <= 0) {
-            this.batt0PosLeader = null;
-            this.updateVisualEffects();
+        if (this.batt0PosLeader != null && this.batt1PosLeader != null) {
+            this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
+            this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
         }
 
-        if (this.batt1[this.batt1PosLeader].pv <= 0) {
-            this.batt1PosLeader = null;
-            this.updateVisualEffects();
-        }
+        this.checkDeadLeaders();
 
         this.newStep();
         this.displayPhaseName("END PHASE");
@@ -205,13 +201,31 @@ class Match {
         return output;
     }
 
+    getPlayerCardNeighboorsPos(playerId, pos) {
+        let output = [];
+        if (pos > 0)
+            output.push(pos - 1);
+        if (pos < this.getPlayerBatt(playerId).length - 1)
+            output.push(pos + 1);
+        return output;
+    }
+
     getPlayerEdgeRight(playerId) {
-        for (let i = this.getPlayerBatt(playerId).length - 1; i >= 0; i++) {
+        for (let i = this.getPlayerBatt(playerId).length - 1; i >= 0; i--) {
             if (this.getPlayerBatt(playerId)[i].pv > 0) {
                 return this.getPlayerBatt(playerId)[i];
             }
         }
         return [];
+    }
+
+    getPlayerEdgeRightPos(playerId) {
+        for (let i = this.getPlayerBatt(playerId).length - 1; i >= 0; i--) {
+            if (this.getPlayerBatt(playerId)[i].pv > 0) {
+                return i;
+            }
+        }
+        return null;
     }
 
     getPlayerEdgeLeft(playerId) {
@@ -221,6 +235,15 @@ class Match {
             }
         }
         return [];
+    }
+
+    getPlayerEdgeLeftPos(playerId) {
+        for (let i = 0; i < this.getPlayerBatt(playerId).length; i++) {
+            if (this.getPlayerBatt(playerId)[i].pv > 0) {
+                return i;
+            }
+        }
+        return null;
     }
 
     getBattLastCard(playerId) {
@@ -267,10 +290,21 @@ class Match {
 
             switch (tmpTopCapacity.effect) {
                 case EFFECT_ADD_FORCE:
-                    this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
+                    if (this.getTargets(tmpTopElement).length > 0)
+                        this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
+                    break;
+                case EFFECT_REMOVE_FORCE:
+                    if (this.getTargets(tmpTopElement).length > 0)
+                        this.getTargets(tmpTopElement).forEach((card) => card.force -= tmpTopCapacity.value);
                     break;
                 case EFFECT_ADD_PV:
-                    this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
+                    if (this.getTargets(tmpTopElement).length > 0)
+                        this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
+                    break;
+                case EFFECT_REMOVE_PV:
+                    if (this.getTargets(tmpTopElement).length > 0)
+                        this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
+                    this.checkDeadLeaders()
                     break;
                 case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
@@ -279,6 +313,78 @@ class Match {
                         this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, tmpPlayerId, this.getPlayerBatt(tmpPlayerId).length - 1);
                     }
 
+                    break;
+                case EFFECT_CHANGE_LEADER:
+                    switch (tmpTopCapacity.target) {
+                        case TARGET_MY_LEADER:
+                            if (this.getLeaderPosBatt(tmpPlayerId) != null)
+                                this.changeLeader(tmpPlayerId, this.getLeaderPosBatt(tmpPlayerId));
+                            break;
+                        case TARGET_OPPONENT_LEADER:
+                            if (this.getLeaderPosBatt(1 - tmpPlayerId) != null)
+                                this.changeLeader(1 - tmpPlayerId, this.getLeaderPosBatt(1 - tmpPlayerId));
+                            break;
+                        case TARGET_MY_CARD:
+                            if (tmpTopElement.pv > 0)
+                                this.changeLeader(tmpPlayerId, tmpTopElement.pos);
+                            break;
+                        case TARGET_MY_CARDS:
+                            if (this.getPlayerEdgeLeftPos(tmpPlayerId) != null)
+                                this.changeLeader(tmpPlayerId, this.getPlayerEdgeLeftPos(tmpPlayerId));
+                            break;
+                        case TARGET_OPPONENT_CARDS:
+                            if (this.getPlayerEdgeLeftPos(1 - tmpPlayerId) != null)
+                                this.changeLeader(1 - tmpPlayerId, this.getPlayerEdgeLeftPos(1 - tmpPlayerId));
+                            break;
+                        case TARGET_EVERY_CARDS:
+                            if (this.getPlayerEdgeLeftPos(tmpPlayerId) != null)
+                                this.changeLeader(tmpPlayerId, this.getPlayerEdgeLeftPos(tmpPlayerId));
+                            if (this.getPlayerEdgeLeftPos(1 - tmpPlayerId) != null)
+                                this.changeLeader(1 - tmpPlayerId, this.getPlayerEdgeLeftPos(1 - tmpPlayerId));
+                            break;
+                        case TARGET_MY_LEADER_NEIGHBOORS:
+                            if (this.getPlayerCardNeighboorsPos(tmpPlayerId, this.getLeaderPosBatt(tmpPlayerId)).length > 0)
+                                this.changeLeader(tmpPlayerId, this.getPlayerCardNeighboorsPos(tmpPlayerId, this.getLeaderPosBatt(tmpPlayerId))[0]);
+                            break;
+                        case TARGET_OPPONENT_LEADER_NEIGHBOORS:
+                            if (this.getPlayerCardNeighboorsPos(1 - tmpPlayerId, this.getLeaderPosBatt(1 - tmpPlayerId)).length > 0)
+                                this.changeLeader(1 - tmpPlayerId, this.getPlayerCardNeighboorsPos(1 - tmpPlayerId, this.getLeaderPosBatt(1 - tmpPlayerId))[0]);
+                            break;
+                        case TARGET_MY_CARD_NEIGHBOORS:
+                            if (this.getPlayerCardNeighboorsPos(tmpPlayerId, tmpTopElement.pos).length > 0)
+                                this.changeLeader(tmpPlayerId, this.getPlayerCardNeighboorsPos(tmpPlayerId, this.getLeaderPosBatt(tmpPlayerId))[0]);
+                            break;
+                        case TARGET_MY_EDGE_RIGHT:
+                            if (this.getPlayerEdgeRightPos(tmpPlayerId) != null)
+                                this.changeLeader(tmpPlayerId, this.getPlayerEdgeRightPos(tmpPlayerId));
+                            break;
+                        case TARGET_MY_EDGE_LEFT:
+                            if (this.getPlayerEdgeLeftPos(tmpPlayerId) != null)
+                                this.changeLeader(tmpPlayerId, this.getPlayerEdgeLeftPos(tmpPlayerId));
+                            break;
+                        case TARGET_OPPONENT_EDGE_RIGHT:
+                            if (this.getPlayerEdgeRightPos(1 - tmpPlayerId) != null)
+                                this.changeLeader(1 - tmpPlayerId, this.getPlayerEdgeRightPos(1 - tmpPlayerId));
+                            break;
+                        case TARGET_OPPONENT_EDGE_LEFT:
+                            if (this.getPlayerEdgeLeftPos(1 - tmpPlayerId) != null)
+                                this.changeLeader(1 - tmpPlayerId, this.getPlayerEdgeLeftPos(1 - tmpPlayerId));
+                            break;
+                        case TARGET_MY_EDGES:
+                            if (this.getPlayerEdgeLeftPos(tmpPlayerId) != null)
+                                this.changeLeader(tmpPlayerId, this.getPlayerEdgeLeftPos(tmpPlayerId));
+                            break;
+                        case TARGET_OPPONENT_EDGES:
+                            if (this.getPlayerEdgeLeftPos(1 - tmpPlayerId) != null)
+                                this.changeLeader(1 - tmpPlayerId, this.getPlayerEdgeLeftPos(1 - tmpPlayerId));
+                            break;
+                        case TARGET_NONE:
+                            output = [];
+                            break;
+                        default:
+                            output = [];
+                            break;
+                    }
                     break;
                 case EFFECT_NONE:
                     break;
@@ -430,6 +536,38 @@ class Match {
 
     resetDisplayingMatchIndex() {
         this.displayingMatchIndex = 0;
+    }
+
+    checkDeadLeaders() {
+        let check = false;
+
+        if (this.batt0PosLeader != null && this.batt0[this.batt0PosLeader].pv <= 0) {
+            this.batt0PosLeader = null;
+            this.updateVisualEffects();
+            check = true;
+        }
+
+        if (this.batt1PosLeader != null && this.batt1[this.batt1PosLeader].pv <= 0) {
+            this.batt1PosLeader = null;
+            this.updateVisualEffects();
+            check = true;
+        }
+
+        if (check == false) {
+            for (let playerId = 0; playerId < 2; playerId++) {
+                for (let j = 0; j < this.getPlayerBatt(playerId).length; j++) {
+                    if (this.getPlayerBatt(playerId)[j].pv <= 0) {
+                        this.updateVisualEffects();
+                        break;
+                    }
+                }
+            }
+        }
+
+    }
+
+    changeLeader(playerId, pos) {
+        this["batt" + playerId + "PosLeader"] = pos;
     }
 
 }
