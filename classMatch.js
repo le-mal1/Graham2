@@ -203,9 +203,9 @@ class Match {
 
     getPlayerCardNeighboorsPos(playerId, pos) {
         let output = [];
-        if (pos > 0)
+        if (pos > 0 && this.getPlayerCard(playerId, pos - 1).pv > 0)
             output.push(pos - 1);
-        if (pos < this.getPlayerBatt(playerId).length - 1)
+        if (pos < this.getPlayerBatt(playerId).length - 1 && this.getPlayerCard(playerId, pos + 1).pv > 0)
             output.push(pos + 1);
         return output;
     }
