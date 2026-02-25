@@ -48,7 +48,8 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
     let onClick = "";
     if (cardPosInDeck != undefined) {
         //dataCardPosInDeck = "data-cardPosInDeck=\"" + cardPosInDeck + "\"";
-        onClick += " onclick=\"deckEditor.updateSelectedCardPos(" + cardPosInDeck + ")\"";
+        onClick += " onclick=\"deckEditor.moveCard(" + cardPosInDeck + "); deckEditor.updateSelectedCardPos(" + cardPosInDeck + ")\"";
+        //onClick += " onclick=\"deckEditor.moveCard(" + cardPosInDeck + ")\"";
     }
 
     output += "<div class='" + cardClass + "' " + onClick + ">";

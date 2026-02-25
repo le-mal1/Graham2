@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="deck-editor">
+        <div id="random-cards-list"></div>
+        <div id="cards-list"></div>
+        <div id="cards-total-power"></div>
+        <div id="cards-actions">
+            <button class="deck-action" onclick="deckEditor.saveAsDeck(1)">Save as Deck 1</button>
+            <button class="deck-action" onclick="deckEditor.saveAsDeck(2)">Save as Deck 2</button>
+            <button class="deck-action" onclick="window.open('fight.html', '_blank')">FIGHT 1 vs 2</button>
+            <button class="deck-action" onclick="window.open('fight.html?deck2=RANDOM', '_blank')">FIGHT 1 vs R</button>
+            <button class="deck-action" onclick="window.open('fight.html?deck1=RANDOM', '_blank')">FIGHT R vs 2</button>
+            <button class="deck-action" onclick="window.open('fight.html?deck1=RANDOM&deck2=RANDOM', '_blank')">FIGHT R vs R</button>
+        </div>
+    </div>
+
+    <script src="classVisualEffects.js"></script>
+    <script src="visual.js"></script>
+    <script src="tools.js"></script>
+    <script src="classCapacity.js"></script>
+    <script src="capacities.js"></script>
+    <script src="classCard.js"></script>
+    <script src="classDeck.js"></script>
+    <script src="classDraft.js"></script>
+    <script src="mainDraft.js"></script>
+</body>
+
+</html>

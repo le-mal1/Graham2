@@ -67,6 +67,10 @@ class DeckEditor {
         this.updateDisplayCardSelector();
     }
 
+    moveCard() {
+
+    }
+
     updateSelectedCardPos(newSelectedCardPos) {
         this.selectedCardPos = newSelectedCardPos;
         this.displayDeck();
