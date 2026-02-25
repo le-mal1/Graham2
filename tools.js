@@ -1,6 +1,7 @@
 function randomElement(array) {
     if (array.length > 0) {
-        return array[Math.floor(Math.random() * array.length)];
+        return array[Math.floor(random() * array.length)];
+        //return array[Math.floor(Math.random() * array.length)];
     } else {
         return null;
     }
@@ -68,4 +69,10 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
     });
     output += "</div>";
     return output;
+}
+
+var seed = 0;
+function random() {
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
 }

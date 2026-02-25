@@ -78,8 +78,10 @@ class Match {
         this.displayBattlefields();
 
         if (this.batt0PosLeader != null && this.batt1PosLeader != null) {
-            this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
-            this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
+            if (this.batt1[this.batt1PosLeader].force > 0)
+                this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
+            if (this.batt0[this.batt0PosLeader].force > 0)
+                this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
         }
 
         this.checkDeadLeaders();
