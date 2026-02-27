@@ -316,7 +316,7 @@ class Match {
                     }
 
                     break;
-                case EFFECT_CHANGE_LEADER:
+                /*case EFFECT_CHANGE_LEADER:
                     switch (tmpTopCapacity.target) {
                         case TARGET_MY_LEADER:
                             if (this.getLeaderPosBatt(tmpPlayerId) != null)
@@ -387,7 +387,7 @@ class Match {
                             output = [];
                             break;
                     }
-                    break;
+                    break;*/
                 case EFFECT_NONE:
                     break;
                 default:
@@ -417,7 +417,7 @@ class Match {
             case TARGET_EVERY_CARDS:
                 output = this.getAllCards();
                 break;
-            case TARGET_MY_LEADER_NEIGHBOORS:
+            /*case TARGET_MY_LEADER_NEIGHBOORS:
                 output = this.getPlayerCardNeighboors(_elem.playerId, this.getLeaderPosBatt(_elem.playerId));
                 break;
             case TARGET_OPPONENT_LEADER_NEIGHBOORS:
@@ -425,7 +425,7 @@ class Match {
                 break;
             case TARGET_MY_CARD_NEIGHBOORS:
                 output = this.getPlayerCardNeighboors(_elem.playerId, _elem.pos);
-                break;
+                break;*/
             case TARGET_MY_EDGE_RIGHT:
                 output = [this.getPlayerEdgeRight(_elem.playerId)];
                 break;

@@ -139,6 +139,20 @@ class DeckDrafter {
             capaEffect = randomElement(EFFECTS_ARRAY.toSpliced(0, 1));
             capaTarget = randomElement(TARGETS_ARRAY.toSpliced(0, 1));
             capaValue = randomElement(VALUES_ARRAY.toSpliced(0, 1));
+
+            if(capaEffect == EFFECT_CALL_SUPPORT){
+                capaTarget = TARGET_NONE;
+                capaValue = VALUE_0;
+            }
+
+            if(capaEffect == EFFECT_ADD_FORCE || capaEffect == EFFECT_ADD_PV){
+                capaTarget = randomElement(FRIENDLY_TARGETS);
+            }
+
+            if(capaEffect == EFFECT_REMOVE_FORCE || capaEffect == EFFECT_REMOVE_PV){
+                capaTarget = randomElement(OPPONENT_TARGETS);
+            }
+
             capacities = [];
             capacities.push(new Capacity(capaTrigger, capaEffect, capaTarget, capaValue));
             deck.addCard(force, pv, capacities);

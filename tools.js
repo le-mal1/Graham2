@@ -71,7 +71,7 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
     return output;
 }
 
-var seed = 0;
+var seed = 2;
 function random() {
     var x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
