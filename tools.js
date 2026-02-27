@@ -54,6 +54,7 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
     }
 
     output += "<div class='" + cardClass + "' " + onClick + ">";
+    output += "<div class='card-name'>" + getName(card.capacities) + "</div>";
     output += "<div class='card-force'>Force: " + card.force + "</div>";
     output += "<div class='card-pv'>PV: " + card.pv + "</div>";
     card.capacities.forEach((capa) => {

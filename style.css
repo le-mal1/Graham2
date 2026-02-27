@@ -144,6 +144,11 @@ body {
 }
 
 /* In a card */
+.card-name {
+  margin: 5px;
+  font-size: 25px;
+}
+
 .card-force {
   margin: 5px;
   font-size: 25px;
