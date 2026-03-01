@@ -59,8 +59,11 @@ class DeckEditor {
         this.eraseDisplayDeck();
         this.deck.cards.forEach((card, cardPos) => {
             let isSelectedCard = (cardPos == this.selectedCardPos) ? true : false;
-            let onClick = " onclick=\"deckEditor.updateSelectedCardPos(" + cardPos + ")\""
-            this.display(displayOutputCard(card, isSelectedCard, onClick), "cards-list");
+            let onClick = " onclick=\"deckEditor.updateSelectedCardPos(" + cardPos + ")\"";
+            let selectingVisual = new VisualEffects();
+            if (isSelectedCard)
+                selectingVisual.isSelected.isActive = true;
+            this.display(displayOutputCard(card, onClick, selectingVisual), "cards-list");
         });
 
         this.updateDisplayDeckActions();

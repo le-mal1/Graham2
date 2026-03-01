@@ -9,11 +9,9 @@ function randomElement(array) {
 
 
 //DISPLAY
-function displayOutputCard(card, isSelected = false, onClick = "", visualEffects = new VisualEffects()) {
+function displayOutputCard(card, onClick = "", visualEffects = new VisualEffects()) {
     let output = "";
     let cardClass = "card";
-    if (isSelected)
-        cardClass += " selected-card";
     visualEffects.getVisualEffects().forEach((visualEffect) => {
         switch (visualEffect) {
             case IS_LEADER:
@@ -38,6 +36,10 @@ function displayOutputCard(card, isSelected = false, onClick = "", visualEffects
 
             case IS_FIGHTING1:
                 cardClass += " is-fighting-1";
+                break;
+
+            case IS_SELECTED:
+                cardClass += " selected-card";
                 break;
 
             default:

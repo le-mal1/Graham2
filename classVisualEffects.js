@@ -6,6 +6,8 @@ class VisualEffects {
         this.isResolving = {name: IS_RESOLVING, isActive: false};
         this.isFighting0 = {name: IS_FIGHTING0, isActive: false};
         this.isFighting1 = {name: IS_FIGHTING1, isActive: false};
+
+        this.isSelected = {name: IS_SELECTED, isActive: false};
     }
 
     getVisualEffects(){
@@ -23,6 +25,9 @@ class VisualEffects {
             output.push(this.isFighting0.name);
         if(this.isFighting1.isActive)
             output.push(this.isFighting1.name);
+        
+        if(this.isSelected.isActive)
+            output.push(this.isSelected.name);
 
         return output;
     }

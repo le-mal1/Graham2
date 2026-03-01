@@ -488,7 +488,7 @@ class Match {
             for (let cardPos = 0; cardPos < tmpBatt.length; cardPos++) {
                 tmpCard = this.getPlayerCard(playerId, cardPos);
                 this.updateVisualEffects();
-                displayBatt += displayOutputCard(tmpCard, false, "", tmpCard.visualEffects);
+                displayBatt += displayOutputCard(tmpCard, "", tmpCard.visualEffects);
             }
             displayBatt += "</div>";
         }

@@ -61,7 +61,7 @@ class DeckDrafter {
             //let onClick = " onclick=\"deckEditor.moveCard(" + parseInt(cardPos + 1000) + ")";
             let onClick = " onclick=\"deckEditor.moveCard(" + parseInt(cardPos + 1000) + "); deckEditor.updateSelectedCardPos(" + parseInt(cardPos + 1000) + ")\"";
             //console.log(displayOutputCard(card, false, onClick));
-            this.display(displayOutputCard(card, false, onClick), "random-cards-list");
+            this.display(displayOutputCard(card, onClick), "random-cards-list");
         });
 
         this.updateDisplayDeckActions();
@@ -72,7 +72,7 @@ class DeckDrafter {
         this.deck.cards.forEach((card, cardPos) => {
             //let isSelectedCard = (cardPos == this.selectedCardPos) ? true : false;
             let onClick = " onclick=\"deckEditor.moveCard(" + cardPos + "); deckEditor.updateSelectedCardPos(" + cardPos + ")\"";
-            this.display(displayOutputCard(card, false, onClick), "cards-list");
+            this.display(displayOutputCard(card, onClick), "cards-list");
         });
 
         this.updateDisplayDeckActions();
@@ -117,12 +117,10 @@ class DeckDrafter {
     }
 
     display(txt, id, isReplacing = false) {
-        if (isReplacing){
-            console.log("1", txt, document.getElementById(id).innerHTML);
+        if (isReplacing) {
             document.getElementById(id).innerHTML = txt;
         }
-        else{
-            console.log("2", txt, document.getElementById(id).innerHTML);
+        else {
             document.getElementById(id).innerHTML += txt;
         }
     }
@@ -148,16 +146,16 @@ class DeckDrafter {
             capaTarget = randomElement(TARGETS_ARRAY.toSpliced(0, 1));
             capaValue = randomElement(VALUES_ARRAY.toSpliced(0, 1));
 
-            if(capaEffect == EFFECT_CALL_SUPPORT){
+            if (capaEffect == EFFECT_CALL_SUPPORT) {
                 capaTarget = TARGET_NONE;
                 capaValue = VALUE_0;
             }
 
-            if(capaEffect == EFFECT_ADD_FORCE || capaEffect == EFFECT_ADD_PV){
+            if (capaEffect == EFFECT_ADD_FORCE || capaEffect == EFFECT_ADD_PV) {
                 capaTarget = randomElement(FRIENDLY_TARGETS);
             }
 
-            if(capaEffect == EFFECT_REMOVE_FORCE || capaEffect == EFFECT_REMOVE_PV){
+            if (capaEffect == EFFECT_REMOVE_FORCE || capaEffect == EFFECT_REMOVE_PV) {
                 capaTarget = randomElement(OPPONENT_TARGETS);
             }
 
