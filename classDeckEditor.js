@@ -68,7 +68,6 @@ class DeckEditor {
     }
 
     moveCard() {
-
     }
 
     updateSelectedCardPos(newSelectedCardPos) {

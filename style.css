@@ -173,16 +173,16 @@ body {
 
 #random-cards-list {
   display: flex;
-  margin: 5px;
-  width: 95%;
+  margin: 0px;
+  width: 100%;
   height: 300px;
   background-color: rgb(255, 183, 157);
 }
 
 #cards-list {
   display: flex;
-  margin: 5px;
-  width: 95%;
+  margin: 0px;
+  width: 100%;
   height: 300px;
   background-color: coral;
 }
