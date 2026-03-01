@@ -9,7 +9,7 @@ function randomElement(array) {
 
 
 //DISPLAY
-function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, visualEffects = new VisualEffects()) {
+function displayOutputCard(card, isSelected = false, onClick = "", visualEffects = new VisualEffects()) {
     let output = "";
     let cardClass = "card";
     if (isSelected)
@@ -44,14 +44,6 @@ function displayOutputCard(card, isSelected = false, cardPosInDeck = undefined, 
                 break;
         }
     });
-
-    //let dataCardPosInDeck = "";
-    let onClick = "";
-    if (cardPosInDeck != undefined) {
-        //dataCardPosInDeck = "data-cardPosInDeck=\"" + cardPosInDeck + "\"";
-        onClick += " onclick=\"deckEditor.moveCard(" + cardPosInDeck + "); deckEditor.updateSelectedCardPos(" + cardPosInDeck + ")\"";
-        //onClick += " onclick=\"deckEditor.moveCard(" + cardPosInDeck + ")\"";
-    }
 
     output += "<div class='" + cardClass + "' " + onClick + ">";
     output += "<div class='card-name'>" + getName(card.capacities) + "</div>";

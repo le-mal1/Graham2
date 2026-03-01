@@ -58,7 +58,10 @@ class DeckDrafter {
     displayRandomDeck() {
         this.eraseDisplayRandomDeck();
         this.randomDeck.cards.forEach((card, cardPos) => {
-            this.display(displayOutputCard(card, false, cardPos + 1000), "random-cards-list");
+            //let onClick = " onclick=\"deckEditor.moveCard(" + parseInt(cardPos + 1000) + ")";
+            let onClick = " onclick=\"deckEditor.moveCard(" + parseInt(cardPos + 1000) + "); deckEditor.updateSelectedCardPos(" + parseInt(cardPos + 1000) + ")\"";
+            //console.log(displayOutputCard(card, false, onClick));
+            this.display(displayOutputCard(card, false, onClick), "random-cards-list");
         });
 
         this.updateDisplayDeckActions();
@@ -68,7 +71,8 @@ class DeckDrafter {
         this.eraseDisplayDeck();
         this.deck.cards.forEach((card, cardPos) => {
             //let isSelectedCard = (cardPos == this.selectedCardPos) ? true : false;
-            this.display(displayOutputCard(card, false, cardPos), "cards-list");
+            let onClick = " onclick=\"deckEditor.moveCard(" + cardPos + "); deckEditor.updateSelectedCardPos(" + cardPos + ")\"";
+            this.display(displayOutputCard(card, false, onClick), "cards-list");
         });
 
         this.updateDisplayDeckActions();
@@ -113,10 +117,14 @@ class DeckDrafter {
     }
 
     display(txt, id, isReplacing = false) {
-        if (isReplacing)
+        if (isReplacing){
+            console.log("1", txt, document.getElementById(id).innerHTML);
             document.getElementById(id).innerHTML = txt;
-        else
+        }
+        else{
+            console.log("2", txt, document.getElementById(id).innerHTML);
             document.getElementById(id).innerHTML += txt;
+        }
     }
 
     createRandomDeck(size = 7) {

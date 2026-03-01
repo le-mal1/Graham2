@@ -15,7 +15,6 @@ NAME_PART_2.set(TRIGGER_ENTER_MY_CARD, " elfe");
 
 function getName(capa){
     let name = "";
-    console.log(capa);
     name += NAME_PART_1.get(capa[0].effect);
     name += NAME_PART_2.get(capa[0].trigger);
     return name;
