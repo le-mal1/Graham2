@@ -20,7 +20,7 @@ function goToFirstStep(match) {
 }
 
 function goToLastStep(match) {
-    match.displayingMatchIndex = match.displayingMatch.length - 3;
+    match.displayingMatchIndex = match.displayingMatch.length - 1;
     displayStep(match);
     updateStepButtons();
 }

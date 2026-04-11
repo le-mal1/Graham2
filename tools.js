@@ -57,8 +57,8 @@ function displayOutputCard(card, onClick = "", visualEffects = new VisualEffects
             output += capa.trigger + "<br/>-";
             output += capa.effect + "<br/>-";
             output += "value: " + capa.value + "<br/>";
-            if (capa.effect != EFFECT_CALL_SUPPORT)
-                output += "-" + capa.target;
+            //if (capa.effect != EFFECT_CALL_SUPPORT)
+            output += "-" + capa.target;
             output += "</div>";
         }
     });
@@ -66,7 +66,7 @@ function displayOutputCard(card, onClick = "", visualEffects = new VisualEffects
     return output;
 }
 
-var seed = 2;
+var seed = Math.random();
 function random() {
     var x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);

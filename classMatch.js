@@ -2,6 +2,7 @@ class Match {
 
 
     constructor(deck0, deck1) {
+        this.startWithAllCards = true;
         this.deck0 = deck0.copy();
         this.deck1 = deck1.copy();
         this.batt0 = [];
@@ -16,12 +17,34 @@ class Match {
     }
 
     play() {
+        if (this.startWithAllCards)
+            this.init();
+        //else {
         for (let i = 0; i < 100; i++) {
             if (this.playNextTurn() == END_GAME) {
                 break;
             }
         }
         this.resetDisplayingMatchIndex();
+        //}
+    }
+
+    init() {
+        let tmpDrawnCard;
+        let lengthDeckCurrentPlayer = this.getPlayerDeck(this.currentPlayerId).cards.length;
+        let lengthDeckNotCurrentPlayer = this.getPlayerDeck(1 - this.currentPlayerId).cards.length;
+        for (let i = 0; i < lengthDeckCurrentPlayer; i++) {
+            tmpDrawnCard = this.getPlayerDeck(this.currentPlayerId).drawCard();
+            this.getPlayerBatt(this.currentPlayerId).push(tmpDrawnCard);
+            this.getPlayerEdgeRight(this.currentPlayerId).visualEffects.isEnteredThisStep.isActive = true;
+            this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, this.currentPlayerId, this.getPlayerBatt(this.currentPlayerId).length - 1);
+        }
+        for (let i = 0; i < lengthDeckNotCurrentPlayer; i++) {
+            tmpDrawnCard = this.getPlayerDeck(1 - this.currentPlayerId).drawCard();
+            this.getPlayerBatt(1 - this.currentPlayerId).push(tmpDrawnCard);
+            this.getPlayerEdgeRight(1 - this.currentPlayerId).visualEffects.isEnteredThisStep.isActive = true;
+            this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, 1 - this.currentPlayerId, this.getPlayerBatt(1 - this.currentPlayerId).length - 1);
+        }
     }
 
     playNextTurn() {
@@ -131,7 +154,8 @@ class Match {
             }
         }
 
-        this["batt" + playerId + "PosLeader"] = tmpBattPosLeader;
+        //this["batt" + playerId + "PosLeader"] = tmpBattPosLeader;
+        this.changeLeader(playerId, tmpBattPosLeader);
     }
 
     haveCardAlive(batt) {
@@ -263,6 +287,7 @@ class Match {
     }
 
     pushToPileCapacitiesFromCard(trigger, playerId, pos) {
+        //console.log(playerId, pos, this.getPlayerCard(playerId, pos))
         let card = this.getPlayerCard(playerId, pos);
         if (card.pv > 0) {
             for (let capaId = card.capacities.length - 1; capaId >= 0; capaId--) {
@@ -308,14 +333,14 @@ class Match {
                         this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
                     this.checkDeadLeaders()
                     break;
-                case EFFECT_CALL_SUPPORT:
+                /*case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
                         this.getPlayerBatt(tmpPlayerId).push(this.getPlayerDeck(tmpPlayerId).drawCard());
                         this.getPlayerEdgeRight(tmpPlayerId).visualEffects.isEnteredThisStep.isActive = true;
                         this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, tmpPlayerId, this.getPlayerBatt(tmpPlayerId).length - 1);
                     }
 
-                    break;
+                    break;*/
                 /*case EFFECT_CHANGE_LEADER:
                     switch (tmpTopCapacity.target) {
                         case TARGET_MY_LEADER:
@@ -400,10 +425,16 @@ class Match {
         let output = [];
         switch (_elem.capacity.target) {
             case TARGET_MY_LEADER:
-                output = [this.getLeaderCard(_elem.playerId)];
+                if (this.getLeaderPosBatt(_elem.playerId) != null)
+                    output = [this.getLeaderCard(_elem.playerId)];
+                else
+                    output = [];
                 break;
             case TARGET_OPPONENT_LEADER:
-                output = [this.getLeaderCard(1 - _elem.playerId)];
+                if (this.getLeaderPosBatt(1 - _elem.playerId) != null)
+                    output = [this.getLeaderCard(1 - _elem.playerId)];
+                else
+                    output = [];
                 break;
             case TARGET_MY_CARD:
                 output = [this.getPlayerCard(_elem.playerId, _elem.pos)];
@@ -454,6 +485,8 @@ class Match {
                 break;
         }
 
+        //console.log(_elem.capacity.target, output);
+        //console.log(this.batt0, this.batt1, _elem.playerId);
         output = output.filter(e => e.pv > 0);
         return output;
     }
@@ -570,6 +603,8 @@ class Match {
 
     changeLeader(playerId, pos) {
         this["batt" + playerId + "PosLeader"] = pos;
+        if (pos >= 0)
+            this.pushToPileCapacitiesFromCard(TRIGGER_WHEN_BECOMING_LEADER, playerId, pos);
     }
 
 }

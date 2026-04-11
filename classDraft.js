@@ -146,10 +146,10 @@ class DeckDrafter {
             capaTarget = randomElement(TARGETS_ARRAY.toSpliced(0, 1));
             capaValue = randomElement(VALUES_ARRAY.toSpliced(0, 1));
 
-            if (capaEffect == EFFECT_CALL_SUPPORT) {
+            /*if (capaEffect == EFFECT_CALL_SUPPORT) {
                 capaTarget = TARGET_NONE;
                 capaValue = VALUE_0;
-            }
+            }*/
 
             if (capaEffect == EFFECT_ADD_FORCE || capaEffect == EFFECT_ADD_PV) {
                 capaTarget = randomElement(FRIENDLY_TARGETS);
