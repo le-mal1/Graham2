@@ -43,6 +43,14 @@ class Match {
 
     playNextTurn() {
 
+        if (this.nbTurn == 0) {
+            this.newStep();
+            this.displayPhaseName("ENTER PHASE");
+            this.displayBattlefields();
+
+            this.depilage();
+        }
+
         this.nbTurn++;
         this.newStep();
         this.displayTurnTitle(this.nbTurn, this.currentPlayerId);
@@ -53,6 +61,8 @@ class Match {
         // Update des Leaders
         this.updateLeader(this.getCurrentPlayerId());
         this.updateLeader(this.getOtherPlayerId());
+        this.displayBattlefields();
+
         this.depilage();
 
         if (!this.haveCardAlive(this.batt0)) {
@@ -78,10 +88,7 @@ class Match {
         // Triggers START YOUR TURN
         this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_YOUR_TURN, this.getCurrentPlayerId());
 
-        // DEPILAGE
         this.depilage();
-
-        this.displayBattlefields();
 
         this.newStep();
         this.displayPhaseName("COMBAT PHASE");
@@ -101,13 +108,19 @@ class Match {
             if (this.batt0[this.batt0PosLeader].force > 0)
                 this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
         }
+        
+        this.newStep();
+        this.displayPhaseName("SEQUEL PHASE");
 
         this.updateDeadLeaders();
         this.updateVisualEffects();
 
-        this.newStep();
-        this.displayPhaseName("END PHASE");
         this.displayBattlefields();
+
+
+        /*this.newStep();
+        this.displayPhaseName("END PHASE");
+        this.displayBattlefields();*/
 
 
         // Changement de joueur
@@ -274,12 +287,22 @@ class Match {
     }
 
     pushToPileCapacitiesFromCard(trigger, playerId, pos) {
-        //console.log(playerId, pos, this.getPlayerCard(playerId, pos))
         let card = this.getPlayerCard(playerId, pos);
         if (card.pv > 0) {
             for (let capaId = card.capacities.length - 1; capaId >= 0; capaId--) {
                 if (card.capacities[capaId].trigger == trigger) {
-                    this.pile.push({ capacity: new Capacity(trigger, card.capacities[capaId].effect, card.capacities[capaId].target, card.capacities[capaId].value), playerId: playerId, pos: pos });
+                    this.pile.push(
+                        {
+                            capacity: new Capacity(
+                                card.capacities[capaId].trigger,
+                                card.capacities[capaId].effect,
+                                card.capacities[capaId].target,
+                                card.capacities[capaId].value
+                            ),
+                            playerId: playerId,
+                            pos: pos
+                        }
+                    );
                 }
             }
         }
@@ -287,7 +310,6 @@ class Match {
 
     depilage() {
         let tmpPlayerId;
-        let target;
         let tmpTopElement;
         let tmpTopCapacity;
         while (this.pile.length > 0) {
@@ -295,7 +317,7 @@ class Match {
             tmpTopElement = this.pile.getTopElement();
             tmpTopCapacity = tmpTopElement.capacity;
 
-            this.displayBattlefields();
+            //this.displayBattlefields();
             this.newStep();
             this.displayPhaseName(tmpTopElement.playerId + "/" + tmpTopElement.pos + " : " + tmpTopCapacity.toString());
             tmpPlayerId = tmpTopElement.playerId;
@@ -320,14 +342,6 @@ class Match {
                         this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
                     this.updateDeadLeaders()
                     break;
-                /*case EFFECT_CALL_SUPPORT:
-                    if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
-                        this.getPlayerBatt(tmpPlayerId).push(this.getPlayerDeck(tmpPlayerId).drawCard());
-                        this.getPlayerEdgeRight(tmpPlayerId).visualEffects.isEnteredThisStep.isActive = true;
-                        this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, tmpPlayerId, this.getPlayerBatt(tmpPlayerId).length - 1);
-                    }
-
-                    break;*/
                 /*case EFFECT_CHANGE_LEADER:
                     switch (tmpTopCapacity.target) {
                         case TARGET_MY_LEADER:
@@ -405,6 +419,7 @@ class Match {
                 default:
                     break;
             }
+            this.displayBattlefields();
         }
     }
 
