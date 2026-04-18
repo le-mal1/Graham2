@@ -34,8 +34,8 @@ function createRandomDeck(size = 7) {
     let capaValue;
     for (let i = 0; i < size; i++) {
         //deck.addCard(1, 1);
-        force = Math.floor(Math.random() * 10);
-        pv = Math.floor(Math.random() * 9) + 1;
+        force = Math.floor(random() * 10);
+        pv = Math.floor(random() * 9) + 1;
 
         capaTrigger = randomElement(TRIGGERS_ARRAY);
         capaEffect = randomElement(EFFECTS_ARRAY.toSpliced(0, 1));

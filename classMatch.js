@@ -17,7 +17,7 @@ class Match {
     }
 
     play() {
-        this.init();
+        this.setupBattlefields();
         for (let i = 0; i < 100; i++) {
             if (this.playNextTurn() == END_MATCH) {
                 break;
@@ -26,21 +26,18 @@ class Match {
         this.resetDisplayingMatchIndex();
     }
 
-    init() {
+    setupBattlefields() {
         let tmpDrawnCard;
-        let lengthDeckCurrentPlayer = this.getPlayerDeck(this.currentPlayerId).cards.length;
-        let lengthDeckNotCurrentPlayer = this.getPlayerDeck(1 - this.currentPlayerId).cards.length;
-        for (let i = 0; i < lengthDeckCurrentPlayer; i++) {
-            tmpDrawnCard = this.getPlayerDeck(this.currentPlayerId).drawCard();
-            this.getPlayerBatt(this.currentPlayerId).push(tmpDrawnCard);
-            this.getPlayerEdgeRight(this.currentPlayerId).visualEffects.isEnteredThisStep.isActive = true;
-            this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, this.currentPlayerId, this.getPlayerBatt(this.currentPlayerId).length - 1);
-        }
-        for (let i = 0; i < lengthDeckNotCurrentPlayer; i++) {
-            tmpDrawnCard = this.getPlayerDeck(1 - this.currentPlayerId).drawCard();
-            this.getPlayerBatt(1 - this.currentPlayerId).push(tmpDrawnCard);
-            this.getPlayerEdgeRight(1 - this.currentPlayerId).visualEffects.isEnteredThisStep.isActive = true;
-            this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, 1 - this.currentPlayerId, this.getPlayerBatt(1 - this.currentPlayerId).length - 1);
+        let tmpDeckLength;
+
+        for (let tmpPlayerId = 0; tmpPlayerId < 2; tmpPlayerId++) {
+            tmpDeckLength = this.getPlayerDeck(tmpPlayerId).cards.length;
+            for (let tmpCard = 0; tmpCard < tmpDeckLength; tmpCard++) {
+                tmpDrawnCard = this.getPlayerDeck(tmpPlayerId).drawCard();
+                this.getPlayerBatt(tmpPlayerId).push(tmpDrawnCard);
+                this.getPlayerEdgeRight(tmpPlayerId).visualEffects.isEnteredThisStep.isActive = true;
+                this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, tmpPlayerId, this.getPlayerBatt(tmpPlayerId).length - 1);
+            }
         }
     }
 
@@ -48,38 +45,38 @@ class Match {
 
         this.nbTurn++;
         this.newStep();
-        this.displayTurn(this.nbTurn, this.currentPlayerId);
+        this.displayTurnTitle(this.nbTurn, this.currentPlayerId);
 
         this.newStep();
         this.displayPhaseName("LEADERS PHASE");
-        // Update des Leaders
 
-        this.updateLeader(this.currentPlayerId);
-        this.updateLeader(1 - this.currentPlayerId);
+        // Update des Leaders
+        this.updateLeader(this.getCurrentPlayerId());
+        this.updateLeader(this.getOtherPlayerId());
         this.depilage();
 
-        if (this.batt0PosLeader == -1) {
-            if (this.batt1PosLeader == -1) {
+        if (!this.haveCardAlive(this.batt0)) {
+            if (!this.haveCardAlive(this.batt1)) {
                 this.display("DRAW !!! --------------------------------------------------------");
                 return END_MATCH;
             } else {
                 this.display("PLAYER 1 WIN !!! --------------------------------------------------------");
                 return END_MATCH;
             }
-        } else if (this.batt1PosLeader == -1) {
+        } else if (!this.haveCardAlive(this.batt1)) {
             this.display("PLAYER 0 WIN !!! --------------------------------------------------------");
             return END_MATCH;
         }
 
         // Triggers START EACH TURN
-        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_EACH_TURN, 1 - this.currentPlayerId);
-        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_EACH_TURN, this.currentPlayerId);
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_EACH_TURN, this.getOtherPlayerId());
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_EACH_TURN, this.getCurrentPlayerId());
 
         // Triggers START OPPONENT TURN
-        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_OPPONENT_TURN, 1 - this.currentPlayerId);
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_OPPONENT_TURN, this.getOtherPlayerId());
 
         // Triggers START YOUR TURN
-        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_YOUR_TURN, this.currentPlayerId);
+        this.pushToPileCapacitiesFromBattlefield(TRIGGER_START_YOUR_TURN, this.getCurrentPlayerId());
 
         // DEPILAGE
         this.depilage();
@@ -127,20 +124,8 @@ class Match {
 
         if (tmpBattPosLeader == null) {
             if (tmpBatt.length <= 0 || this.haveCardAlive(tmpBatt) == false) {
-                if (tmpDeck.cards.length <= 0) {
-                    tmpBattPosLeader = -1; // DEFEAT
-                } else {
-                    let tmpDrawnCard = tmpDeck.drawCard();
-                    tmpBatt.push(tmpDrawnCard);
-                    this.getPlayerEdgeRight(playerId).visualEffects.isEnteredThisStep.isActive = true;
-                    tmpBattPosLeader = tmpBatt.length - 1;
-                    /*tmpDrawnCard.capacities.forEach((capa) => {
-                        if (capa.trigger == TRIGGER_ENTER_MY_CARD) {
-                            this.pushToPileCapacitiesFromCard(capa.trigger, playerId, tmpBattPosLeader)
-                        }
-                    });*/
-                    this.pushToPileCapacitiesFromCard(TRIGGER_ENTER_MY_CARD, playerId, tmpBattPosLeader);
-                }
+                tmpBattPosLeader = -1; // DEFEAT
+
             } else {
                 for (let i = 0; i < tmpBatt.length; i++) {
                     if (tmpBatt[i].pv > 0) {
@@ -267,6 +252,14 @@ class Match {
             }
         }
         return null;
+    }
+
+    getCurrentPlayerId() {
+        return this.currentPlayerId;
+    }
+
+    getOtherPlayerId() {
+        return 1 - this.currentPlayerId;
     }
 
     getBattLastCard(playerId) {
@@ -492,7 +485,7 @@ class Match {
         this.displayingMatch[this.displayingMatchIndex].game += txt;
     }
 
-    displayTurn(nbTurn, playerId) {
+    displayTurnTitle(nbTurn, playerId) {
         this.display("<div class='indications'><h2>TURN: " + this.nbTurn + " / Current player: " + this.currentPlayerId + "</h2></div>");
 
     }
@@ -529,7 +522,7 @@ class Match {
 
     newStep() {
         this.displayingMatchIndex++;
-        this.displayingMatch[this.displayingMatchIndex] = { game: "", capaCanvas: "" };
+        this.displayingMatch[this.displayingMatchIndex] = { game: "" };
         this.updateVisualEffects();
     }
 

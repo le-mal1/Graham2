@@ -1,7 +1,6 @@
 function randomElement(array) {
     if (array.length > 0) {
         return array[Math.floor(random() * array.length)];
-        //return array[Math.floor(Math.random() * array.length)];
     } else {
         return null;
     }
@@ -66,7 +65,8 @@ function displayOutputCard(card, onClick = "", visualEffects = new VisualEffects
     return output;
 }
 
-var seed = Math.random();
+//var seed = Math.random();
+var seed = 2;
 function random() {
     var x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
