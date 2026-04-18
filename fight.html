@@ -21,15 +21,14 @@
     <script src="classMatch.js"></script>
     <script src="test.js"></script>
     <div id="step-buttons">
-        <button id="first-step-button" class="change-step-buttons" onclick="goToFirstStep(match)">First Step</button>
-        <button id="previous-step-button" class="change-step-buttons" onclick="returnToPreviousStep(match)">Previous
+        <button id="first-step-button" class="change-step-buttons" onclick="displayGoToFirstStep(match)">First Step</button>
+        <button id="previous-step-button" class="change-step-buttons" onclick="displayGoToPreviousStep(match)">Previous
             Step</button>
-        <button id="next-step-button" class="change-step-buttons" onclick="goToNextStep(match)">Next Step</button>
-        <button id="last-step-button" class="change-step-buttons" onclick="goToLastStep(match)">Last Step</button>
+        <button id="next-step-button" class="change-step-buttons" onclick="displayGoToNextStep(match)">Next Step</button>
+        <button id="last-step-button" class="change-step-buttons" onclick="displayGoToLastStep(match)">Last Step</button>
     </div>
-    <script src="setupDecks.js"></script>
-
-    <script src="main.js"></script>
+    <script src="fightUI.js"></script>
+    <script src="fightMain.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,23 @@
+function runTests() {
+    newTest1();
+    newTest2();
+    newTest3();
+    newTest4();
+    newTest5();
+    newTest6();
+    newTest7();
+    newTest8();
+    newTest9();
+    newTest10();
+    newTest11();
+    newTest12();
+    newTest13();
+    newTest14();
+    newTest15();
+    newTest16();
+    newTest17();
+    newTest18();
+}
 
 function newTest1() {
     let deck1 = new Deck();

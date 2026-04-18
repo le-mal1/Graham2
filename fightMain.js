@@ -1,25 +1,8 @@
-const END_GAME = "end game";
+//Parameters of the game
 const TEST = false;
 
 if (TEST) {
-    newTest1();
-    newTest2();
-    newTest3();
-    newTest4();
-    newTest5();
-    newTest6();
-    newTest7();
-    newTest8();
-    newTest9();
-    newTest10();
-    newTest11();
-    newTest12();
-    newTest13();
-    newTest14();
-    newTest15();
-    newTest16();
-    newTest17();
-    newTest18();
+    runTests();
 } else {
     let deck1;
     let deck2;
@@ -36,9 +19,8 @@ if (TEST) {
     }
     var match = new Match(deck1, deck2);
     match.play();
-    document.getElementById("game").innerHTML = match.displayingMatch[0].game;
-    document.getElementById("previous-step-button").style.opacity = 0.5;
-    document.getElementById("first-step-button").style.opacity = 0.5;
+
+    displayGoToFirstStep(match);
 }
 
 function createRandomDeck(size = 7) {

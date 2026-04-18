@@ -1,8 +1,8 @@
+const END_MATCH = "end match";
+
 class Match {
 
-
     constructor(deck0, deck1) {
-        this.startWithAllCards = true;
         this.deck0 = deck0.copy();
         this.deck1 = deck1.copy();
         this.batt0 = [];
@@ -17,16 +17,13 @@ class Match {
     }
 
     play() {
-        if (this.startWithAllCards)
-            this.init();
-        //else {
+        this.init();
         for (let i = 0; i < 100; i++) {
-            if (this.playNextTurn() == END_GAME) {
+            if (this.playNextTurn() == END_MATCH) {
                 break;
             }
         }
         this.resetDisplayingMatchIndex();
-        //}
     }
 
     init() {
@@ -64,14 +61,14 @@ class Match {
         if (this.batt0PosLeader == -1) {
             if (this.batt1PosLeader == -1) {
                 this.display("DRAW !!! --------------------------------------------------------");
-                return END_GAME;
+                return END_MATCH;
             } else {
                 this.display("PLAYER 1 WIN !!! --------------------------------------------------------");
-                return END_GAME;
+                return END_MATCH;
             }
         } else if (this.batt1PosLeader == -1) {
             this.display("PLAYER 0 WIN !!! --------------------------------------------------------");
-            return END_GAME;
+            return END_MATCH;
         }
 
         // Triggers START EACH TURN
