@@ -85,6 +85,7 @@ class Match {
 
         this.newStep();
         this.displayPhaseName("COMBAT PHASE");
+
         // Combats des leaders
 
         if (this.getLeaderCard(0) != null)
@@ -101,7 +102,8 @@ class Match {
                 this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
         }
 
-        this.checkDeadLeaders();
+        this.updateDeadLeaders();
+        this.updateVisualEffects();
 
         this.newStep();
         this.displayPhaseName("END PHASE");
@@ -109,16 +111,12 @@ class Match {
 
 
         // Changement de joueur
-        if (this.currentPlayerId == 0)
-            this.currentPlayerId = 1;
-        else
-            this.currentPlayerId = 0;
+        this.currentPlayerId = 1 - this.currentPlayerId;
 
     }
 
     updateLeader(playerId) {
 
-        let tmpDeck = this.getPlayerDeck(playerId);
         let tmpBatt = this.getPlayerBatt(playerId);
         let tmpBattPosLeader = this.getLeaderPosBatt(playerId);
 
@@ -136,7 +134,6 @@ class Match {
             }
         }
 
-        //this["batt" + playerId + "PosLeader"] = tmpBattPosLeader;
         this.changeLeader(playerId, tmpBattPosLeader);
     }
 
@@ -321,7 +318,7 @@ class Match {
                 case EFFECT_REMOVE_PV:
                     if (this.getTargets(tmpTopElement).length > 0)
                         this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
-                    this.checkDeadLeaders()
+                    this.updateDeadLeaders()
                     break;
                 /*case EFFECT_CALL_SUPPORT:
                     if (this.getPlayerDeck(tmpPlayerId).cards.length > 0) {
@@ -563,30 +560,14 @@ class Match {
         this.displayingMatchIndex = 0;
     }
 
-    checkDeadLeaders() {
-        let check = false;
+    updateDeadLeaders() {
 
         if (this.batt0PosLeader != null && this.batt0[this.batt0PosLeader].pv <= 0) {
             this.batt0PosLeader = null;
-            this.updateVisualEffects();
-            check = true;
         }
 
         if (this.batt1PosLeader != null && this.batt1[this.batt1PosLeader].pv <= 0) {
             this.batt1PosLeader = null;
-            this.updateVisualEffects();
-            check = true;
-        }
-
-        if (check == false) {
-            for (let playerId = 0; playerId < 2; playerId++) {
-                for (let j = 0; j < this.getPlayerBatt(playerId).length; j++) {
-                    if (this.getPlayerBatt(playerId)[j].pv <= 0) {
-                        this.updateVisualEffects();
-                        break;
-                    }
-                }
-            }
         }
 
     }
