@@ -602,9 +602,11 @@ class Match {
     }
 
     changeLeader(playerId, pos) {
-        this["batt" + playerId + "PosLeader"] = pos;
-        if (pos >= 0)
-            this.pushToPileCapacitiesFromCard(TRIGGER_WHEN_BECOMING_LEADER, playerId, pos);
+        if (this["batt" + playerId + "PosLeader"] != pos) {
+            this["batt" + playerId + "PosLeader"] = pos;
+            if (pos >= 0)
+                this.pushToPileCapacitiesFromCard(TRIGGER_WHEN_BECOMING_LEADER, playerId, pos);
+        }
     }
 
 }
