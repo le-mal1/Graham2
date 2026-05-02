@@ -103,12 +103,14 @@ class Match {
         this.displayBattlefields();
 
         if (this.batt0PosLeader != null && this.batt1PosLeader != null) {
-            if (this.batt1[this.batt1PosLeader].force > 0)
-                this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
-            if (this.batt0[this.batt0PosLeader].force > 0)
-                this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
+            if (this.getLeaderCard(1).force > 0)
+                this.removePvToCard(this.getLeaderCard(0), this.getLeaderCard(1).force);
+            //this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
+            if (this.getLeaderCard(0).force > 0)
+                this.removePvToCard(this.getLeaderCard(1), this.getLeaderCard(0).force);
+            //this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
         }
-        
+
         this.newStep();
         this.displayPhaseName("SEQUEL PHASE");
 
@@ -327,19 +329,23 @@ class Match {
             switch (tmpTopCapacity.effect) {
                 case EFFECT_ADD_FORCE:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => this.addForceToCard(card, tmpTopCapacity.value));
+                        //this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
                     break;
                 case EFFECT_REMOVE_FORCE:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => card.force -= tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => this.removeForceToCard(card, tmpTopCapacity.value));
+                        //this.getTargets(tmpTopElement).forEach((card) => card.force -= tmpTopCapacity.value);
                     break;
                 case EFFECT_ADD_PV:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => this.addPvToCard(card, tmpTopCapacity.value));
+                        //this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
                     break;
                 case EFFECT_REMOVE_PV:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => this.removePvToCard(card, tmpTopCapacity.value));
+                        //this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
                     this.updateDeadLeaders()
                     break;
                 /*case EFFECT_CHANGE_LEADER:
@@ -593,6 +599,22 @@ class Match {
             if (pos >= 0)
                 this.pushToPileCapacitiesFromCard(TRIGGER_WHEN_BECOMING_LEADER, playerId, pos);
         }
+    }
+
+    addPvToCard(card, value) {
+        card.pv += value;
+    }
+
+    removePvToCard(card, value) {
+        card.pv -= value;
+    }
+
+    addForceToCard(card, value) {
+        card.force += value;
+    }
+
+    removeForceToCard(card, value) {
+        card.force -= value;
     }
 
 }
