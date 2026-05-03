@@ -1,10 +1,13 @@
 class DeckInMatch {
     constructor(cards = []) {
-        this.cards = cards;
+        this.cards = [];
+        cards.forEach((card) => {
+            this.addCard(card);
+        });
     }
 
     addCard(card) {
-        this.cards.push(card);
+        this.cards.push(new CardInMatch(card.force, card.pv, card.capacities.slice()));
     }
 
     drawCard() {

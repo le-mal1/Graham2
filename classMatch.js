@@ -104,17 +104,21 @@ class Match {
 
         if (this.batt0PosLeader != null && this.batt1PosLeader != null) {
             if (this.getLeaderCard(1).force > 0)
-                this.removePvToCard(this.getLeaderCard(0), this.getLeaderCard(1).force);
+                this.getLeaderCard(0).changePv(-this.getLeaderCard(1).force);
+            //this.removePvToCard(this.getLeaderCard(0), this.getLeaderCard(1).force);
             //this.batt0[this.batt0PosLeader].pv -= this.batt1[this.batt1PosLeader].force;
             if (this.getLeaderCard(0).force > 0)
-                this.removePvToCard(this.getLeaderCard(1), this.getLeaderCard(0).force);
+                this.getLeaderCard(1).changePv(-this.getLeaderCard(0).force);
+            //this.removePvToCard(this.getLeaderCard(1), this.getLeaderCard(0).force);
             //this.batt1[this.batt1PosLeader].pv -= this.batt0[this.batt0PosLeader].force;
         }
+        this.updateDeadCards();
+        this.updateDeadLeaders();
+        this.depilage();
 
         this.newStep();
         this.displayPhaseName("SEQUEL PHASE");
 
-        this.updateDeadLeaders();
         this.updateVisualEffects();
 
         this.displayBattlefields();
@@ -308,6 +312,24 @@ class Match {
                 }
             }
         }
+        if (card.pv <= 0 && trigger == TRIGGER_WHEN_DIE) {
+            for (let capaId = card.capacities.length - 1; capaId >= 0; capaId--) {
+                if (card.capacities[capaId].trigger == trigger) {
+                    this.pile.push(
+                        {
+                            capacity: new Capacity(
+                                card.capacities[capaId].trigger,
+                                card.capacities[capaId].effect,
+                                card.capacities[capaId].target,
+                                card.capacities[capaId].value
+                            ),
+                            playerId: playerId,
+                            pos: pos
+                        }
+                    );
+                }
+            }
+        }
     }
 
     depilage() {
@@ -329,24 +351,27 @@ class Match {
             switch (tmpTopCapacity.effect) {
                 case EFFECT_ADD_FORCE:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => this.addForceToCard(card, tmpTopCapacity.value));
-                        //this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => card.force += tmpTopCapacity.value);
+                    //this.getTargets(tmpTopElement).forEach((card) => this.addForceToCard(card, tmpTopCapacity.value));
                     break;
                 case EFFECT_REMOVE_FORCE:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => this.removeForceToCard(card, tmpTopCapacity.value));
-                        //this.getTargets(tmpTopElement).forEach((card) => card.force -= tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => card.force -= tmpTopCapacity.value);
+                    //this.getTargets(tmpTopElement).forEach((card) => this.removeForceToCard(card, tmpTopCapacity.value));
                     break;
                 case EFFECT_ADD_PV:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => this.addPvToCard(card, tmpTopCapacity.value));
-                        //this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
+                        this.getTargets(tmpTopElement).forEach((card) => card.changePv(tmpTopCapacity.value));
+                    //this.getTargets(tmpTopElement).forEach((card) => this.addPvToCard(card, tmpTopCapacity.value));
+                    //this.getTargets(tmpTopElement).forEach((card) => card.pv += tmpTopCapacity.value);
                     break;
                 case EFFECT_REMOVE_PV:
                     if (this.getTargets(tmpTopElement).length > 0)
-                        this.getTargets(tmpTopElement).forEach((card) => this.removePvToCard(card, tmpTopCapacity.value));
-                        //this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
-                    this.updateDeadLeaders()
+                        this.getTargets(tmpTopElement).forEach((card) => card.changePv(-tmpTopCapacity.value));
+                    //this.getTargets(tmpTopElement).forEach((card) => this.removePvToCard(card, tmpTopCapacity.value));
+                    //this.getTargets(tmpTopElement).forEach((card) => card.pv -= tmpTopCapacity.value);
+                    this.updateDeadCards();
+                    this.updateDeadLeaders();
                     break;
                 /*case EFFECT_CHANGE_LEADER:
                     switch (tmpTopCapacity.target) {
@@ -581,6 +606,19 @@ class Match {
         this.displayingMatchIndex = 0;
     }
 
+    updateDeadCards() {
+
+        for (let playerId = 0; playerId < 2; playerId++) {
+            for (let pos = 0; pos < this.getPlayerBatt(playerId).length; pos++) {
+                if (this.getPlayerCard(playerId, pos).isJustDead == true) {
+                    this.pushToPileCapacitiesFromCard(TRIGGER_WHEN_DIE, playerId, pos);
+                    this.getPlayerCard(playerId, pos).isJustDead = false;
+                }
+            }
+        }
+
+    }
+
     updateDeadLeaders() {
 
         if (this.batt0PosLeader != null && this.batt0[this.batt0PosLeader].pv <= 0) {
@@ -599,22 +637,6 @@ class Match {
             if (pos >= 0)
                 this.pushToPileCapacitiesFromCard(TRIGGER_WHEN_BECOMING_LEADER, playerId, pos);
         }
-    }
-
-    addPvToCard(card, value) {
-        card.pv += value;
-    }
-
-    removePvToCard(card, value) {
-        card.pv -= value;
-    }
-
-    addForceToCard(card, value) {
-        card.force += value;
-    }
-
-    removeForceToCard(card, value) {
-        card.force -= value;
     }
 
 }

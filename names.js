@@ -13,6 +13,7 @@ NAME_PART_2.set(TRIGGER_START_OPPONENT_TURN, " orc");
 NAME_PART_2.set(TRIGGER_START_EACH_TURN, " nain");
 NAME_PART_2.set(TRIGGER_ENTER_MY_CARD, " elfe");
 NAME_PART_2.set(TRIGGER_WHEN_BECOMING_LEADER, " gremlin");
+NAME_PART_2.set(TRIGGER_WHEN_DIE, " zombie");
 
 function getName(capa){
     let name = "";
